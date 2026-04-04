@@ -1,19 +1,25 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>About the Team | Smart Fix & Recycle Uganda</title>
+<title>My Dashboard | Smart Fix & Recycle Uganda</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
   *{font-family:'Inter',sans-serif}
   body{min-height:100vh;background:linear-gradient(135deg,#0a1628 0%,#0d2b1a 50%,#0a1628 100%)}
   .glass{background:rgba(255,255,255,0.07);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.12)}
   nav{background:rgba(10,22,40,0.75);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08)}
   .nav-active{color:#4ade80;border-bottom:2px solid #4ade80}
-  .member-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;transition:all .3s}
-  .member-card:hover{border-color:rgba(74,222,128,0.35);background:rgba(255,255,255,0.08);transform:translateY(-3px)}
-  .avatar{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex-shrink:0}
+  input{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff;border-radius:10px;padding:10px 14px;width:100%;font-size:14px;outline:none;transition:border .2s}
+  input:focus{border-color:rgba(74,222,128,0.5)}
+  input::placeholder{color:rgba(255,255,255,0.3)}
+  .tab-btn.active{color:#4ade80;border-bottom:2px solid #4ade80}
+  .tab-content{display:none}.tab-content.active{display:block}
+  .badge-green{background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.25)}
+  .badge-blue{background:rgba(96,165,250,0.15);color:#60a5fa;border:1px solid rgba(96,165,250,0.25)}
+  .badge-yellow{background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.25)}
+  .badge-red{background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.25)}
   ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(74,222,128,0.3);border-radius:4px}
 </style>
 </head>
@@ -29,180 +35,187 @@
       <a href="library.html" class="hover:text-white transition">Library</a>
       <a href="safety.html" class="hover:text-white transition">Safety</a>
       <a href="impact.html" class="hover:text-white transition">Impact</a>
-      <a href="dashboard.html" class="hover:text-white transition">Dashboard</a>
-      <a href="about.html" class="nav-active pb-0.5">About</a>
+      <a href="dashboard.html" class="nav-active pb-0.5">Dashboard</a>
+      <a href="about.html" class="hover:text-white transition">About</a>
     </div>
   </div>
 </nav>
 
 <main class="pt-28 pb-16 px-4 max-w-5xl mx-auto">
-  <div class="text-center mb-12">
-    <p class="text-green-400 text-xs font-medium uppercase tracking-widest mb-3">👨‍💻 The Team</p>
-    <h1 class="text-4xl font-extrabold mb-3">Meet the Seven Engineers</h1>
-    <p class="text-white/50 text-sm max-w-xl mx-auto">Built for the 2026 Internet Technology Project at Kampala. Seven engineers, one mission: solving Uganda's ICT and e-waste challenge.</p>
-  </div>
 
-  <!-- Project overview -->
-  <div class="glass rounded-2xl p-6 border border-white/10 mb-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-    <div><div class="text-3xl font-bold text-green-400">7</div><div class="text-xs text-white/50 mt-1">Engineers</div></div>
-    <div><div class="text-3xl font-bold text-blue-400">8</div><div class="text-xs text-white/50 mt-1">Pages Built</div></div>
-    <div><div class="text-3xl font-bold text-purple-400">2026</div><div class="text-xs text-white/50 mt-1">Kampala, Uganda</div></div>
-  </div>
-
-  <!-- Team cards -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
-
-    <div class="member-card p-6">
-      <div class="flex items-start gap-4 mb-4">
-        <div class="avatar bg-green-500/20 border border-green-500/30 text-green-400">KM</div>
-        <div>
-          <div class="font-bold text-base">Kagiso Mutabazi</div>
-          <div class="text-green-400 text-xs font-medium mt-0.5">Team Lead · Full Stack Developer</div>
-          <div class="text-white/40 text-xs mt-0.5">Responsible for: index.html, architecture, Vercel deployment</div>
-        </div>
+  <!-- Login gate -->
+  <div id="loginSection">
+    <div class="max-w-sm mx-auto glass rounded-2xl p-8 border border-white/10 text-center">
+      <div class="text-4xl mb-4">👤</div>
+      <h1 class="text-xl font-bold mb-1">My Dashboard</h1>
+      <p class="text-white/50 text-xs mb-6">Sign in to view your repair history, pickup requests, and impact.</p>
+      <div class="space-y-3 text-left">
+        <input type="email" id="loginEmail" placeholder="Email address"/>
+        <input type="password" id="loginPass" placeholder="Password"/>
+        <button onclick="login()" class="w-full bg-green-500 hover:bg-green-400 text-black font-semibold py-3 rounded-xl text-sm transition">Sign In →</button>
       </div>
-      <p class="text-xs text-white/60 leading-relaxed">Led the overall project architecture and integrated the Neon PostgreSQL backend. Set up the GitHub branching strategy and CI/CD pipeline on Vercel.</p>
-      <div class="mt-3 flex gap-2 flex-wrap">
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">HTML5</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">Tailwind CSS</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">PostgreSQL</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">Vercel</span>
-      </div>
-    </div>
-
-    <div class="member-card p-6">
-      <div class="flex items-start gap-4 mb-4">
-        <div class="avatar bg-blue-500/20 border border-blue-500/30 text-blue-400">AN</div>
-        <div>
-          <div class="font-bold text-base">Aisha Nakato</div>
-          <div class="text-blue-400 text-xs font-medium mt-0.5">Frontend Developer · UI/UX</div>
-          <div class="text-white/40 text-xs mt-0.5">Responsible for: support.html, style.css</div>
-        </div>
-      </div>
-      <p class="text-xs text-white/60 leading-relaxed">Designed the Glassmorphism design system and built the remote triage support page with secure POST-method forms. Created the global style.css shared across all pages.</p>
-      <div class="mt-3 flex gap-2 flex-wrap">
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">CSS3</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">UI Design</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">Accessibility</span>
-      </div>
-    </div>
-
-    <div class="member-card p-6">
-      <div class="flex items-start gap-4 mb-4">
-        <div class="avatar bg-purple-500/20 border border-purple-500/30 text-purple-400">DO</div>
-        <div>
-          <div class="font-bold text-base">David Okello</div>
-          <div class="text-purple-400 text-xs font-medium mt-0.5">GIS & Maps Developer</div>
-          <div class="text-white/40 text-xs mt-0.5">Responsible for: recycle.html, Maps API</div>
-        </div>
-      </div>
-      <p class="text-xs text-white/60 leading-relaxed">Built the e-waste pickup request system and integrated Google Maps API for GPS-based location pinning. Mapped all collection centres across Kampala.</p>
-      <div class="mt-3 flex gap-2 flex-wrap">
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">Google Maps API</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">JavaScript</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">GIS</span>
-      </div>
-    </div>
-
-    <div class="member-card p-6">
-      <div class="flex items-start gap-4 mb-4">
-        <div class="avatar bg-yellow-500/20 border border-yellow-500/30 text-yellow-400">FN</div>
-        <div>
-          <div class="font-bold text-base">Faith Namutebi</div>
-          <div class="text-yellow-400 text-xs font-medium mt-0.5">Content & Library Developer</div>
-          <div class="text-white/40 text-xs mt-0.5">Responsible for: library.html, localised guides</div>
-        </div>
-      </div>
-      <p class="text-xs text-white/60 leading-relaxed">Researched and wrote all troubleshooting guides specifically for Ugandan device brands — Tecno, Infinix, and Samsung. Built the searchable accordion guide library.</p>
-      <div class="mt-3 flex gap-2 flex-wrap">
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">Technical Writing</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">HTML5</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">JavaScript</span>
-      </div>
-    </div>
-
-    <div class="member-card p-6">
-      <div class="flex items-start gap-4 mb-4">
-        <div class="avatar bg-red-500/20 border border-red-500/30 text-red-400">BK</div>
-        <div>
-          <div class="font-bold text-base">Brian Kiggundu</div>
-          <div class="text-red-400 text-xs font-medium mt-0.5">Cybersecurity & Safety</div>
-          <div class="text-white/40 text-xs mt-0.5">Responsible for: safety.html, data protection</div>
-        </div>
-      </div>
-      <p class="text-xs text-white/60 leading-relaxed">Authored the data sanitization guide and implemented bcrypt password hashing for user credentials. Reviewed all forms for security vulnerabilities.</p>
-      <div class="mt-3 flex gap-2 flex-wrap">
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">Cybersecurity</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">Bcrypt</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">OWASP</span>
-      </div>
-    </div>
-
-    <div class="member-card p-6">
-      <div class="flex items-start gap-4 mb-4">
-        <div class="avatar bg-teal-500/20 border border-teal-500/30 text-teal-400">RW</div>
-        <div>
-          <div class="font-bold text-base">Ruth Wangari</div>
-          <div class="text-teal-400 text-xs font-medium mt-0.5">Data Analyst · Visualisation</div>
-          <div class="text-white/40 text-xs mt-0.5">Responsible for: impact.html, Chart.js, SQL schema</div>
-        </div>
-      </div>
-      <p class="text-xs text-white/60 leading-relaxed">Built the national impact tracker dashboard with Chart.js visualisations. Designed the Neon PostgreSQL schema and wrote all SQL queries for the Vercel API route.</p>
-      <div class="mt-3 flex gap-2 flex-wrap">
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">Chart.js</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">SQL</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">Data Analysis</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">Neon DB</span>
-      </div>
-    </div>
-
-    <div class="member-card p-6 md:col-span-2">
-      <div class="flex items-start gap-4 mb-4">
-        <div class="avatar bg-orange-500/20 border border-orange-500/30 text-orange-400">JA</div>
-        <div>
-          <div class="font-bold text-base">Joel Asiimwe</div>
-          <div class="text-orange-400 text-xs font-medium mt-0.5">Backend Developer · Dashboard Engineer</div>
-          <div class="text-white/40 text-xs mt-0.5">Responsible for: dashboard.html, api/ routes, authentication, main.js</div>
-        </div>
-      </div>
-      <p class="text-xs text-white/60 leading-relaxed">Built the user dashboard with login, repair history, and pickup tracking. Developed all Vercel serverless API routes and the global main.js navigation logic. Implemented session handling and relational data display connected to Neon PostgreSQL.</p>
-      <div class="mt-3 flex gap-2 flex-wrap">
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">Node.js</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">Serverless API</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">PostgreSQL</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">Authentication</span>
-        <span class="text-xs bg-white/08 text-white/50 px-2.5 py-1 rounded-full">JavaScript ES6+</span>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Tech stack summary -->
-  <div class="glass rounded-2xl p-6 border border-white/10 mb-8">
-    <h2 class="text-xs font-semibold text-white/50 uppercase tracking-widest mb-5">🛠 Technical Stack</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-xs">
-      <div class="bg-white/05 rounded-xl p-3 border border-white/08"><div class="text-lg mb-1">🌐</div><div class="font-medium text-white/80">Frontend</div><div class="text-white/40 mt-0.5">HTML5 · Tailwind CSS · JavaScript ES6+</div></div>
-      <div class="bg-white/05 rounded-xl p-3 border border-white/08"><div class="text-lg mb-1">🗄</div><div class="font-medium text-white/80">Database</div><div class="text-white/40 mt-0.5">Neon PostgreSQL (Serverless)</div></div>
-      <div class="bg-white/05 rounded-xl p-3 border border-white/08"><div class="text-lg mb-1">🚀</div><div class="font-medium text-white/80">Hosting</div><div class="text-white/40 mt-0.5">Vercel · CI/CD via GitHub</div></div>
-      <div class="bg-white/05 rounded-xl p-3 border border-white/08"><div class="text-lg mb-1">📊</div><div class="font-medium text-white/80">Charts</div><div class="text-white/40 mt-0.5">Chart.js · Google Maps API</div></div>
+      <p class="text-xs text-white/30 mt-4">Demo: use any email / password to preview</p>
     </div>
   </div>
 
-  <!-- GitHub workflow -->
-  <div class="glass rounded-2xl p-6 border border-white/10">
-    <h2 class="text-xs font-semibold text-white/50 uppercase tracking-widest mb-4">🤝 GitHub Workflow</h2>
-    <div class="space-y-3 text-sm text-white/70">
-      <div class="flex items-start gap-3"><span class="text-green-400 mt-0.5">→</span><span><strong class="text-white">Feature branching:</strong> No direct commits to <code class="text-xs bg-white/08 px-1.5 py-0.5 rounded">main</code>. Each member works on <code class="text-xs bg-white/08 px-1.5 py-0.5 rounded">feature/page-name</code>.</span></div>
-      <div class="flex items-start gap-3"><span class="text-green-400 mt-0.5">→</span><span><strong class="text-white">Pull Requests:</strong> All code reviewed by at least one other engineer before merging.</span></div>
-      <div class="flex items-start gap-3"><span class="text-green-400 mt-0.5">→</span><span><strong class="text-white">Issue tracking:</strong> GitHub Issues used to assign specific pages and tasks per member.</span></div>
-      <div class="flex items-start gap-3"><span class="text-green-400 mt-0.5">→</span><span><strong class="text-white">Environment safety:</strong> API keys stored in <code class="text-xs bg-white/08 px-1.5 py-0.5 rounded">.env</code> and excluded via <code class="text-xs bg-white/08 px-1.5 py-0.5 rounded">.gitignore</code>.</span></div>
+  <!-- Dashboard content (shown after login) -->
+  <div id="dashboardSection" class="hidden">
+
+    <!-- Profile header -->
+    <div class="glass rounded-2xl p-6 border border-white/10 mb-6 flex items-center gap-5 flex-wrap">
+      <div class="w-16 h-16 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-content-center items-center justify-center text-2xl font-bold text-green-400" id="avatarInitials">AN</div>
+      <div class="flex-1">
+        <h1 class="text-xl font-bold" id="profileName">Aisha Nakato</h1>
+        <p class="text-white/50 text-xs mt-0.5" id="profileEmail">aisha@example.com</p>
+        <p class="text-white/40 text-xs mt-0.5">Member since January 2026 · Kampala</p>
+      </div>
+      <div class="flex gap-2 flex-wrap">
+        <span class="badge-green text-xs px-3 py-1 rounded-full font-medium">♻ Active Recycler</span>
+        <span class="badge-blue text-xs px-3 py-1 rounded-full font-medium">🔧 3 Repairs</span>
+      </div>
     </div>
-    <div class="mt-5 pt-4 border-t border-white/10 text-xs text-white/30 text-center">
-      2026 Internet Technology Project · Kampala, Uganda
+
+    <!-- Impact stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="glass rounded-2xl p-4 border border-white/10 text-center">
+        <div class="text-2xl font-bold text-green-400">47 kg</div>
+        <div class="text-xs text-white/50 mt-1">E-Waste Recycled</div>
+      </div>
+      <div class="glass rounded-2xl p-4 border border-white/10 text-center">
+        <div class="text-2xl font-bold text-blue-400">3</div>
+        <div class="text-xs text-white/50 mt-1">Devices Repaired</div>
+      </div>
+      <div class="glass rounded-2xl p-4 border border-white/10 text-center">
+        <div class="text-2xl font-bold text-purple-400">5</div>
+        <div class="text-xs text-white/50 mt-1">Pickup Requests</div>
+      </div>
+      <div class="glass rounded-2xl p-4 border border-white/10 text-center">
+        <div class="text-2xl font-bold text-emerald-400">0.6t</div>
+        <div class="text-xs text-white/50 mt-1">CO₂ Avoided</div>
+      </div>
     </div>
+
+    <!-- Tabs -->
+    <div class="flex gap-6 border-b border-white/10 mb-6 text-sm font-medium">
+      <button class="tab-btn active pb-3" onclick="switchTab(this,'repairs')">🔧 Repair Requests</button>
+      <button class="tab-btn pb-3 text-white/40" onclick="switchTab(this,'pickups')">♻ Pickup History</button>
+      <button class="tab-btn pb-3 text-white/40" onclick="switchTab(this,'settings')">⚙ Settings</button>
+    </div>
+
+    <!-- Repair Requests Tab -->
+    <div id="tab-repairs" class="tab-content active">
+      <div class="glass rounded-2xl border border-white/10 overflow-hidden">
+        <table class="w-full text-sm">
+          <thead><tr class="border-b border-white/10 text-xs text-white/40 uppercase tracking-wider">
+            <th class="text-left p-4">Device</th>
+            <th class="text-left p-4 hidden md:table-cell">Issue</th>
+            <th class="text-left p-4 hidden md:table-cell">Date</th>
+            <th class="text-left p-4">Status</th>
+          </tr></thead>
+          <tbody class="divide-y divide-white/08">
+            <tr class="hover:bg-white/03 transition">
+              <td class="p-4"><div class="font-medium">Tecno Camon 20</div><div class="text-xs text-white/40">Mobile Phone</div></td>
+              <td class="p-4 hidden md:table-cell text-white/60">Battery draining fast</td>
+              <td class="p-4 hidden md:table-cell text-white/40">12 Jan 2026</td>
+              <td class="p-4"><span class="badge-green text-xs px-2.5 py-1 rounded-full font-medium">Resolved</span></td>
+            </tr>
+            <tr class="hover:bg-white/03 transition">
+              <td class="p-4"><div class="font-medium">HP Pavilion 15</div><div class="text-xs text-white/40">Laptop</div></td>
+              <td class="p-4 hidden md:table-cell text-white/60">Overheating, slow</td>
+              <td class="p-4 hidden md:table-cell text-white/40">28 Feb 2026</td>
+              <td class="p-4"><span class="badge-yellow text-xs px-2.5 py-1 rounded-full font-medium">In Progress</span></td>
+            </tr>
+            <tr class="hover:bg-white/03 transition">
+              <td class="p-4"><div class="font-medium">Samsung Galaxy A15</div><div class="text-xs text-white/40">Mobile Phone</div></td>
+              <td class="p-4 hidden md:table-cell text-white/60">Screen cracked</td>
+              <td class="p-4 hidden md:table-cell text-white/40">5 Mar 2026</td>
+              <td class="p-4"><span class="badge-blue text-xs px-2.5 py-1 rounded-full font-medium">Pending</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <a href="support.html" class="mt-4 inline-block text-xs text-green-400 font-medium hover:underline">+ Submit new request</a>
+    </div>
+
+    <!-- Pickup History Tab -->
+    <div id="tab-pickups" class="tab-content">
+      <div class="glass rounded-2xl border border-white/10 overflow-hidden">
+        <table class="w-full text-sm">
+          <thead><tr class="border-b border-white/10 text-xs text-white/40 uppercase tracking-wider">
+            <th class="text-left p-4">Items</th>
+            <th class="text-left p-4 hidden md:table-cell">Weight</th>
+            <th class="text-left p-4 hidden md:table-cell">Date</th>
+            <th class="text-left p-4">Status</th>
+          </tr></thead>
+          <tbody class="divide-y divide-white/08">
+            <tr class="hover:bg-white/03 transition">
+              <td class="p-4"><div class="font-medium">2 phones, 1 laptop</div><div class="text-xs text-white/40">Nakawa Drop-off</div></td>
+              <td class="p-4 hidden md:table-cell text-white/60">12 kg</td>
+              <td class="p-4 hidden md:table-cell text-white/40">8 Jan 2026</td>
+              <td class="p-4"><span class="badge-green text-xs px-2.5 py-1 rounded-full font-medium">Collected</span></td>
+            </tr>
+            <tr class="hover:bg-white/03 transition">
+              <td class="p-4"><div class="font-medium">Old TV, cables</div><div class="text-xs text-white/40">Home Pickup · Kampala</div></td>
+              <td class="p-4 hidden md:table-cell text-white/60">22 kg</td>
+              <td class="p-4 hidden md:table-cell text-white/40">14 Feb 2026</td>
+              <td class="p-4"><span class="badge-green text-xs px-2.5 py-1 rounded-full font-medium">Collected</span></td>
+            </tr>
+            <tr class="hover:bg-white/03 transition">
+              <td class="p-4"><div class="font-medium">Printer, 3 phones</div><div class="text-xs text-white/40">Home Pickup · Kampala</div></td>
+              <td class="p-4 hidden md:table-cell text-white/60">13 kg</td>
+              <td class="p-4 hidden md:table-cell text-white/40">2 Mar 2026</td>
+              <td class="p-4"><span class="badge-yellow text-xs px-2.5 py-1 rounded-full font-medium">Scheduled</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <a href="recycle.html" class="mt-4 inline-block text-xs text-green-400 font-medium hover:underline">+ Schedule new pickup</a>
+    </div>
+
+    <!-- Settings Tab -->
+    <div id="tab-settings" class="tab-content">
+      <div class="glass rounded-2xl p-6 border border-white/10 space-y-5">
+        <h2 class="text-sm font-semibold text-white/60 uppercase tracking-widest">Account Settings</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div><label class="text-xs text-white/50 mb-1.5 block">Full Name</label><input type="text" value="Aisha Nakato"/></div>
+          <div><label class="text-xs text-white/50 mb-1.5 block">Phone Number</label><input type="tel" value="+256 772 000 000"/></div>
+          <div><label class="text-xs text-white/50 mb-1.5 block">Email</label><input type="email" value="aisha@example.com"/></div>
+          <div><label class="text-xs text-white/50 mb-1.5 block">District</label><input type="text" value="Kampala"/></div>
+        </div>
+        <button class="bg-green-500 hover:bg-green-400 text-black font-semibold px-6 py-2.5 rounded-xl text-sm transition">Save Changes</button>
+        <div class="border-t border-white/10 pt-4">
+          <button onclick="logout()" class="text-red-400 hover:text-red-300 text-xs font-medium transition">Sign out of account →</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </main>
 
 <footer class="text-center text-xs text-white/25 pb-8">Smart Fix & Recycle Uganda · 2026</footer>
+<script>
+function login(){
+  const email=document.getElementById('loginEmail').value;
+  if(!email){alert('Please enter your email.');return;}
+  const name=email.split('@')[0].replace(/[._]/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  const initials=name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('profileName').textContent=name;
+  document.getElementById('profileEmail').textContent=email;
+  document.getElementById('avatarInitials').textContent=initials;
+  document.getElementById('loginSection').classList.add('hidden');
+  document.getElementById('dashboardSection').classList.remove('hidden');
+}
+function logout(){
+  document.getElementById('loginSection').classList.remove('hidden');
+  document.getElementById('dashboardSection').classList.add('hidden');
+}
+function switchTab(btn,tab){
+  document.querySelectorAll('.tab-btn').forEach(b=>{b.classList.remove('active');b.classList.add('text-white/40');});
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');btn.classList.remove('text-white/40');
+  document.getElementById('tab-'+tab).classList.add('active');
+}
+</script>
 </body>
 </html>
+!DOCTYPE html>
