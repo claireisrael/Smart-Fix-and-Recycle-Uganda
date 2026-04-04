@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>E-Waste Pickup | Smart Fix & Recycle Uganda</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  *{font-family:'Inter',sans-serif}
+  body{min-height:100vh;background:linear-gradient(135deg,#0a1628 0%,#0d2b1a 50%,#0a1628 100%)}
+  .glass{background:rgba(255,255,255,0.07);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.12)}
+  nav{background:rgba(10,22,40,0.75);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08)}
+  .nav-active{color:#4ade80;border-bottom:2px solid #4ade80}
+  input,select,textarea{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff;border-radius:10px;padding:10px 14px;width:100%;font-size:14px;outline:none;transition:border .2s}
+  input:focus,select:focus,textarea:focus{border-color:rgba(74,222,128,0.5)}
+  input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.3)}
+  select option{background:#0d2b1a}
+  .map-placeholder{background:rgba(255,255,255,0.04);border:1px dashed rgba(74,222,128,0.3);border-radius:16px;height:320px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+  ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(74,222,128,0.3);border-radius:4px}
+</style>
+</head>
+<body class="text-white">
+
+<nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2"><span class="text-green-400 text-xl">♻</span><span class="font-semibold text-sm">Smart Fix & Recycle</span><span class="text-white/40 text-xs hidden sm:block">Uganda</span></a>
+    <div class="hidden md:flex items-center gap-6 text-xs text-white/60 font-medium">
+      <a href="index.html" class="hover:text-white transition">Home</a>
+      <a href="support.html" class="hover:text-white transition">Support</a>
+      <a href="recycle.html" class="nav-active pb-0.5">Recycle</a>
+      <a href="library.html" class="hover:text-white transition">Library</a>
+      <a href="safety.html" class="hover:text-white transition">Safety</a>
+      <a href="impact.html" class="hover:text-white transition">Impact</a>
+      <a href="dashboard.html" class="hover:text-white transition">Dashboard</a>
+      <a href="about.html" class="hover:text-white transition">About</a>
+    </div>
+  </div>
+</nav>
+
+<main class="pt-28 pb-16 px-4 max-w-6xl mx-auto">
+  <div class="mb-8">
+    <p class="text-green-400 text-xs font-medium uppercase tracking-widest mb-2">♻ E-Waste Pickup</p>
+    <h1 class="text-3xl font-bold mb-2">Schedule a Recycling Pickup</h1>
+    <p class="text-white/50 text-sm">We collect your old electronics, laptops, phones, and appliances — responsibly and for free.</p>
+  </div>
+
+  <!-- What we accept -->
+  <div class="glass rounded-2xl p-6 border border-white/10 mb-8">
+    <h2 class="text-xs font-semibold text-white/50 uppercase tracking-widest mb-4">✅ What We Accept</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">📱</div><div class="text-xs text-white/70">Mobile Phones</div></div>
+      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">💻</div><div class="text-xs text-white/70">Laptops & PCs</div></div>
+      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">🖥</div><div class="text-xs text-white/70">Monitors & TVs</div></div>
+      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">🔋</div><div class="text-xs text-white/70">Batteries</div></div>
+      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">🖨</div><div class="text-xs text-white/70">Printers</div></div>
+      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">📷</div><div class="text-xs text-white/70">Cameras</div></div>
+      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">🎮</div><div class="text-xs text-white/70">Gaming Devices</div></div>
+      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">🔌</div><div class="text-xs text-white/70">Cables & Chargers</div></div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <!-- Pickup form -->
+    <div class="glass rounded-2xl p-6 border border-white/10">
+      <h2 class="text-lg font-semibold mb-5">Book Your Pickup</h2>
+      <form id="recycleForm" class="space-y-4">
+        <div>
+          <label class="text-xs text-white/50 mb-1.5 block">Full Name *</label>
+          <input type="text" placeholder="Your full name" required/>
+        </div>
+        <div>
+          <label class="text-xs text-white/50 mb-1.5 block">Phone Number *</label>
+          <input type="tel" placeholder="+256 7XX XXX XXX" required/>
+        </div>
+        <div>
+          <label class="text-xs text-white/50 mb-1.5 block">District *</label>
+          <select required>
+            <option value="">Select district…</option>
+            <option>Kampala Central</option><option>Nakawa</option><option>Makindye</option>
+            <option>Rubaga</option><option>Kawempe</option><option>Wakiso</option>
+            <option>Mukono</option><option>Entebbe</option><option>Jinja</option><option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-white/50 mb-1.5 block">Street / Landmark *</label>
+          <input type="text" placeholder="e.g. Opposite Nakawa Market, Gate 3" required/>
+        </div>
+        <div>
+          <label class="text-xs text-white/50 mb-1.5 block">Items to Recycle *</label>
+          <textarea rows="3" placeholder="List items: e.g. 2 old phones, 1 broken laptop, cables…" required></textarea>
+        </div>
+        <div>
+          <label class="text-xs text-white/50 mb-1.5 block">Preferred Pickup Date</label>
+          <input type="date"/>
+        </div>
+        <button type="submit" class="w-full bg-green-500 hover:bg-green-400 text-black font-semibold py-3 rounded-xl text-sm transition">Book Pickup →</button>
+      </form>
+      <div id="recycleSuccess" class="hidden mt-4 glass rounded-xl p-4 border border-green-500/30 text-green-300 text-sm text-center">
+        ✅ Pickup booked! We'll confirm via SMS within 2 hours.
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div>
+      <div class="glass rounded-2xl p-5 border border-white/10 mb-4">
+        <h2 class="text-sm font-semibold text-white/70 uppercase tracking-widest mb-4">📍 Drop-off Centres</h2>
+        <!-- Google Maps embed — replace YOUR_API_KEY or use iframe embed URL -->
+        <div class="map-placeholder" id="mapContainer">
+          <div class="text-4xl">🗺</div>
+          <div class="text-sm text-white/50 text-center px-4">
+            Google Maps loads here.<br/>
+            Add your Google Maps API key to activate GPS pinning.
+          </div>
+          <code class="text-xs text-green-400/60 bg-white/5 px-3 py-1 rounded-lg">Replace with Google Maps iframe embed</code>
+        </div>
+        <!-- UNCOMMENT AND REPLACE src with your Maps embed URL:
+        <iframe
+          src="https://www.google.com/maps/embed?pb=YOUR_EMBED_URL"
+          width="100%" height="320" style="border:0;border-radius:12px" allowfullscreen loading="lazy">
+        </iframe>
+        -->
+      </div>
+
+      <!-- Drop-off locations list -->
+      <div class="glass rounded-2xl p-5 border border-white/10">
+        <h3 class="text-xs font-semibold text-white/50 uppercase tracking-widest mb-3">Collection Points</h3>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3 p-3 bg-white/5 rounded-xl border border-white/08">
+            <span class="text-green-400 mt-0.5">📍</span>
+            <div><div class="text-sm font-medium">Nakawa Repair Hub</div><div class="text-xs text-white/50">Nakawa Industrial Area, Kampala · Mon–Sat 8am–6pm</div></div>
+          </div>
+          <div class="flex items-start gap-3 p-3 bg-white/5 rounded-xl border border-white/08">
+            <span class="text-green-400 mt-0.5">📍</span>
+            <div><div class="text-sm font-medium">Kampala Central Office</div><div class="text-xs text-white/50">Kampala Road, near City Hall · Mon–Fri 9am–5pm</div></div>
+          </div>
+          <div class="flex items-start gap-3 p-3 bg-white/5 rounded-xl border border-white/08">
+            <span class="text-green-400 mt-0.5">📍</span>
+            <div><div class="text-sm font-medium">Wakiso Collection Point</div><div class="text-xs text-white/50">Nansana Trading Centre, Wakiso · Sat 9am–2pm</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why recycle -->
+  <div class="glass rounded-2xl p-6 border border-white/10">
+    <h2 class="text-xs font-semibold text-white/50 uppercase tracking-widest mb-5">🌍 Why It Matters</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+      <div><div class="text-green-400 font-semibold mb-1">50M+ tons</div><div class="text-white/50 text-xs">of e-waste generated globally each year — Africa's share is growing fast.</div></div>
+      <div><div class="text-blue-400 font-semibold mb-1">70% recoverable</div><div class="text-white/50 text-xs">Metals like gold, copper and aluminium in electronics can be recovered and reused.</div></div>
+      <div><div class="text-red-400 font-semibold mb-1">Toxic if dumped</div><div class="text-white/50 text-xs">Lead, mercury and cadmium in old devices contaminate soil and water if improperly disposed.</div></div>
+    </div>
+    <a href="safety.html" class="mt-5 block text-xs text-green-400 font-medium text-center">Read our data safety guide before recycling →</a>
+  </div>
+</main>
+
+<footer class="text-center text-xs text-white/25 pb-8">Smart Fix & Recycle Uganda · 2026</footer>
+<script>
+  document.getElementById('recycleForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    document.getElementById('recycleSuccess').classList.remove('hidden');
+    this.reset();
+  });
+</script>
+</body>
+</html>
