@@ -7,38 +7,47 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
   *{font-family:'Inter',sans-serif}
-  body{min-height:100vh;background:linear-gradient(135deg,#0a1628 0%,#0d2b1a 50%,#0a1628 100%)}
-  .glass{background:rgba(255,255,255,0.07);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.12)}
-  nav{background:rgba(10,22,40,0.75);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08)}
-  .nav-active{color:#4ade80;border-bottom:2px solid #4ade80}
-  input,select,textarea{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff;border-radius:10px;padding:10px 14px;width:100%;font-size:14px;outline:none;transition:border .2s}
-  input:focus,select:focus,textarea:focus{border-color:rgba(74,222,128,0.5)}
-  input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.3)}
-  select option{background:#0d2b1a;color:#fff}
+  body{min-height:100vh;background:linear-gradient(180deg,#ffffff 0%,#f3f4f6 100%)}
+  .glass{background:rgba(255,255,255,0.72);backdrop-filter:blur(16px);border:1px solid rgba(15,23,42,0.10)}
+  nav{background:rgba(255,255,255,0.82);backdrop-filter:blur(20px);border-bottom:1px solid rgba(15,23,42,0.08)}
+  .text-white{color:rgb(15 23 42) !important}
+  .text-white\/80{color:rgba(15,23,42,.80) !important}
+  .text-white\/70{color:rgba(15,23,42,.70) !important}
+  .text-white\/60{color:rgba(15,23,42,.60) !important}
+  .text-white\/50{color:rgba(15,23,42,.50) !important}
+  .text-white\/40{color:rgba(15,23,42,.40) !important}
+  .text-white\/30{color:rgba(15,23,42,.30) !important}
+  .text-white\/25{color:rgba(15,23,42,.25) !important}
+  /* Theme: Tech=Blue, Environment=Green, Action=Orange */
+  .nav-active{color:#fb923c;border-bottom:2px solid #fb923c} /* Action */
+  input,select,textarea{background:rgba(255,255,255,0.85);border:1px solid rgba(15,23,42,0.12);color:rgb(15 23 42);border-radius:10px;padding:10px 14px;width:100%;font-size:14px;outline:none;transition:border .2s}
+  input:focus,select:focus,textarea:focus{border-color:rgba(96,165,250,0.55)} /* Tech */
+  input::placeholder,textarea::placeholder{color:rgba(15,23,42,0.40)}
+  select option{background:#ffffff;color:rgb(15 23 42)}
   ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(74,222,128,0.3);border-radius:4px}
 </style>
 </head>
 <body class="text-white">
 
 <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
-  <div class="max-w-7xl mx-auto flex items-center justify-between">
-    <a href="index.html" class="flex items-center gap-2"><span class="text-green-400 text-xl">♻</span><span class="font-semibold text-sm">Smart Fix & Recycle</span><span class="text-white/40 text-xs hidden sm:block">Uganda</span></a>
-    <div class="hidden md:flex items-center gap-6 text-xs text-white/60 font-medium">
+  <div class="max-w-7xl mx-auto flex items-center gap-4">
+    <a href="index.html" class="flex items-center gap-2 flex-shrink-0"><span class="text-green-400 text-xl">♻</span><span class="font-semibold text-sm">Smart Fix & Recycle</span><span class="text-white/40 text-xs hidden sm:block">Uganda</span></a>
+    <div class="hidden md:flex flex-1 min-w-0 items-center justify-end gap-6 text-xs text-white/60 font-medium">
       <a href="index.html" class="hover:text-white transition">Home</a>
       <a href="support.html" class="nav-active pb-0.5">Support</a>
       <a href="recycle.html" class="hover:text-white transition">Recycle</a>
       <a href="library.html" class="hover:text-white transition">Library</a>
       <a href="safety.html" class="hover:text-white transition">Safety</a>
       <a href="impact.html" class="hover:text-white transition">Impact</a>
-      <a href="dashboard.html" class="hover:text-white transition">Dashboard</a>
       <a href="about.html" class="hover:text-white transition">About</a>
+      <div class="flex flex-shrink-0 items-center" id="authNavSlot"></div>
     </div>
   </div>
 </nav>
 
 <main class="pt-28 pb-16 px-4 max-w-5xl mx-auto">
   <div class="mb-8">
-    <p class="text-green-400 text-xs font-medium uppercase tracking-widest mb-2">🔧 Remote Triage</p>
+    <p class="text-blue-400 text-xs font-medium uppercase tracking-widest mb-2">🔧 Remote Triage</p>
     <h1 class="text-3xl font-bold mb-2">IT Help & Support</h1>
     <p class="text-white/50 text-sm">Describe your issue and our engineers will respond within 24 hours.</p>
   </div>
@@ -109,7 +118,7 @@
           <option>Entebbe</option><option>Jinja</option><option>Gulu</option><option>Mbarara</option><option>Other</option>
         </select>
       </div>
-      <button type="submit" class="w-full bg-green-500 hover:bg-green-400 text-black font-semibold py-3 rounded-xl text-sm transition">
+      <button type="submit" class="w-full bg-orange-500 hover:bg-orange-400 text-black font-semibold py-3 rounded-xl text-sm transition">
         Submit Support Request →
       </button>
       <p class="text-xs text-white/30 text-center">Your data is handled securely via POST. We never share your information.</p>
@@ -145,11 +154,32 @@
 </main>
 
 <footer class="text-center text-xs text-white/25 pb-8">&copy;Smart Fix & Recycle Uganda · 2026 group G Class Project . Kampala</footer>
+<script src="./js/auth.js"></script>
 <script>
+  SFRAuth.mountNavbar('authNavSlot');
   document.getElementById('supportForm').addEventListener('submit', function(e){
     e.preventDefault();
-    document.getElementById('successMsg').classList.remove('hidden');
-    this.reset();
+    if(!SFRAuth.requireAuth({role:'user'})) return;
+
+    const form = this;
+    const payload = {
+      name: form.name.value,
+      contact: form.contact.value,
+      brand: form.brand.value,
+      category: form.category.value,
+      description: form.description.value,
+      district: form.district.value || "",
+    };
+
+    (async () => {
+      try {
+        await SFRAuth.apiCreateSupport(payload);
+        document.getElementById('successMsg').classList.remove('hidden');
+        form.reset();
+      } catch (err) {
+        alert(err?.message || 'Could not submit request. Are you logged in?');
+      }
+    })();
   });
 </script>
 </body>

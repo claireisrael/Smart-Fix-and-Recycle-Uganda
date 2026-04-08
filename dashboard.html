@@ -1,190 +1,146 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>My Dashboard | Smart Fix & Recycle Uganda</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="./css/auth-pages.css"/>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-  *{font-family:'Inter',sans-serif}
-  body{min-height:100vh;background:linear-gradient(135deg,#0a1628 0%,#0d2b1a 50%,#0a1628 100%)}
-  .glass{background:rgba(255,255,255,0.07);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.12)}
-  nav{background:rgba(10,22,40,0.75);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08)}
-  .nav-active{color:#4ade80;border-bottom:2px solid #4ade80}
-  input{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff;border-radius:10px;padding:10px 14px;width:100%;font-size:14px;outline:none;transition:border .2s}
-  input:focus{border-color:rgba(74,222,128,0.5)}
-  input::placeholder{color:rgba(255,255,255,0.3)}
-  .tab-btn.active{color:#4ade80;border-bottom:2px solid #4ade80}
+  .tab-btn{border-bottom:2px solid transparent}
+  .tab-btn.active{color:#ea580c;border-bottom-color:#fb923c}
   .tab-content{display:none}.tab-content.active{display:block}
-  .badge-green{background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.25)}
-  .badge-blue{background:rgba(96,165,250,0.15);color:#60a5fa;border:1px solid rgba(96,165,250,0.25)}
-  .badge-yellow{background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.25)}
-  .badge-red{background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.25)}
-  ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(74,222,128,0.3);border-radius:4px}
+  .badge{display:inline-flex;align-items:center;border-radius:9999px;padding:0.125rem 0.625rem;font-size:0.75rem;font-weight:600}
+  .badge-green{background:rgba(16,185,129,0.12);color:#059669;border:1px solid rgba(16,185,129,0.25)}
+  .badge-blue{background:rgba(59,130,246,0.12);color:#2563eb;border:1px solid rgba(59,130,246,0.25)}
+  .badge-orange{background:rgba(251,146,60,0.15);color:#ea580c;border:1px solid rgba(251,146,60,0.25)}
+  .badge-purple{background:rgba(168,85,247,0.12);color:#9333ea;border:1px solid rgba(168,85,247,0.25)}
+  .badge-red{background:rgba(248,113,113,0.15);color:#dc2626;border:1px solid rgba(248,113,113,0.25)}
+  .badge-slate{background:rgba(100,116,139,0.12);color:#475569;border:1px solid rgba(100,116,139,0.2)}
 </style>
 </head>
-<body class="text-white">
+<body class="auth-shell">
 
-<nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
-  <div class="max-w-7xl mx-auto flex items-center justify-between">
-    <a href="index.html" class="flex items-center gap-2"><span class="text-green-400 text-xl">♻</span><span class="font-semibold text-sm">Smart Fix & Recycle</span><span class="text-white/40 text-xs hidden sm:block">Uganda</span></a>
-    <div class="hidden md:flex items-center gap-6 text-xs text-white/60 font-medium">
-      <a href="index.html" class="hover:text-white transition">Home</a>
-      <a href="support.html" class="hover:text-white transition">Support</a>
-      <a href="recycle.html" class="hover:text-white transition">Recycle</a>
-      <a href="library.html" class="hover:text-white transition">Library</a>
-      <a href="safety.html" class="hover:text-white transition">Safety</a>
-      <a href="impact.html" class="hover:text-white transition">Impact</a>
-      <a href="dashboard.html" class="nav-active pb-0.5">Dashboard</a>
-      <a href="about.html" class="hover:text-white transition">About</a>
+<nav class="auth-nav fixed left-0 right-0 top-0 z-50">
+  <div class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6">
+    <a href="index.html" class="flex flex-shrink-0 items-center gap-2.5">
+      <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 text-base text-white shadow-sm">♻</span>
+      <span class="text-sm font-bold text-slate-900">Smart Fix & Recycle</span>
+      <span class="hidden text-xs text-slate-400 sm:block">Uganda</span>
+    </a>
+    <div class="hidden flex-1 flex-wrap items-center justify-end gap-5 text-xs font-medium text-slate-600 md:flex">
+      <a href="index.html" class="transition hover:text-slate-900">Home</a>
+      <a href="support.html" class="transition hover:text-slate-900">Support</a>
+      <a href="recycle.html" class="transition hover:text-slate-900">Recycle</a>
+      <a href="library.html" class="transition hover:text-slate-900">Library</a>
+      <a href="safety.html" class="transition hover:text-slate-900">Safety</a>
+      <a href="impact.html" class="transition hover:text-slate-900">Impact</a>
+      <a href="about.html" class="transition hover:text-slate-900">About</a>
     </div>
+    <div class="ml-auto flex flex-shrink-0 items-center" id="authNavSlot"></div>
   </div>
 </nav>
 
-<main class="pt-28 pb-16 px-4 max-w-5xl mx-auto">
+<main class="mx-auto max-w-5xl px-4 pb-16 pt-24">
 
-  <!-- Login gate -->
-  <div id="loginSection">
-    <div class="max-w-sm mx-auto glass rounded-2xl p-8 border border-white/10 text-center">
-      <div class="text-4xl mb-4">👤</div>
-      <h1 class="text-xl font-bold mb-1">My Dashboard</h1>
-      <p class="text-white/50 text-xs mb-6">Sign in to view your repair history, pickup requests, and impact.</p>
-      <div class="space-y-3 text-left">
-        <input type="email" id="loginEmail" placeholder="Email address"/>
-        <input type="password" id="loginPass" placeholder="Password"/>
-        <button onclick="login()" class="w-full bg-green-500 hover:bg-green-400 text-black font-semibold py-3 rounded-xl text-sm transition">Sign In →</button>
-      </div>
-      <p class="text-xs text-white/30 mt-4">Demo: use any email / password to preview</p>
-    </div>
+  <div id="dashLoading" class="rounded-xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-500 shadow-sm shadow-slate-900/5">
+    Loading your dashboard…
   </div>
 
-  <!-- Dashboard content (shown after login) -->
   <div id="dashboardSection" class="hidden">
 
-    <!-- Profile header -->
-    <div class="glass rounded-2xl p-6 border border-white/10 mb-6 flex items-center gap-5 flex-wrap">
-      <div class="w-16 h-16 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-content-center items-center justify-center text-2xl font-bold text-green-400" id="avatarInitials">AN</div>
-      <div class="flex-1">
-        <h1 class="text-xl font-bold" id="profileName">Aisha Nakato</h1>
-        <p class="text-white/50 text-xs mt-0.5" id="profileEmail">aisha@example.com</p>
-        <p class="text-white/40 text-xs mt-0.5">Member since January 2026 · Kampala</p>
+    <div class="mb-6 flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 sm:flex-row sm:items-center">
+      <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-100 to-orange-200 text-xl font-bold text-orange-800" id="avatarInitials">—</div>
+      <div class="min-w-0 flex-1">
+        <h1 class="text-lg font-bold text-slate-900" id="profileName">—</h1>
+        <p class="mt-0.5 truncate text-xs text-slate-500" id="profileEmail">—</p>
+        <p class="mt-0.5 text-xs text-slate-400" id="profileMeta">—</p>
       </div>
-      <div class="flex gap-2 flex-wrap">
-        <span class="badge-green text-xs px-3 py-1 rounded-full font-medium">♻ Active Recycler</span>
-        <span class="badge-blue text-xs px-3 py-1 rounded-full font-medium">🔧 3 Repairs</span>
+      <div class="flex flex-wrap gap-2" id="profileBadges"></div>
+    </div>
+
+    <div class="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+      <div class="rounded-xl border border-slate-200 bg-white p-4 text-center shadow-sm shadow-slate-900/5">
+        <div class="text-2xl font-bold text-slate-900" id="statSupportTotal">—</div>
+        <div class="mt-1 text-[11px] text-slate-500">Support requests</div>
+      </div>
+      <div class="rounded-xl border border-slate-200 bg-white p-4 text-center shadow-sm shadow-slate-900/5">
+        <div class="text-2xl font-bold text-orange-600" id="statSupportOpen">—</div>
+        <div class="mt-1 text-[11px] text-slate-500">Open tickets</div>
+      </div>
+      <div class="rounded-xl border border-slate-200 bg-white p-4 text-center shadow-sm shadow-slate-900/5">
+        <div class="text-2xl font-bold text-slate-900" id="statPickupsTotal">—</div>
+        <div class="mt-1 text-[11px] text-slate-500">Pickup requests</div>
+      </div>
+      <div class="rounded-xl border border-slate-200 bg-white p-4 text-center shadow-sm shadow-slate-900/5">
+        <div class="text-2xl font-bold text-emerald-600" id="statSupportResolved">—</div>
+        <div class="mt-1 text-[11px] text-slate-500">Resolved support</div>
       </div>
     </div>
 
-    <!-- Impact stats -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-      <div class="glass rounded-2xl p-4 border border-white/10 text-center">
-        <div class="text-2xl font-bold text-green-400">47 kg</div>
-        <div class="text-xs text-white/50 mt-1">E-Waste Recycled</div>
-      </div>
-      <div class="glass rounded-2xl p-4 border border-white/10 text-center">
-        <div class="text-2xl font-bold text-blue-400">3</div>
-        <div class="text-xs text-white/50 mt-1">Devices Repaired</div>
-      </div>
-      <div class="glass rounded-2xl p-4 border border-white/10 text-center">
-        <div class="text-2xl font-bold text-purple-400">5</div>
-        <div class="text-xs text-white/50 mt-1">Pickup Requests</div>
-      </div>
-      <div class="glass rounded-2xl p-4 border border-white/10 text-center">
-        <div class="text-2xl font-bold text-emerald-400">0.6t</div>
-        <div class="text-xs text-white/50 mt-1">CO₂ Avoided</div>
-      </div>
+    <div class="mb-6 flex flex-wrap gap-6 border-b border-slate-200 text-sm font-semibold">
+      <button type="button" class="tab-btn active pb-3 text-slate-900 transition hover:text-slate-700" onclick="switchTab(this,'repairs')">Repair requests</button>
+      <button type="button" class="tab-btn pb-3 text-slate-400 transition hover:text-slate-700" onclick="switchTab(this,'pickups')">Pickup history</button>
+      <button type="button" class="tab-btn pb-3 text-slate-400 transition hover:text-slate-700" onclick="switchTab(this,'settings')">Account</button>
     </div>
 
-    <!-- Tabs -->
-    <div class="flex gap-6 border-b border-white/10 mb-6 text-sm font-medium">
-      <button class="tab-btn active pb-3" onclick="switchTab(this,'repairs')">🔧 Repair Requests</button>
-      <button class="tab-btn pb-3 text-white/40" onclick="switchTab(this,'pickups')">♻ Pickup History</button>
-      <button class="tab-btn pb-3 text-white/40" onclick="switchTab(this,'settings')">⚙ Settings</button>
-    </div>
-
-    <!-- Repair Requests Tab -->
     <div id="tab-repairs" class="tab-content active">
-      <div class="glass rounded-2xl border border-white/10 overflow-hidden">
+      <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm shadow-slate-900/5">
         <table class="w-full text-sm">
-          <thead><tr class="border-b border-white/10 text-xs text-white/40 uppercase tracking-wider">
-            <th class="text-left p-4">Device</th>
-            <th class="text-left p-4 hidden md:table-cell">Issue</th>
-            <th class="text-left p-4 hidden md:table-cell">Date</th>
-            <th class="text-left p-4">Status</th>
-          </tr></thead>
-          <tbody class="divide-y divide-white/08">
-            <tr class="hover:bg-white/03 transition">
-              <td class="p-4"><div class="font-medium">Tecno Camon 20</div><div class="text-xs text-white/40">Mobile Phone</div></td>
-              <td class="p-4 hidden md:table-cell text-white/60">Battery draining fast</td>
-              <td class="p-4 hidden md:table-cell text-white/40">12 Jan 2026</td>
-              <td class="p-4"><span class="badge-green text-xs px-2.5 py-1 rounded-full font-medium">Resolved</span></td>
+          <thead>
+            <tr class="border-b border-slate-100 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+              <th class="p-4">Device</th>
+              <th class="hidden p-4 md:table-cell">Issue</th>
+              <th class="hidden p-4 md:table-cell">Date</th>
+              <th class="p-4">Status</th>
             </tr>
-            <tr class="hover:bg-white/03 transition">
-              <td class="p-4"><div class="font-medium">HP Pavilion 15</div><div class="text-xs text-white/40">Laptop</div></td>
-              <td class="p-4 hidden md:table-cell text-white/60">Overheating, slow</td>
-              <td class="p-4 hidden md:table-cell text-white/40">28 Feb 2026</td>
-              <td class="p-4"><span class="badge-yellow text-xs px-2.5 py-1 rounded-full font-medium">In Progress</span></td>
-            </tr>
-            <tr class="hover:bg-white/03 transition">
-              <td class="p-4"><div class="font-medium">Samsung Galaxy A15</div><div class="text-xs text-white/40">Mobile Phone</div></td>
-              <td class="p-4 hidden md:table-cell text-white/60">Screen cracked</td>
-              <td class="p-4 hidden md:table-cell text-white/40">5 Mar 2026</td>
-              <td class="p-4"><span class="badge-blue text-xs px-2.5 py-1 rounded-full font-medium">Pending</span></td>
-            </tr>
-          </tbody>
+          </thead>
+          <tbody id="repairsTbody" class="divide-y divide-slate-100 text-slate-700"></tbody>
         </table>
       </div>
-      <a href="support.html" class="mt-4 inline-block text-xs text-green-400 font-medium hover:underline">+ Submit new request</a>
+      <a href="support.html" class="mt-4 inline-block text-xs font-semibold text-orange-600 hover:text-orange-500 hover:underline">+ New support request</a>
     </div>
 
-    <!-- Pickup History Tab -->
     <div id="tab-pickups" class="tab-content">
-      <div class="glass rounded-2xl border border-white/10 overflow-hidden">
+      <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm shadow-slate-900/5">
         <table class="w-full text-sm">
-          <thead><tr class="border-b border-white/10 text-xs text-white/40 uppercase tracking-wider">
-            <th class="text-left p-4">Items</th>
-            <th class="text-left p-4 hidden md:table-cell">Weight</th>
-            <th class="text-left p-4 hidden md:table-cell">Date</th>
-            <th class="text-left p-4">Status</th>
-          </tr></thead>
-          <tbody class="divide-y divide-white/08">
-            <tr class="hover:bg-white/03 transition">
-              <td class="p-4"><div class="font-medium">2 phones, 1 laptop</div><div class="text-xs text-white/40">Nakawa Drop-off</div></td>
-              <td class="p-4 hidden md:table-cell text-white/60">12 kg</td>
-              <td class="p-4 hidden md:table-cell text-white/40">8 Jan 2026</td>
-              <td class="p-4"><span class="badge-green text-xs px-2.5 py-1 rounded-full font-medium">Collected</span></td>
+          <thead>
+            <tr class="border-b border-slate-100 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+              <th class="p-4">Items &amp; location</th>
+              <th class="hidden p-4 md:table-cell">Preferred date</th>
+              <th class="hidden p-4 md:table-cell">Requested</th>
+              <th class="p-4">Status</th>
             </tr>
-            <tr class="hover:bg-white/03 transition">
-              <td class="p-4"><div class="font-medium">Old TV, cables</div><div class="text-xs text-white/40">Home Pickup · Kampala</div></td>
-              <td class="p-4 hidden md:table-cell text-white/60">22 kg</td>
-              <td class="p-4 hidden md:table-cell text-white/40">14 Feb 2026</td>
-              <td class="p-4"><span class="badge-green text-xs px-2.5 py-1 rounded-full font-medium">Collected</span></td>
-            </tr>
-            <tr class="hover:bg-white/03 transition">
-              <td class="p-4"><div class="font-medium">Printer, 3 phones</div><div class="text-xs text-white/40">Home Pickup · Kampala</div></td>
-              <td class="p-4 hidden md:table-cell text-white/60">13 kg</td>
-              <td class="p-4 hidden md:table-cell text-white/40">2 Mar 2026</td>
-              <td class="p-4"><span class="badge-yellow text-xs px-2.5 py-1 rounded-full font-medium">Scheduled</span></td>
-            </tr>
-          </tbody>
+          </thead>
+          <tbody id="pickupsTbody" class="divide-y divide-slate-100 text-slate-700"></tbody>
         </table>
       </div>
-      <a href="recycle.html" class="mt-4 inline-block text-xs text-green-400 font-medium hover:underline">+ Schedule new pickup</a>
+      <a href="recycle.html" class="mt-4 inline-block text-xs font-semibold text-orange-600 hover:text-orange-500 hover:underline">+ Schedule a pickup</a>
     </div>
 
-    <!-- Settings Tab -->
     <div id="tab-settings" class="tab-content">
-      <div class="glass rounded-2xl p-6 border border-white/10 space-y-5">
-        <h2 class="text-sm font-semibold text-white/60 uppercase tracking-widest">Account Settings</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div><label class="text-xs text-white/50 mb-1.5 block">Full Name</label><input type="text" value="Aisha Nakato"/></div>
-          <div><label class="text-xs text-white/50 mb-1.5 block">Phone Number</label><input type="tel" value="+256 772 000 000"/></div>
-          <div><label class="text-xs text-white/50 mb-1.5 block">Email</label><input type="email" value="aisha@example.com"/></div>
-          <div><label class="text-xs text-white/50 mb-1.5 block">District</label><input type="text" value="Kampala"/></div>
+      <div class="space-y-5 rounded-xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400">Profile</h2>
+        <p class="text-xs text-slate-500">These details come from your account. To change your name or email, contact support or use admin tools if you manage the site.</p>
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div>
+            <label class="mb-1.5 block text-xs font-medium text-slate-600" for="setFirst">First name</label>
+            <input id="setFirst" type="text" readonly class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800"/>
+          </div>
+          <div>
+            <label class="mb-1.5 block text-xs font-medium text-slate-600" for="setLast">Last name</label>
+            <input id="setLast" type="text" readonly class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800"/>
+          </div>
+          <div class="md:col-span-2">
+            <label class="mb-1.5 block text-xs font-medium text-slate-600" for="setEmail">Email</label>
+            <input id="setEmail" type="email" readonly class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800"/>
+          </div>
+          <div class="md:col-span-2">
+            <label class="mb-1.5 block text-xs font-medium text-slate-600" for="setUser">Username</label>
+            <input id="setUser" type="text" readonly class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800"/>
+          </div>
         </div>
-        <button class="bg-green-500 hover:bg-green-400 text-black font-semibold px-6 py-2.5 rounded-xl text-sm transition">Save Changes</button>
-        <div class="border-t border-white/10 pt-4">
-          <button onclick="logout()" class="text-red-400 hover:text-red-300 text-xs font-medium transition">Sign out of account →</button>
+        <div class="border-t border-slate-100 pt-4">
+          <button type="button" onclick="SFRAuth.logout()" class="text-xs font-semibold text-red-600 transition hover:text-red-500">Sign out</button>
         </div>
       </div>
     </div>
@@ -192,28 +148,265 @@
   </div>
 </main>
 
-<footer class="text-center text-xs text-white/25 pb-8">&copy;Smart Fix & Recycle Uganda · 2026 group G Class Project . Kampala</footer>
+<footer class="pb-8 text-center text-[11px] text-slate-400">&copy; Smart Fix & Recycle Uganda · 2026</footer>
+
+<script src="./js/auth.js"></script>
 <script>
-function login(){
-  const email=document.getElementById('loginEmail').value;
-  if(!email){alert('Please enter your email.');return;}
-  const name=email.split('@')[0].replace(/[._]/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
-  const initials=name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-  document.getElementById('profileName').textContent=name;
-  document.getElementById('profileEmail').textContent=email;
-  document.getElementById('avatarInitials').textContent=initials;
-  document.getElementById('loginSection').classList.add('hidden');
-  document.getElementById('dashboardSection').classList.remove('hidden');
+SFRAuth.mountNavbar("authNavSlot");
+
+if (!SFRAuth.requireAuth({ role: "user" })) {
+  /* redirected */
 }
-function logout(){
-  document.getElementById('loginSection').classList.remove('hidden');
-  document.getElementById('dashboardSection').classList.add('hidden');
+
+function apiBase() {
+  return localStorage.getItem("SFR_API_BASE") || "http://127.0.0.1:8000";
 }
-function switchTab(btn,tab){
-  document.querySelectorAll('.tab-btn').forEach(b=>{b.classList.remove('active');b.classList.add('text-white/40');});
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');btn.classList.remove('text-white/40');
-  document.getElementById('tab-'+tab).classList.add('active');
+
+function escapeHtml(s) {
+  if (s == null) return "";
+  const d = document.createElement("div");
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function formatDate(iso) {
+  if (!iso) return "—";
+  try {
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  } catch (_) {
+    return iso;
+  }
+}
+
+function memberLine(dateJoinedIso) {
+  if (!dateJoinedIso) return "";
+  try {
+    const d = new Date(dateJoinedIso);
+    if (Number.isNaN(d.getTime())) return "";
+    const m = d.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+    return "Member since " + m;
+  } catch (_) {
+    return "";
+  }
+}
+
+function initialsFromUser(u, session) {
+  const fn = (u && u.first_name) || "";
+  const ln = (u && u.last_name) || "";
+  if (fn || ln) {
+    const a = (fn[0] || "") + (ln[0] || "");
+    if (a) return a.toUpperCase();
+  }
+  const name = session && session.firstName ? String(session.firstName) : "";
+  if (name) {
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase().slice(0, 2);
+    return name.slice(0, 2).toUpperCase();
+  }
+  const em = (u && u.email) || (session && session.email) || "";
+  if (em) return em.slice(0, 2).toUpperCase();
+  return "U";
+}
+
+function displayName(u, session) {
+  if (u) {
+    const full = [u.first_name, u.last_name].filter(Boolean).join(" ").trim();
+    if (full) return full;
+    if (u.username) return u.username;
+  }
+  if (session && session.firstName) return session.firstName;
+  return "User";
+}
+
+function badgeSupport(status) {
+  const map = {
+    pending: { cls: "badge-orange", label: "Pending" },
+    in_progress: { cls: "badge-blue", label: "In progress" },
+    resolved: { cls: "badge-green", label: "Resolved" },
+  };
+  const x = map[status] || { cls: "badge-slate", label: status || "—" };
+  return '<span class="badge ' + x.cls + '">' + escapeHtml(x.label) + "</span>";
+}
+
+function badgePickup(status) {
+  const map = {
+    pending: { cls: "badge-orange", label: "Pending" },
+    scheduled: { cls: "badge-blue", label: "Scheduled" },
+    on_the_way: { cls: "badge-purple", label: "On the way" },
+    collected: { cls: "badge-green", label: "Collected" },
+    completed: { cls: "badge-green", label: "Completed" },
+    cancelled: { cls: "badge-red", label: "Cancelled" },
+  };
+  const x = map[status] || { cls: "badge-slate", label: status || "—" };
+  return '<span class="badge ' + x.cls + '">' + escapeHtml(x.label) + "</span>";
+}
+
+function truncate(str, n) {
+  if (!str) return "";
+  const t = String(str).trim();
+  return t.length <= n ? t : t.slice(0, n) + "…";
+}
+
+function renderRepairs(rows) {
+  const tb = document.getElementById("repairsTbody");
+  if (!rows || !rows.length) {
+    tb.innerHTML =
+      '<tr><td colspan="4" class="p-8 text-center text-sm text-slate-500">No repair requests yet. <a href="support.html" class="font-semibold text-orange-600 hover:underline">Submit a request</a></td></tr>';
+    return;
+  }
+  tb.innerHTML = rows
+    .map(function (r) {
+      const device =
+        '<div class="font-medium text-slate-900">' +
+        escapeHtml(r.brand || "—") +
+        '</div><div class="text-xs text-slate-400">' +
+        escapeHtml(r.category || "") +
+        "</div>";
+      const issue = escapeHtml(truncate(r.description, 120));
+      return (
+        "<tr class=\"hover:bg-slate-50/80\"><td class=\"p-4\">" +
+        device +
+        '</td><td class="hidden p-4 text-slate-600 md:table-cell">' +
+        issue +
+        '</td><td class="hidden p-4 text-slate-400 md:table-cell">' +
+        escapeHtml(formatDate(r.created_at)) +
+        '</td><td class="p-4 whitespace-nowrap">' +
+        badgeSupport(r.status) +
+        "</td></tr>"
+      );
+    })
+    .join("");
+}
+
+function renderPickups(rows) {
+  const tb = document.getElementById("pickupsTbody");
+  if (!rows || !rows.length) {
+    tb.innerHTML =
+      '<tr><td colspan="4" class="p-8 text-center text-sm text-slate-500">No pickups yet. <a href="recycle.html" class="font-semibold text-orange-600 hover:underline">Schedule a pickup</a></td></tr>';
+    return;
+  }
+  tb.innerHTML = rows
+    .map(function (p) {
+      const loc =
+        '<div class="font-medium text-slate-900">' +
+        escapeHtml(truncate(p.items, 80)) +
+        '</div><div class="text-xs text-slate-400">' +
+        escapeHtml(p.district || "") +
+        (p.landmark ? " · " + escapeHtml(p.landmark) : "") +
+        "</div>";
+      const pref = p.preferred_date ? formatDate(p.preferred_date) : "—";
+      return (
+        "<tr class=\"hover:bg-slate-50/80\"><td class=\"p-4\">" +
+        loc +
+        '</td><td class="hidden p-4 text-slate-600 md:table-cell">' +
+        escapeHtml(pref) +
+        '</td><td class="hidden p-4 text-slate-400 md:table-cell">' +
+        escapeHtml(formatDate(p.created_at)) +
+        '</td><td class="p-4 whitespace-nowrap">' +
+        badgePickup(p.status) +
+        "</td></tr>"
+      );
+    })
+    .join("");
+}
+
+function applyDashboard(data, session) {
+  const u = data.user || {};
+  document.getElementById("profileName").textContent = displayName(u, session);
+  document.getElementById("profileEmail").textContent = u.email || session.email || "";
+  const meta = memberLine(u.date_joined);
+  document.getElementById("profileMeta").textContent = meta || "—";
+  document.getElementById("avatarInitials").textContent = initialsFromUser(u, session);
+
+  var sup = data.support || {};
+  var pu = data.pickups || {};
+  var openSup = (sup.pending || 0) + (sup.in_progress || 0);
+  document.getElementById("statSupportTotal").textContent = String(sup.total ?? 0);
+  document.getElementById("statSupportOpen").textContent = String(openSup);
+  document.getElementById("statPickupsTotal").textContent = String(pu.total ?? 0);
+  document.getElementById("statSupportResolved").textContent = String(sup.resolved ?? 0);
+
+  var badges = document.getElementById("profileBadges");
+  badges.innerHTML =
+    '<span class="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-800 ring-1 ring-emerald-200/60">Account active</span>' +
+    '<span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-[11px] font-medium text-slate-700">' +
+    (sup.total ?? 0) +
+    " support · " +
+    (pu.total ?? 0) +
+    " pickups</span>";
+
+  document.getElementById("setFirst").value = u.first_name || "";
+  document.getElementById("setLast").value = u.last_name || "";
+  document.getElementById("setEmail").value = u.email || "";
+  document.getElementById("setUser").value = u.username || "";
+
+  renderRepairs(data.support_requests || []);
+  renderPickups(data.pickup_requests || []);
+}
+
+function showSessionFallback(session) {
+  document.getElementById("profileName").textContent = session.firstName || session.email || "User";
+  document.getElementById("profileEmail").textContent = session.email || "";
+  document.getElementById("profileMeta").textContent = "";
+  document.getElementById("avatarInitials").textContent = initialsFromUser(null, session);
+  document.getElementById("statSupportTotal").textContent = "—";
+  document.getElementById("statSupportOpen").textContent = "—";
+  document.getElementById("statPickupsTotal").textContent = "—";
+  document.getElementById("statSupportResolved").textContent = "—";
+  document.getElementById("profileBadges").innerHTML =
+    '<span class="inline-flex items-center rounded-full bg-amber-50 px-3 py-1 text-[11px] font-semibold text-amber-900 ring-1 ring-amber-200/80">Could not load stats</span>';
+  renderRepairs([]);
+  renderPickups([]);
+}
+
+(async function load() {
+  var session = SFRAuth.getSession();
+  if (!session) return;
+
+  var loading = document.getElementById("dashLoading");
+  var section = document.getElementById("dashboardSection");
+
+  try {
+    var token = session.access;
+    if (!token) {
+      loading.classList.add("hidden");
+      section.classList.remove("hidden");
+      showSessionFallback(session);
+      return;
+    }
+    var res = await fetch(apiBase().replace(/\/$/, "") + "/api/me/dashboard/", {
+      headers: { Authorization: "Bearer " + token },
+    });
+    loading.classList.add("hidden");
+    section.classList.remove("hidden");
+    if (!res.ok) {
+      showSessionFallback(session);
+      return;
+    }
+    var data = await res.json();
+    applyDashboard(data, session);
+  } catch (e) {
+    loading.classList.add("hidden");
+    section.classList.remove("hidden");
+    showSessionFallback(session);
+  }
+})();
+
+function switchTab(btn, tab) {
+  document.querySelectorAll(".tab-btn").forEach(function (b) {
+    b.classList.remove("active");
+    b.classList.add("text-slate-400");
+    b.classList.remove("text-slate-900");
+  });
+  document.querySelectorAll(".tab-content").forEach(function (t) {
+    t.classList.remove("active");
+  });
+  btn.classList.add("active");
+  btn.classList.remove("text-slate-400");
+  btn.classList.add("text-slate-900");
+  document.getElementById("tab-" + tab).classList.add("active");
 }
 </script>
 </body>

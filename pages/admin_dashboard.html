@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | Smart Fix & Recycle Uganda</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/auth-pages.css"/>
+  <style>
+    .admin-card{border-radius:0.75rem;border:1px solid #e2e8f0;background:#fff;box-shadow:0 1px 2px rgba(15,23,42,0.04)}
+    .admin-nav-link{border-radius:0.75rem}
+  </style>
+</head>
+<body class="auth-shell text-slate-800" data-protect="admin">
+
+<nav class="auth-nav fixed left-0 right-0 top-0 z-50">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+    <a href="../index.html" class="flex items-center gap-2.5">
+      <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 text-base text-white shadow-sm">♻</span>
+      <span class="text-sm font-bold text-slate-900">Smart Fix & Recycle</span>
+      <span class="hidden text-xs text-slate-400 sm:block">Uganda · Admin</span>
+    </a>
+    <div id="authNavSlot"></div>
+  </div>
+</nav>
+
+<main class="mx-auto max-w-7xl px-4 pb-16 pt-24">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- Sidebar -->
+    <aside class="lg:col-span-3">
+      <div class="admin-card sticky top-24 overflow-hidden">
+        <div class="border-b border-slate-100 bg-slate-50/80 px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-widest text-slate-400">Admin</div>
+          <div class="text-lg font-bold text-slate-900">Control Center</div>
+          <div class="mt-1 text-xs text-slate-500">Users, tickets, pickups & payments.</div>
+        </div>
+        <nav class="p-2 text-xs">
+          <a data-tab="dashboard" href="#dashboard" class="admin-nav admin-nav-link flex items-center gap-2 px-3 py-2 text-slate-600 transition hover:bg-slate-100">
+            <span>📊</span><span class="font-medium">Dashboard</span>
+          </a>
+          <a data-tab="users" href="#users" class="admin-nav admin-nav-link flex items-center gap-2 px-3 py-2 text-slate-600 transition hover:bg-slate-100">
+            <span>👥</span><span class="font-medium">Users</span>
+          </a>
+          <a data-tab="tickets" href="#tickets" class="admin-nav admin-nav-link flex items-center gap-2 px-3 py-2 text-slate-600 transition hover:bg-slate-100">
+            <span>🎟</span><span class="font-medium">Support Tickets</span>
+          </a>
+          <a data-tab="pickups" href="#pickups" class="admin-nav admin-nav-link flex items-center gap-2 px-3 py-2 text-slate-600 transition hover:bg-slate-100">
+            <span>♻</span><span class="font-medium">Pickup Requests</span>
+          </a>
+          <a data-tab="payments" href="#payments" class="admin-nav admin-nav-link flex items-center gap-2 px-3 py-2 text-slate-600 transition hover:bg-slate-100">
+            <span>💳</span><span class="font-medium">Payments</span>
+          </a>
+          <a data-tab="reports" href="#reports" class="admin-nav admin-nav-link flex items-center gap-2 px-3 py-2 text-slate-600 transition hover:bg-slate-100">
+            <span>📈</span><span class="font-medium">Reports</span>
+          </a>
+          <a data-tab="settings" href="#settings" class="admin-nav admin-nav-link flex items-center gap-2 px-3 py-2 text-slate-600 transition hover:bg-slate-100">
+            <span>⚙</span><span class="font-medium">Settings</span>
+          </a>
+          <div class="my-2 border-t border-slate-100"></div>
+          <button type="button" id="adminLogoutBtn" class="flex w-full items-center gap-2 rounded-xl px-3 py-2 font-medium text-red-600 transition hover:bg-red-50">
+            <span>🚪</span><span>Logout</span>
+          </button>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <section class="lg:col-span-9 space-y-6">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-orange-600">Operations</p>
+          <h1 class="mb-1 text-2xl font-bold text-slate-900 sm:text-3xl">Admin Dashboard</h1>
+          <p class="text-sm text-slate-500">Live data from the Django API.</p>
+        </div>
+      </div>
+
+      <div id="adminAlert" class="hidden admin-card border p-4 text-sm"></div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
+        <div class="admin-card p-4">
+          <div class="text-xs text-slate-500">Total Users</div>
+          <div class="mt-1 text-2xl font-bold text-slate-900" id="statUsers">—</div>
+          <div class="mt-1 text-xs text-slate-400"><span id="statUsersActive">—</span> active</div>
+        </div>
+        <div class="admin-card p-4">
+          <div class="text-xs text-slate-500">Pending Tickets</div>
+          <div class="mt-1 text-2xl font-bold text-slate-900" id="statTicketsPending">—</div>
+          <div class="mt-1 text-xs text-slate-400"><span id="statTicketsTotal">—</span> total</div>
+        </div>
+        <div class="admin-card p-4">
+          <div class="text-xs text-slate-500">Pending Pickups</div>
+          <div class="mt-1 text-2xl font-bold text-slate-900" id="statPickupsPending">—</div>
+          <div class="mt-1 text-xs text-slate-400"><span id="statPickupsTotal">—</span> total</div>
+        </div>
+        <div class="admin-card p-4">
+          <div class="text-xs text-slate-500">Total Payments</div>
+          <div class="mt-1 text-2xl font-bold text-slate-900" id="statPaymentsTotal">—</div>
+          <div class="mt-1 text-xs text-slate-400">Paid UGX <span id="statPaidTotal">—</span></div>
+        </div>
+      </div>
+
+      <!-- Users -->
+      <div id="tab-users" class="admin-tab admin-card p-6">
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div class="text-sm font-semibold text-slate-900">👥 Users</div>
+            <div class="text-xs text-slate-500">View users and activate or suspend accounts.</div>
+          </div>
+          <button type="button" id="refreshUsersBtn" class="rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-700 shadow-sm transition hover:border-orange-200 hover:bg-slate-50">Refresh</button>
+        </div>
+        <div class="overflow-auto">
+          <table class="w-full text-xs">
+            <thead class="border-b border-slate-100 text-[11px] uppercase tracking-wider text-slate-400">
+              <tr>
+                <th class="text-left p-3">ID</th>
+                <th class="text-left p-3">Name</th>
+                <th class="text-left p-3">Email</th>
+                <th class="text-left p-3">Role</th>
+                <th class="text-left p-3">Status</th>
+                <th class="text-left p-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersTbody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tickets -->
+      <div id="tab-tickets" class="admin-tab admin-card p-6">
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div class="text-sm font-semibold text-slate-900">🎟 Support Tickets</div>
+            <div class="text-xs text-slate-500">Assign technician and update status.</div>
+          </div>
+          <button type="button" id="refreshTicketsBtn" class="rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-700 shadow-sm transition hover:border-orange-200 hover:bg-slate-50">Refresh</button>
+        </div>
+        <div class="overflow-auto">
+          <table class="w-full text-xs">
+            <thead class="border-b border-slate-100 text-[11px] uppercase tracking-wider text-slate-400">
+              <tr>
+                <th class="text-left p-3">Ticket</th>
+                <th class="text-left p-3">User</th>
+                <th class="text-left p-3">Issue</th>
+                <th class="text-left p-3">Status</th>
+                <th class="text-left p-3">Assigned</th>
+                <th class="text-left p-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ticketsTbody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Pickups -->
+      <div id="tab-pickups" class="admin-tab admin-card p-6">
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div class="text-sm font-semibold text-slate-900">♻ Pickup Requests</div>
+            <div class="text-xs text-slate-500">Schedule pickups and update tracking status.</div>
+          </div>
+          <button type="button" id="refreshPickupsBtn" class="rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-700 shadow-sm transition hover:border-orange-200 hover:bg-slate-50">Refresh</button>
+        </div>
+        <div class="overflow-auto">
+          <table class="w-full text-xs">
+            <thead class="border-b border-slate-100 text-[11px] uppercase tracking-wider text-slate-400">
+              <tr>
+                <th class="text-left p-3">ID</th>
+                <th class="text-left p-3">User</th>
+                <th class="text-left p-3">Items</th>
+                <th class="text-left p-3">Location</th>
+                <th class="text-left p-3">Status</th>
+                <th class="text-left p-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="pickupsTbody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Payments -->
+      <div id="tab-payments" class="admin-tab admin-card p-6">
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div class="text-sm font-semibold text-slate-900">💳 Payments</div>
+            <div class="text-xs text-slate-500">Verify payments and link references.</div>
+          </div>
+          <button type="button" id="refreshPaymentsBtn" class="rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-700 shadow-sm transition hover:border-orange-200 hover:bg-slate-50">Refresh</button>
+        </div>
+        <div class="overflow-auto">
+          <table class="w-full text-xs">
+            <thead class="border-b border-slate-100 text-[11px] uppercase tracking-wider text-slate-400">
+              <tr>
+                <th class="text-left p-3">ID</th>
+                <th class="text-left p-3">User</th>
+                <th class="text-left p-3">Amount</th>
+                <th class="text-left p-3">Service</th>
+                <th class="text-left p-3">Status</th>
+                <th class="text-left p-3">Reference</th>
+                <th class="text-left p-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="paymentsTbody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Reports -->
+      <div id="tab-reports" class="admin-tab admin-card p-6">
+        <div class="mb-1 text-sm font-semibold text-slate-900">📈 Reports</div>
+        <div class="text-xs text-slate-500">Overview from live stats.</div>
+        <div class="mt-4 grid grid-cols-1 gap-4 text-xs md:grid-cols-2">
+          <div class="admin-card p-4">
+            <div class="text-slate-500">Support completion</div>
+            <div class="mt-1 text-slate-800">Resolved tickets: <span id="reportResolved">—</span></div>
+          </div>
+          <div class="admin-card p-4">
+            <div class="text-slate-500">Pickup completion</div>
+            <div class="mt-1 text-slate-800">Completed pickups: <span id="reportCompletedPickups">—</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div id="tab-settings" class="admin-tab admin-card p-6">
+        <div class="mb-1 text-sm font-semibold text-slate-900">⚙ Settings</div>
+        <div class="text-xs text-slate-500">Admin-only configuration (placeholder).</div>
+        <div class="mt-4 text-xs text-slate-500">Coming next: email templates, roles, and payment gateway settings.</div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="pb-8 text-center text-[11px] text-slate-400">&copy; Smart Fix & Recycle Uganda · 2026</footer>
+
+<script src="../js/auth.js"></script>
+<script>
+  SFRAuth.mountNavbar('authNavSlot');
+
+  const API_BASE = localStorage.getItem("SFR_API_BASE") || "http://127.0.0.1:8000";
+  const alertEl = document.getElementById("adminAlert");
+
+  // Status theme (system-wide)
+  function statusPill(statusRaw) {
+    const s = String(statusRaw || "").toLowerCase();
+    const base = "inline-flex items-center rounded-full border px-2.5 py-1 text-[11px] font-semibold";
+    const map = {
+      pending: "bg-orange-50 text-orange-900 border-orange-200",
+      scheduled: "bg-blue-50 text-blue-900 border-blue-200",
+      on_the_way: "bg-violet-50 text-violet-900 border-violet-200",
+      completed: "bg-emerald-50 text-emerald-900 border-emerald-200",
+      failed: "bg-red-50 text-red-800 border-red-200",
+      in_progress: "bg-indigo-50 text-indigo-900 border-indigo-200",
+      resolved: "bg-emerald-50 text-emerald-900 border-emerald-200",
+      collected: "bg-emerald-50 text-emerald-900 border-emerald-200",
+      cancelled: "bg-red-50 text-red-800 border-red-200",
+      paid: "bg-emerald-50 text-emerald-900 border-emerald-200",
+      refunded: "bg-slate-100 text-slate-800 border-slate-200",
+    };
+    const cls = map[s] || "bg-slate-100 text-slate-700 border-slate-200";
+    const label = s.replaceAll("_", " ").replace(/\b\w/g, (m) => m.toUpperCase());
+    return `<span class="${base} ${cls}">${escapeHtml(label || "—")}</span>`;
+  }
+
+  function setAlert(type, msg) {
+    if (!alertEl) return;
+    alertEl.classList.remove("hidden");
+    alertEl.classList.remove(
+      "border-emerald-200", "bg-emerald-50", "text-emerald-900",
+      "border-red-200", "bg-red-50", "text-red-800",
+      "border-amber-200", "bg-amber-50", "text-amber-900"
+    );
+    if (type === "success") {
+      alertEl.classList.add("border-emerald-200", "bg-emerald-50", "text-emerald-900");
+    }
+    if (type === "error") {
+      alertEl.classList.add("border-red-200", "bg-red-50", "text-red-800");
+    }
+    if (type === "warn") {
+      alertEl.classList.add("border-amber-200", "bg-amber-50", "text-amber-900");
+    }
+    alertEl.textContent = msg;
+  }
+
+  async function api(path, opts) {
+    const s = SFRAuth.getSession();
+    if (!s?.access) throw new Error("Not logged in.");
+    const res = await fetch(API_BASE + path, {
+      method: (opts && opts.method) || "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + s.access,
+        ...((opts && opts.headers) || {}),
+      },
+      body: opts?.body ? JSON.stringify(opts.body) : undefined,
+    });
+    const text = await res.text();
+    let data = null;
+    try { data = text ? JSON.parse(text) : null; } catch { data = { detail: text }; }
+    if (!res.ok) throw new Error(data?.detail || "Request failed.");
+    return data;
+  }
+
+  function pickTab(tab) {
+    document.querySelectorAll(".admin-nav").forEach((a) => {
+      const active = a.getAttribute("data-tab") === tab;
+      a.classList.toggle("bg-orange-50", active);
+      a.classList.toggle("border", active);
+      a.classList.toggle("border-orange-200", active);
+      a.classList.toggle("text-orange-900", active);
+      a.classList.toggle("font-semibold", active);
+      a.classList.toggle("text-slate-600", !active);
+    });
+    document.querySelectorAll(".admin-tab").forEach((el) => {
+      el.classList.toggle("hidden", !el.id.endsWith(tab));
+    });
+  }
+
+  function escapeHtml(str) {
+    return String(str || "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  async function loadStats() {
+    const s = await api("/api/admin/stats/");
+    document.getElementById("statUsers").textContent = s?.users?.total ?? "0";
+    document.getElementById("statUsersActive").textContent = s?.users?.active ?? "0";
+    document.getElementById("statTicketsPending").textContent = s?.support?.pending ?? "0";
+    document.getElementById("statTicketsTotal").textContent = s?.support?.total ?? "0";
+    document.getElementById("statPickupsPending").textContent = s?.pickups?.pending ?? "0";
+    document.getElementById("statPickupsTotal").textContent = s?.pickups?.total ?? "0";
+    document.getElementById("statPaymentsTotal").textContent = s?.payments?.total ?? "0";
+    document.getElementById("statPaidTotal").textContent = s?.payments?.paid_total ?? "0";
+    document.getElementById("reportResolved").textContent = s?.support?.resolved ?? "0";
+    document.getElementById("reportCompletedPickups").textContent = s?.pickups?.completed ?? "0";
+  }
+
+  async function loadUsers() {
+    const rows = await api("/api/admin/users/");
+    const tbody = document.getElementById("usersTbody");
+    tbody.innerHTML = (rows || []).map((u) => {
+      const role = u.is_staff ? "Admin" : "User";
+      const status = u.is_active ? "Active" : "Suspended";
+      return `
+        <tr class="hover:bg-slate-50/80">
+          <td class="p-3 text-slate-400">${u.id}</td>
+          <td class="p-3 font-medium text-slate-900">${escapeHtml(u.name)}</td>
+          <td class="p-3 text-slate-600">${escapeHtml(u.email || "")}</td>
+          <td class="p-3 text-slate-600">${role}</td>
+          <td class="p-3 ${u.is_active ? "font-medium text-emerald-700" : "font-medium text-red-600"}">${status}</td>
+          <td class="p-3">
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" data-act="toggleActive" data-id="${u.id}" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition hover:border-orange-200 hover:bg-slate-50">${u.is_active ? "Suspend" : "Activate"}</button>
+              <button type="button" data-act="toggleStaff" data-id="${u.id}" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition hover:border-orange-200 hover:bg-slate-50">${u.is_staff ? "Make User" : "Make Admin"}</button>
+            </div>
+          </td>
+        </tr>`;
+    }).join("");
+  }
+
+  async function loadTickets() {
+    const rows = await api("/api/admin/support/");
+    const tbody = document.getElementById("ticketsTbody");
+    tbody.innerHTML = (rows || []).map((t) => {
+      const ticket = `SF-${String(t.id).padStart(4,"0")}`;
+      return `
+        <tr class="hover:bg-slate-50/80">
+          <td class="p-3 font-semibold text-slate-800">${ticket}</td>
+          <td class="p-3 text-slate-600">${escapeHtml(t.user_email || t.contact || "")}</td>
+          <td class="p-3 text-slate-700">${escapeHtml(t.description || "").slice(0,60)}</td>
+          <td class="p-3">${statusPill(t.status)}</td>
+          <td class="p-3 text-slate-600">${escapeHtml(t.assigned_to || "—")}</td>
+          <td class="p-3">
+            <div class="flex flex-wrap items-center gap-2">
+              <select data-act="status" data-id="${t.id}" class="w-full min-w-[7rem] rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-800 sm:w-auto">
+                ${["pending","in_progress","resolved"].map(s=>`<option value="${s}" ${t.status===s?"selected":""}>${s}</option>`).join("")}
+              </select>
+              <input data-act="assigned_to" data-id="${t.id}" value="${escapeHtml(t.assigned_to||"")}" placeholder="Technician" class="w-36 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-800"/>
+              <button type="button" data-act="saveTicket" data-id="${t.id}" class="rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-orange-400">Save</button>
+            </div>
+          </td>
+        </tr>`;
+    }).join("");
+  }
+
+  async function loadPickups() {
+    const rows = await api("/api/admin/pickups/");
+    const tbody = document.getElementById("pickupsTbody");
+    tbody.innerHTML = (rows || []).map((p) => {
+      const ticket = `EW-${String(p.id).padStart(4,"0")}`;
+      const loc = `${p.district || ""} ${p.landmark ? "· " + p.landmark : ""}`.trim();
+      return `
+        <tr class="hover:bg-slate-50/80">
+          <td class="p-3 font-semibold text-slate-800">${ticket}</td>
+          <td class="p-3 text-slate-600">${escapeHtml(p.user_email || p.phone || "")}</td>
+          <td class="p-3 text-slate-700">${escapeHtml(p.items || "").slice(0,60)}</td>
+          <td class="p-3 text-slate-600">${escapeHtml(loc || "—")}</td>
+          <td class="p-3">${statusPill(p.status)}</td>
+          <td class="p-3">
+            <div class="flex flex-wrap items-center gap-2">
+              <select data-act="pickupStatus" data-id="${p.id}" class="min-w-[8rem] rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-800">
+                ${["pending","scheduled","on_the_way","collected","completed","cancelled"].map(s=>`<option value="${s}" ${p.status===s?"selected":""}>${s}</option>`).join("")}
+              </select>
+              <button type="button" data-act="savePickup" data-id="${p.id}" class="rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-orange-400">Update</button>
+            </div>
+          </td>
+        </tr>`;
+    }).join("");
+  }
+
+  async function loadPayments() {
+    const rows = await api("/api/admin/payments/");
+    const tbody = document.getElementById("paymentsTbody");
+    tbody.innerHTML = (rows || []).map((p) => {
+      return `
+        <tr class="hover:bg-slate-50/80">
+          <td class="p-3 text-slate-400">${p.id}</td>
+          <td class="p-3 text-slate-600">${escapeHtml(p.user_email || "—")}</td>
+          <td class="p-3 font-medium text-slate-900">UGX ${escapeHtml(p.amount)}</td>
+          <td class="p-3 text-slate-600">${escapeHtml(p.service || "—")}</td>
+          <td class="p-3">${statusPill(p.status)}</td>
+          <td class="p-3 text-slate-600">${escapeHtml(p.reference || "")}</td>
+          <td class="p-3">
+            <div class="flex flex-wrap items-center gap-2">
+              <select data-act="paymentStatus" data-id="${p.id}" class="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-800">
+                ${["pending","paid","failed","refunded"].map(s=>`<option value="${s}" ${p.status===s?"selected":""}>${s}</option>`).join("")}
+              </select>
+              <input data-act="paymentRef" data-id="${p.id}" value="${escapeHtml(p.reference||"")}" placeholder="Ref" class="w-28 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-800"/>
+              <button type="button" data-act="savePayment" data-id="${p.id}" class="rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-orange-400">Save</button>
+            </div>
+          </td>
+        </tr>`;
+    }).join("");
+  }
+
+  document.getElementById("adminLogoutBtn")?.addEventListener("click", () => SFRAuth.logout());
+  document.querySelectorAll(".admin-nav").forEach((a) => a.addEventListener("click", (e) => {
+    e.preventDefault();
+    const tab = a.getAttribute("data-tab");
+    window.location.hash = tab;
+    pickTab(tab);
+  }));
+
+  document.getElementById("refreshUsersBtn")?.addEventListener("click", loadUsers);
+  document.getElementById("refreshTicketsBtn")?.addEventListener("click", loadTickets);
+  document.getElementById("refreshPickupsBtn")?.addEventListener("click", loadPickups);
+  document.getElementById("refreshPaymentsBtn")?.addEventListener("click", loadPayments);
+
+  document.addEventListener("click", async (e) => {
+    const btn = e.target.closest("button[data-act]");
+    if (!btn) return;
+    try {
+      const act = btn.getAttribute("data-act");
+      const id = btn.getAttribute("data-id");
+      if (act === "toggleActive") {
+        const row = btn.closest("tr");
+        const isActive = row?.querySelector("td:nth-child(5)")?.textContent?.trim() === "Active";
+        await api(`/api/admin/users/${id}/`, { method: "PATCH", body: { is_active: !isActive } });
+        await loadUsers(); await loadStats();
+        setAlert("success", "User updated.");
+      }
+      if (act === "toggleStaff") {
+        const row = btn.closest("tr");
+        const isAdmin = row?.querySelector("td:nth-child(4)")?.textContent?.trim() === "Admin";
+        await api(`/api/admin/users/${id}/`, { method: "PATCH", body: { is_staff: !isAdmin } });
+        await loadUsers(); await loadStats();
+        setAlert("success", "Role updated.");
+      }
+      if (act === "saveTicket") {
+        const statusSel = document.querySelector(`select[data-act="status"][data-id="${id}"]`);
+        const assignedInput = document.querySelector(`input[data-act="assigned_to"][data-id="${id}"]`);
+        await api(`/api/admin/support/${id}/`, { method: "PATCH", body: { status: statusSel.value, assigned_to: assignedInput.value } });
+        await loadTickets(); await loadStats();
+        setAlert("success", "Ticket updated.");
+      }
+      if (act === "savePickup") {
+        const statusSel = document.querySelector(`select[data-act="pickupStatus"][data-id="${id}"]`);
+        await api(`/api/admin/pickups/${id}/`, { method: "PATCH", body: { status: statusSel.value } });
+        await loadPickups(); await loadStats();
+        setAlert("success", "Pickup updated.");
+      }
+      if (act === "savePayment") {
+        const statusSel = document.querySelector(`select[data-act="paymentStatus"][data-id="${id}"]`);
+        const refInput = document.querySelector(`input[data-act="paymentRef"][data-id="${id}"]`);
+        await api(`/api/admin/payments/${id}/`, { method: "PATCH", body: { status: statusSel.value, reference: refInput.value } });
+        await loadPayments(); await loadStats();
+        setAlert("success", "Payment updated.");
+      }
+    } catch (err) {
+      setAlert("error", err.message || "Action failed.");
+    }
+  });
+
+  (async () => {
+    try {
+      await loadStats();
+      await loadUsers();
+      await loadTickets();
+      await loadPickups();
+      await loadPayments();
+      const tab = (window.location.hash || "#dashboard").replace("#", "");
+      pickTab(tab);
+    } catch (err) {
+      setAlert("error", err.message || "Could not load admin dashboard.");
+    }
+  })();
+</script>
+</body>
+</html>

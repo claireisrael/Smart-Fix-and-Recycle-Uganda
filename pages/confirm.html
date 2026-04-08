@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verify email | Smart Fix & Recycle Uganda</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/auth-pages.css"/>
+</head>
+<body class="auth-shell">
+
+<nav class="auth-nav fixed left-0 right-0 top-0 z-50">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+    <a href="../index.html" class="flex items-center gap-2.5">
+      <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 text-base text-white shadow-sm">♻</span>
+      <span class="text-sm font-bold text-slate-900">Smart Fix & Recycle</span>
+    </a>
+    <div id="authNavSlot"></div>
+  </div>
+</nav>
+
+<main class="flex min-h-[calc(100vh-5rem)] items-center justify-center px-4 pb-12 pt-20">
+  <div class="w-full max-w-[340px]">
+    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-md shadow-slate-900/5">
+      <h1 class="text-center text-base font-bold text-slate-900">Verification code</h1>
+      <p id="hint" class="mt-1 min-h-[1.25rem] text-center text-xs text-slate-500"></p>
+      <div id="alert" class="sfr-light-alert mt-3 hidden rounded-lg border p-2.5 text-xs leading-snug"></div>
+
+      <form id="confirmForm" class="mt-4 space-y-3">
+        <input
+          id="verifyCode"
+          name="code"
+          inputmode="numeric"
+          maxlength="6"
+          autocomplete="one-time-code"
+          placeholder="000000"
+          class="auth-code-input w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-center text-lg font-semibold tracking-[0.35em] text-slate-900 placeholder:text-slate-300 placeholder:tracking-normal focus:border-orange-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+        />
+
+        <button type="submit" class="w-full rounded-lg bg-orange-500 py-2.5 text-sm font-bold text-slate-900 transition hover:bg-orange-400">
+          Verify
+        </button>
+
+        <div class="flex items-center justify-between border-t border-slate-100 pt-3 text-xs">
+          <button type="button" id="resendBtn" class="font-medium text-slate-600 hover:text-orange-600">Resend code</button>
+          <a href="./login.html" class="font-medium text-slate-600 hover:text-slate-900">Sign in</a>
+        </div>
+      </form>
+
+      <p class="mt-4 text-center text-[11px] text-slate-400">
+        <a href="./register.html" class="hover:text-slate-600">Use a different email</a>
+      </p>
+    </div>
+  </div>
+</main>
+
+<footer class="pb-6 text-center text-[11px] text-slate-400">&copy; 2026 Smart Fix & Recycle Uganda</footer>
+
+<script src="../js/auth.js"></script>
+<script>
+  SFRAuth.mountNavbar("authNavSlot");
+  SFRAuth.handleConfirm("confirmForm", "alert", "hint");
+  document.getElementById("resendBtn")?.addEventListener("click", function () {
+    SFRAuth.handleResendVerification?.("alert");
+  });
+</script>
+</body>
+</html>
