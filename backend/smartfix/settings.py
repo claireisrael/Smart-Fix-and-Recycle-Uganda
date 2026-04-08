@@ -16,6 +16,10 @@ DEBUG = os.environ.get("DEBUG", "0") in {"1", "true", "True", "yes", "YES"}
 
 ALLOWED_HOSTS = [h.strip() for h in os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",") if h.strip()]
 
+# HTTPS admin / forms (set in production). Comma-separated full origins, e.g. https://xxx.onrender.com
+_csrf_origins = [o.strip() for o in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",") if o.strip()]
+if _csrf_origins:
+    CSRF_TRUSTED_ORIGINS = _csrf_origins
 
 INSTALLED_APPS = [
     "django.contrib.admin",
