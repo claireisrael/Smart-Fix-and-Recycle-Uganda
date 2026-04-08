@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign in | Smart Fix & Recycle Uganda</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/auth-pages.css"/>
+</head>
+<body class="auth-shell">
+
+<nav class="auth-nav fixed left-0 right-0 top-0 z-50">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+    <a href="../index.html" class="flex items-center gap-2.5">
+      <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 text-base text-white shadow-sm">♻</span>
+      <span class="text-sm font-bold text-slate-900">Smart Fix & Recycle</span>
+    </a>
+    <div id="authNavSlot"></div>
+  </div>
+</nav>
+
+<main class="flex min-h-[calc(100vh-5rem)] items-center justify-center px-4 pb-12 pt-20">
+  <div class="w-full max-w-[340px]">
+    <div id="verifiedNote" class="mb-3 hidden rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-center text-xs text-emerald-900">
+      Email verified. You can sign in now.
+    </div>
+
+    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-md shadow-slate-900/5">
+      <h1 class="text-center text-base font-bold text-slate-900">Sign in</h1>
+      <p class="mt-1 text-center text-xs text-slate-500">Use your email and password.</p>
+
+      <button type="button" id="openLoginModal" class="mt-4 w-full rounded-lg bg-orange-500 py-2.5 text-sm font-bold text-slate-900 transition hover:bg-orange-400">
+        Sign in
+      </button>
+
+      <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-xs">
+        <button type="button" id="openForgotModal" class="font-medium text-slate-600 hover:text-orange-600">Forgot password?</button>
+        <a href="./register.html" class="font-medium text-slate-600 hover:text-slate-900">Register</a>
+      </div>
+    </div>
+
+    <p class="mt-4 text-center text-[11px] text-slate-400">
+      Demo: <span class="font-mono text-slate-600">admin@smartfix.ug</span> / <span class="font-mono text-slate-600">Admin@1234</span>
+    </p>
+  </div>
+</main>
+
+<footer class="pb-6 text-center text-[11px] text-slate-400">&copy; 2026 Smart Fix & Recycle Uganda</footer>
+
+<script src="../js/auth.js"></script>
+<script>
+  SFRAuth.mountNavbar("authNavSlot");
+  document.getElementById("openLoginModal")?.addEventListener("click", () => SFRAuth.openAuthModal("login"));
+  document.getElementById("openForgotModal")?.addEventListener("click", () => SFRAuth.openAuthModal("forgot"));
+  try {
+    if (new URLSearchParams(window.location.search).get("verified") === "1") {
+      document.getElementById("verifiedNote")?.classList.remove("hidden");
+    }
+  } catch (_) {}
+</script>
+</body>
+</html>

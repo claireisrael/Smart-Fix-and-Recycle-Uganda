@@ -8,13 +8,57 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
   *{font-family:'Inter',sans-serif}
-  body{min-height:100vh;background:linear-gradient(135deg,#0a1628 0%,#0d2b1a 50%,#0a1628 100%)}
-  .glass{background:rgba(255,255,255,0.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.12)}
-  nav{background:rgba(10,22,40,0.75);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08)}
+  /* Clean (white/gray) theme base */
+  body{min-height:100vh;background:linear-gradient(180deg,#ffffff 0%,#f3f4f6 100%)}
+  .glass{background:rgba(255,255,255,0.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(15,23,42,0.10)}
+  nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(15,23,42,0.08);box-shadow:0 10px 30px rgba(2,6,23,0.04)}
+  /* Remap previous "dark theme" text utilities to dark (so we don't rewrite all markup) */
+  .text-white{color:rgb(15 23 42) !important}
+  .text-white\/80{color:rgba(15,23,42,.80) !important}
+  .text-white\/70{color:rgba(15,23,42,.70) !important}
+  .text-white\/60{color:rgba(15,23,42,.60) !important}
+  .text-white\/50{color:rgba(15,23,42,.50) !important}
+  .text-white\/40{color:rgba(15,23,42,.40) !important}
+  .text-white\/30{color:rgba(15,23,42,.30) !important}
+  .text-white\/25{color:rgba(15,23,42,.25) !important}
   .card-hover{transition:all .3s ease}
   .card-hover:hover{transform:translateY(-4px);border-color:rgba(74,222,128,0.4);box-shadow:0 8px 32px rgba(74,222,128,0.1)}
-  .hero-glow{background:radial-gradient(ellipse at 50% 0%,rgba(74,222,128,0.15) 0%,transparent 70%)}
-  .nav-active{color:#4ade80;border-bottom:2px solid #4ade80}
+  .hero-glow{background:radial-gradient(ellipse at 50% 0%,rgba(96,165,250,0.12) 0%,transparent 70%)}
+  .hero-bg{
+    position:relative;
+    background-image:
+      linear-gradient(180deg, rgba(2,6,23,0.78) 0%, rgba(2,6,23,0.55) 55%, rgba(2,6,23,0.35) 100%),
+      url("./hero.jpg");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
+  .hero-bg::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(ellipse at 50% 0%, rgba(96,165,250,0.18) 0%, transparent 55%);
+    pointer-events:none;
+  }
+  .hero-bg > *{position:relative; z-index:1;}
+  /* Ensure hero text stays readable on image (override light-theme remap) */
+  .hero-bg .text-white{color:#fff !important}
+  .hero-bg .text-white\/80{color:rgba(255,255,255,.85) !important}
+  .hero-bg .text-white\/70{color:rgba(255,255,255,.75) !important}
+  .hero-bg .text-white\/60{color:rgba(255,255,255,.65) !important}
+  .hero-bg .text-white\/50{color:rgba(255,255,255,.55) !important}
+  .hero-bg h1, .hero-bg p {text-shadow: 0 12px 30px rgba(2,6,23,.45);}
+  .hero-bg .glass{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.22)}
+  /* Theme: Tech=Blue, Environment=Green, Action=Orange */
+  /* Desktop nav: no "pill/box" container; bigger links + more spacing */
+  .nav-rail{background:transparent;border:none;padding:0;border-radius:0}
+  .nav-link{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:12px;color:rgba(15,23,42,.72);font-size:14px;font-weight:700;transition:background .15s,color .15s}
+  .nav-link:hover{background:rgba(2,6,23,.04);color:rgba(15,23,42,.95)}
+  .nav-active{color:#9a3412;border-bottom:2px solid rgba(154,52,18,.55);border-radius:0;padding-bottom:8px} /* Action */
+  .nav-active:hover{background:transparent;color:#9a3412}
+  .nav-brand{display:flex;align-items:center;gap:10px}
+  .nav-logo{width:34px;height:34px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(34,197,94,.10);border:1px solid rgba(34,197,94,.20);color:rgb(22,163,74)}
+  .nav-divider{width:1px;height:18px;background:rgba(15,23,42,.12)}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
   .fade-up{animation:fadeUp .6s ease forwards}
   .fade-up-2{animation:fadeUp .6s .15s ease both}
@@ -25,50 +69,56 @@
 </head>
 <body class="text-white">
 
-<nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
-  <div class="max-w-7xl mx-auto flex items-center justify-between">
-    <a href="index.html" class="flex items-center gap-2">
-      <span class="text-green-400 text-xl">♻</span>
-      <span class="font-semibold text-sm text-white">Smart Fix & Recycle</span>
-      <span class="text-white/40 text-xs hidden sm:block">Uganda</span>
+<nav class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-3">
+  <div class="max-w-7xl mx-auto flex items-center gap-3">
+    <a href="index.html" class="nav-brand min-w-0 flex-shrink-0">
+      <span class="nav-logo">♻</span>
+      <span class="font-semibold text-sm text-white whitespace-nowrap">Smart Fix & Recycle</span>
+      <span class="nav-divider hidden sm:block"></span>
+      <span class="text-white/40 text-xs hidden sm:block whitespace-nowrap">Uganda</span>
     </a>
-    <div class="hidden md:flex items-center gap-6 text-xs text-white/60 font-medium">
-      <a href="index.html"     class="nav-active pb-0.5">Home</a>
-      <a href="support.html"   class="hover:text-white transition">Support</a>
-      <a href="recycle.html"   class="hover:text-white transition">Recycle</a>
-      <a href="library.html"   class="hover:text-white transition">Library</a>
-      <a href="safety.html"    class="hover:text-white transition">Safety</a>
-      <a href="impact.html"    class="hover:text-white transition">Impact</a>
-      <a href="dashboard.html" class="hover:text-white transition">Dashboard</a>
-      <a href="about.html"     class="hover:text-white transition">About</a>
+
+    <div class="hidden md:flex flex-1 min-w-0 items-center justify-end gap-4">
+      <div class="nav-rail flex items-center gap-6 flex-wrap justify-end">
+        <a href="index.html" class="nav-link nav-active">Home</a>
+        <a href="support.html" class="nav-link">Support</a>
+        <a href="recycle.html" class="nav-link">Recycle</a>
+        <a href="library.html" class="nav-link">Library</a>
+        <a href="safety.html" class="nav-link">Safety</a>
+        <a href="impact.html" class="nav-link">Impact</a>
+        <a href="about.html" class="nav-link">About</a>
+      </div>
+      <div class="flex flex-shrink-0 items-center" id="authNavSlot"></div>
     </div>
-    <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="md:hidden text-white/60 hover:text-white">
+
+    <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="md:hidden ml-auto text-white/60 hover:text-white glass px-3 py-2 rounded-xl">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
   </div>
-  <div id="mobileMenu" class="hidden md:hidden mt-3 glass rounded-xl px-4 py-3 flex flex-col gap-3 text-sm text-white/70 mx-4">
-    <a href="index.html" class="text-green-400">Home</a><a href="support.html">Support</a><a href="recycle.html">Recycle</a>
-    <a href="library.html">Library</a><a href="safety.html">Safety</a><a href="impact.html">Impact</a>
-    <a href="dashboard.html">Dashboard</a><a href="about.html">About</a>
+  <div id="mobileMenu" class="hidden md:hidden mt-3 glass rounded-2xl px-3 py-3 flex flex-col gap-2 text-base mx-3 sm:mx-4">
+    <a href="index.html" class="px-4 py-3 rounded-xl nav-active">Home</a>
+    <a href="support.html" class="px-4 py-3 rounded-xl hover:bg-black/5">Support</a>
+    <a href="recycle.html" class="px-4 py-3 rounded-xl hover:bg-black/5">Recycle</a>
+    <a href="library.html" class="px-4 py-3 rounded-xl hover:bg-black/5">Library</a>
+    <a href="safety.html" class="px-4 py-3 rounded-xl hover:bg-black/5">Safety</a>
+    <a href="impact.html" class="px-4 py-3 rounded-xl hover:bg-black/5">Impact</a>
+    <a href="about.html" class="px-4 py-3 rounded-xl hover:bg-black/5">About</a>
+    <div class="pt-2 border-t border-white/10" id="authNavSlotMobile"></div>
   </div>
 </nav>
 
 <!-- HERO -->
-<div class="hero-glow pt-32 pb-20 px-4 text-center">
+<div class="hero-bg min-h-screen pt-28 md:pt-36 pb-24 md:pb-32 px-4 text-center flex items-center">
   <div class="max-w-4xl mx-auto">
-    <div class="fade-up inline-flex items-center gap-2 glass rounded-full px-4 py-2 text-xs text-green-300 mb-6">
-      <span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span>
-      Uganda's ICT Lifecycle Portal · 2026
-    </div>
     <h1 class="fade-up-2 text-5xl md:text-6xl font-extrabold text-white leading-tight mb-6">
       Fix it. Recycle it.<br/><span class="text-green-400">Save Uganda.</span>
     </h1>
-    <p class="fade-up-3 text-white/60 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
-      A professional multi-page platform bridging Ugandan citizens with IT support services and the National E-Waste Management Centre.
+    <p class="fade-up-3 text-white/70 text-lg max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed">
+      Remote IT help, safe e-waste pickup, and practical guidance — one place for Ugandans to fix devices, recycle responsibly, and keep electronics out of landfill.
     </p>
-    <div class="fade-up-3 flex flex-wrap gap-4 justify-center">
-      <a href="support.html" class="bg-green-500 hover:bg-green-400 text-black font-semibold px-6 py-3 rounded-full text-sm transition">Get IT Support →</a>
-      <a href="recycle.html" class="glass hover:border-green-400/40 text-white font-medium px-6 py-3 rounded-full text-sm transition">Schedule Pickup</a>
+    <div class="fade-up-3 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
+      <a href="support.html" class="w-full sm:w-auto bg-orange-500 hover:bg-orange-400 text-black font-semibold px-7 py-3 rounded-full text-sm transition">Get IT Support →</a>
+      <a href="recycle.html" class="w-full sm:w-auto glass hover:border-green-400/40 text-white font-semibold px-7 py-3 rounded-full text-sm transition">Schedule Pickup</a>
     </div>
   </div>
 </div>
@@ -148,5 +198,11 @@
 </div>
 
 <footer class="text-center text-xs text-white/25 pb-8">&copy;Smart Fix & Recycle Uganda · 2026 group G Class Project · Kampala</footer>
+
+<script src="./js/auth.js"></script>
+<script>
+  SFRAuth.mountNavbar('authNavSlot');
+  SFRAuth.mountNavbar('authNavSlotMobile');
+</script>
 </body>
 </html>

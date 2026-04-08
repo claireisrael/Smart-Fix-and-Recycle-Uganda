@@ -1,0 +1,286 @@
+/* Smart Fix & Recycle — Django admin (minimal overrides: readable first, one accent) */
+
+/*
+ * Django 4.2+ can apply theme variables that make some headings gold/yellow or white
+ * on light panels. Force readable slate text in the main work area.
+ */
+:root {
+  --sfr-text: #0f172a;
+  --sfr-text-muted: #475569;
+  --sfr-panel: #f8fafc;
+  --sfr-panel-head: #e2e8f0;
+}
+
+#content,
+#content-main {
+  color: var(--sfr-text-muted) !important;
+}
+
+#content h1,
+#content-main h1,
+.changeform #content-main > h1,
+#content-main .content-main-title {
+  color: var(--sfr-text) !important;
+}
+
+#content-main h2,
+#content-main h3,
+#content-main h4,
+fieldset.module h2,
+.inline-group h2,
+.inline-related h2,
+.inline-related fieldset.module h3,
+.aligned h2,
+#changelist .actions label,
+#changelist .paginator {
+  color: var(--sfr-text) !important;
+}
+
+/* Table header cells (often themed yellow/wheat in dark defaults) */
+#result_list thead th {
+  background: var(--sfr-panel-head) !important;
+  color: var(--sfr-text) !important;
+  border-color: #cbd5e1 !important;
+}
+
+#result_list tbody th,
+#result_list tbody td {
+  color: var(--sfr-text-muted) !important;
+}
+
+/* Filter sidebar */
+#changelist-filter h2,
+#changelist-filter h3 {
+  background: var(--sfr-panel-head) !important;
+  color: var(--sfr-text) !important;
+}
+
+#changelist-filter li.selected a {
+  color: var(--sfr-text) !important;
+}
+
+/* Nav sidebar (Django 4.2+) */
+#nav-sidebar .module th,
+#nav-sidebar .module caption,
+#nav-sidebar caption {
+  background: var(--sfr-panel-head) !important;
+  color: var(--sfr-text) !important;
+}
+
+#nav-sidebar .current-model {
+  color: var(--sfr-text) !important;
+}
+
+/* ---- Header: one dark background, high-contrast text ---- */
+#header {
+  background: #0f172a;
+  color: #f8fafc;
+  border-bottom: 2px solid #ea580c;
+  box-shadow: none;
+}
+
+#header a:link,
+#header a:visited {
+  color: #f8fafc !important;
+}
+
+/* Top-right: plain light gray links (readable on slate) */
+#user-tools {
+  font-weight: 500;
+  color: #e2e8f0;
+}
+
+#user-tools a:link,
+#user-tools a:visited {
+  color: #e2e8f0 !important;
+}
+
+#user-tools a:focus,
+#user-tools a:hover {
+  color: #ffffff !important;
+  text-decoration: underline;
+}
+
+/* ---- Brand row ---- */
+h1#site-name.sfr-admin-branding {
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+.sfr-admin-brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none !important;
+}
+
+.sfr-admin-brand-link,
+.sfr-admin-brand-link:link,
+.sfr-admin-brand-link:visited {
+  color: #f8fafc !important;
+}
+
+.sfr-admin-brand-link:hover .sfr-admin-title,
+.sfr-admin-brand-link:focus .sfr-admin-title {
+  color: #fed7aa;
+}
+
+.sfr-admin-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.35rem;
+  line-height: 1;
+  border-radius: 0.65rem;
+  background: rgba(248, 250, 252, 0.08);
+  border: 1px solid rgba(248, 250, 252, 0.25);
+  flex-shrink: 0;
+}
+
+.sfr-admin-brand-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.25;
+  gap: 0.2rem;
+}
+
+.sfr-admin-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #f8fafc;
+}
+
+.sfr-admin-sub {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #cbd5e1;
+}
+
+/* Form labels (avoid inherited light/yellow) */
+.form-row label,
+.aligned label,
+.required label,
+label.vTextField,
+.checkbox label {
+  color: #334155 !important;
+}
+
+/* Module section titles: dark text on light gray only */
+.dashboard .module h2,
+.dashboard .module caption,
+.module h2,
+.module caption {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  border-bottom: 2px solid #ea580c !important;
+  font-weight: 700 !important;
+}
+
+/* Index / dashboard app tables */
+.module table th {
+  color: #0f172a !important;
+  background: #f1f5f9 !important;
+}
+
+.module table caption {
+  color: #0f172a !important;
+}
+
+/* Table & form text links only — not .object-tools (Add / View) or row actions */
+#result_list a:link,
+#result_list a:visited,
+fieldset a:link,
+fieldset a:visited,
+.form-row a:link,
+.form-row a:visited,
+.inline-group a:link,
+.inline-group a:visited {
+  color: #b45309;
+}
+
+#result_list a:hover,
+fieldset a:hover,
+.form-row a:hover {
+  color: #9a3412;
+}
+
+/* “Add” / tools: keep light text on dark buttons (do not apply orange link color) */
+.object-tools a:link,
+.object-tools a:visited,
+.object-tools a {
+  color: #f8fafc !important;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+  background: #f1f5f9 !important;
+  color: #334155 !important;
+}
+
+.breadcrumbs a:link,
+.breadcrumbs a:visited {
+  color: #c2410c !important;
+}
+
+/* Primary actions only — avoid coloring every button */
+.submit-row input[type="submit"],
+.submit-row input[type="button"]:not([name="_cancel"]) {
+  background: #ea580c !important;
+  color: #0f172a !important;
+  font-weight: 600 !important;
+  border-radius: 0.375rem !important;
+}
+
+.submit-row input[type="submit"]:hover,
+.submit-row input[type="submit"]:focus {
+  background: #f97316 !important;
+}
+
+/* Delete confirmation / danger: leave red (do not force orange) */
+.submit-row input.deletelink,
+.submit-row .deletelink:link,
+.delete-confirmation form input[type="submit"] {
+  background: #b91c1c !important;
+  color: #fef2f2 !important;
+}
+
+/* Login box */
+.login #header {
+  height: auto;
+  padding: 1rem 1.25rem;
+}
+
+.login #container {
+  max-width: 28rem;
+  margin-top: 2rem;
+}
+
+.login #content {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+}
+
+.login .submit-row input[type="submit"] {
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .sfr-admin-brand-text {
+    max-width: 12rem;
+  }
+  .sfr-admin-title {
+    font-size: 0.95rem;
+  }
+}

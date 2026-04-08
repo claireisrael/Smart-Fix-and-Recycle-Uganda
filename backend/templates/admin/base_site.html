@@ -1,0 +1,25 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block title %}
+  {% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {% trans "Smart Fix & Recycle" %}
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name" class="sfr-admin-branding">
+  <a href="{% url 'admin:index' %}" class="sfr-admin-brand-link">
+    <span class="sfr-admin-logo" aria-hidden="true">♻</span>
+    <span class="sfr-admin-brand-text">
+      <span class="sfr-admin-title">Smart Fix &amp; Recycle</span>
+      <span class="sfr-admin-sub">{% trans "Uganda · Administration" %}</span>
+    </span>
+  </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin/css/sfr_admin.css' %}">
+{% endblock %}
