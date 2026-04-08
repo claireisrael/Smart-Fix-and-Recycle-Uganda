@@ -89,7 +89,8 @@ TIME_ZONE = "Africa/Kampala"
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = "static/"
+# Leading slash required so admin CSS resolves to /static/... not /admin/static/... on deep URLs
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
