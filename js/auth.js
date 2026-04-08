@@ -176,6 +176,11 @@
     return p.includes("/pages/") ? "../" : "./";
   }
 
+  /** Brand logo (static path under site root). */
+  function logoUrl() {
+    return `${basePathToRoot()}images/logo.png`;
+  }
+
   function getLoginUrl() {
     return `${basePathToRoot()}pages/login.html`;
   }
@@ -233,10 +238,13 @@
       <div id="sfrAuthBackdrop" class="absolute inset-0 bg-slate-900/55 backdrop-blur-[2px]"></div>
       <div id="sfrAuthCard" class="relative w-full max-w-md overflow-hidden rounded-xl border border-slate-200/90 bg-white text-slate-900 shadow-[0_20px_40px_-12px_rgba(15,23,42,0.2)] ring-1 ring-slate-900/[0.04]">
         <div class="flex items-start justify-between gap-3 border-b border-slate-100 bg-gradient-to-b from-slate-50/90 to-white px-5 py-4">
-          <div class="min-w-0 pr-1">
+          <div class="flex min-w-0 flex-1 items-start gap-3 pr-1">
+            <img src="${logoUrl()}" alt="" class="brand-mark-nav" width="64" height="64" loading="lazy" />
+          <div class="min-w-0">
             <div class="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-500">Smart Fix & Recycle</div>
             <div id="sfrAuthTitle" class="mt-1.5 text-lg font-bold leading-tight tracking-tight text-slate-900 sm:text-xl">Welcome</div>
             <p id="sfrAuthSubtitle" class="mt-1.5 text-xs leading-snug text-slate-600 sm:text-[13px]"></p>
+          </div>
           </div>
           <button type="button" id="sfrAuthClose" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-base leading-none text-slate-400 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700" aria-label="Close dialog">&times;</button>
         </div>

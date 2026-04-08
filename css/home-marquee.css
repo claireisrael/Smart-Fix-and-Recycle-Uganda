@@ -1,0 +1,51 @@
+/*
+  Single ticker band — no <marquee>, no second <p>.
+  Motion: two copies side-by-side, translate -50% (only one visual row).
+  Reduced motion: duplicate hidden, one wrapped line — still one band, no “ghost” line.
+*/
+.sfr-ticker {
+  overflow: hidden;
+  border-bottom: 1px solid rgba(6, 78, 59, 0.12);
+  background: linear-gradient(90deg, #047857 0%, #0d9488 50%, #d97706 100%);
+}
+
+.sfr-ticker-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.sfr-ticker-track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  will-change: transform;
+}
+
+.sfr-line {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0.4rem 0.75rem;
+  white-space: nowrap;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #f8fafc;
+}
+
+@media (min-width: 640px) {
+  .sfr-line {
+    font-size: 0.75rem;
+    padding: 0.45rem 0.85rem;
+  }
+}
+
+.sfr-line a {
+  color: #f8fafc;
+  text-decoration: underline;
+  text-decoration-color: rgba(248, 250, 252, 0.45);
+  text-underline-offset: 2px;
+}
+
+/* Motion: JS (home page inline script). Do not add prefers-reduced-motion rules here — they broke layout vs the script. */

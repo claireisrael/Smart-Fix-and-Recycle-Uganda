@@ -1,0 +1,57 @@
+/* Logo mark: visible on light navbars — size + soft edge shadow (not a box) */
+img.brand-mark-nav {
+  width: 3.5rem;
+  height: 3.5rem;
+  max-width: none;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+  filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.24))
+    drop-shadow(0 4px 14px rgba(15, 23, 42, 0.12));
+}
+
+@media (min-width: 640px) {
+  img.brand-mark-nav {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+/* Home / feature cards — larger mark, same edge definition */
+img.brand-mark-card {
+  width: 5rem;
+  height: 5rem;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.24))
+    drop-shadow(0 4px 14px rgba(15, 23, 42, 0.12));
+}
+
+@media (min-width: 640px) {
+  img.brand-mark-card {
+    width: 6rem;
+    height: 6rem;
+  }
+}
+
+/* Footer logo — readable on dark backgrounds */
+img.brand-mark-footer {
+  width: 3.25rem;
+  height: 3.25rem;
+  max-width: none;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35))
+    drop-shadow(0 0 20px rgba(16, 185, 129, 0.15));
+}
+
+@media (min-width: 640px) {
+  img.brand-mark-footer {
+    width: 3.75rem;
+    height: 3.75rem;
+  }
+}

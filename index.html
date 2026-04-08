@@ -5,13 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Smart Fix & Recycle Uganda | ICT Lifecycle Portal</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/brand.css"/>
+<link rel="stylesheet" href="css/home-marquee.css"/>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
   *{font-family:'Inter',sans-serif}
   /* Clean (white/gray) theme base */
   body{min-height:100vh;background:linear-gradient(180deg,#ffffff 0%,#f3f4f6 100%)}
   .glass{background:rgba(255,255,255,0.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(15,23,42,0.10)}
-  nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(15,23,42,0.08);box-shadow:0 10px 30px rgba(2,6,23,0.04)}
+  /* Calm gradient aligned with footer (emerald → teal → amber), light enough for nav links */
+  nav{
+    background:
+      linear-gradient(135deg, rgba(209, 250, 229, 0.52) 0%, rgba(204, 251, 241, 0.46) 45%, rgba(254, 243, 199, 0.5) 100%),
+      rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(16, 185, 129, 0.14);
+    box-shadow: 0 10px 28px rgba(6, 78, 59, 0.05);
+  }
   /* Remap previous "dark theme" text utilities to dark (so we don't rewrite all markup) */
   .text-white{color:rgb(15 23 42) !important}
   .text-white\/80{color:rgba(15,23,42,.80) !important}
@@ -28,9 +39,10 @@
     position:relative;
     background-image:
       linear-gradient(180deg, rgba(2,6,23,0.78) 0%, rgba(2,6,23,0.55) 55%, rgba(2,6,23,0.35) 100%),
-      url("./hero.jpg");
+      url("images/hero.jpg");
     background-size:cover;
-    background-position:center;
+    /* Tall / portrait assets: anchor so the top region stays visible when cropped */
+    background-position:center top;
     background-repeat:no-repeat;
   }
   .hero-bg::after{
@@ -57,7 +69,6 @@
   .nav-active{color:#9a3412;border-bottom:2px solid rgba(154,52,18,.55);border-radius:0;padding-bottom:8px} /* Action */
   .nav-active:hover{background:transparent;color:#9a3412}
   .nav-brand{display:flex;align-items:center;gap:10px}
-  .nav-logo{width:34px;height:34px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(34,197,94,.10);border:1px solid rgba(34,197,94,.20);color:rgb(22,163,74)}
   .nav-divider{width:1px;height:18px;background:rgba(15,23,42,.12)}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
   .fade-up{animation:fadeUp .6s ease forwards}
@@ -65,14 +76,60 @@
   .fade-up-3{animation:fadeUp .6s .3s ease both}
   ::-webkit-scrollbar{width:4px}
   ::-webkit-scrollbar-thumb{background:rgba(74,222,128,0.3);border-radius:4px}
+  /* Process road — light mint numbers (reference: soft, readable) */
+  .process-step-num{
+    font-size:clamp(2.75rem, 5.5vw, 3.5rem);
+    font-weight:500;
+    line-height:1.05;
+    letter-spacing:-0.02em;
+    color:rgb(167 243 208);
+  }
+  /* Process section: circular photo — anchor to top of image so faces stay in frame */
+  .process-visual-circle{
+    border-radius:50%;
+    box-shadow:0 20px 40px -16px rgb(15 23 42 / 0.12),0 0 0 1px rgb(241 245 249 / 0.9);
+  }
+  .process-visual-circle img{
+    object-fit:cover;
+    object-position:center top;
+  }
+  .team-slider{
+    -ms-overflow-style:none;
+    scrollbar-width:none;
+    scroll-behavior:smooth;
+  }
+  .team-slider::-webkit-scrollbar{display:none;}
+  /* Team heading: scroll-in from the right when #team-heading enters view (JS adds .is-visible) */
+  html.js-team-heading .team-heading-reveal:not(.is-visible){
+    opacity:0;
+    transform:translate3d(5rem,0,0);
+    will-change:transform,opacity;
+  }
+  html.js-team-heading .team-heading-reveal.is-visible{
+    will-change:auto;
+    animation:teamHeadingReveal 1s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  @keyframes teamHeadingReveal{
+    0%{opacity:0;transform:translate3d(5rem,0,0);}
+    100%{opacity:1;transform:translate3d(0,0,0);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html.js-team-heading .team-heading-reveal:not(.is-visible),
+    html.js-team-heading .team-heading-reveal.is-visible{
+      opacity:1!important;
+      transform:none!important;
+      animation:none!important;
+    }
+  }
 </style>
 </head>
 <body class="text-white">
+<script>document.documentElement.classList.add("js-team-heading");</script>
 
 <nav class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-3">
   <div class="max-w-7xl mx-auto flex items-center gap-3">
     <a href="index.html" class="nav-brand min-w-0 flex-shrink-0">
-      <span class="nav-logo">♻</span>
+      <img src="images/logo.png" alt="Smart Fix & Recycle" class="brand-mark-nav" width="64" height="64" loading="lazy" />
       <span class="font-semibold text-sm text-white whitespace-nowrap">Smart Fix & Recycle</span>
       <span class="nav-divider hidden sm:block"></span>
       <span class="text-white/40 text-xs hidden sm:block whitespace-nowrap">Uganda</span>
@@ -108,7 +165,7 @@
 </nav>
 
 <!-- HERO -->
-<div class="hero-bg min-h-screen pt-28 md:pt-36 pb-24 md:pb-32 px-4 text-center flex items-center">
+<div class="hero-bg min-h-screen pt-28 md:pt-36 pb-32 md:pb-44 px-4 text-center flex items-center">
   <div class="max-w-4xl mx-auto">
     <h1 class="fade-up-2 text-5xl md:text-6xl font-extrabold text-white leading-tight mb-6">
       Fix it. Recycle it.<br/><span class="text-green-400">Save Uganda.</span>
@@ -123,86 +180,363 @@
   </div>
 </div>
 
-<!-- STATS STRIP -->
-<div class="max-w-5xl mx-auto px-4 mb-16">
-  <div class="glass rounded-2xl grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-white/10">
-    <div class="p-6 text-center"><div class="text-3xl font-bold text-green-400">16K+</div><div class="text-xs text-white/50 mt-1">kg E-Waste Collected</div></div>
-    <div class="p-6 text-center"><div class="text-3xl font-bold text-blue-400">2,100+</div><div class="text-xs text-white/50 mt-1">Devices Repaired</div></div>
-    <div class="p-6 text-center"><div class="text-3xl font-bold text-purple-400">27K+</div><div class="text-xs text-white/50 mt-1">People Reached</div></div>
-    <div class="p-6 text-center"><div class="text-3xl font-bold text-emerald-400">18.2t</div><div class="text-xs text-white/50 mt-1">CO₂ Avoided</div></div>
+<!-- Attention strip: one band only — scrolling CSS loop OR one wrapped line (reduced motion). No <marquee>, no duplicate <p>. -->
+<div class="sfr-ticker" role="region" aria-label="What you can do on this portal">
+  <div class="sfr-ticker-viewport">
+    <div id="sfrTickerTrack" class="sfr-ticker-track">
+      <span class="sfr-line">Remote IT support — open a ticket anytime · Safe e-waste pickup — book a slot in minutes · Device guides — Tecno, Infinix, Samsung &amp; more · Track requests &amp; impact in your dashboard · <a href="mailto:ugandasmartfix@gmail.com">ugandasmartfix@gmail.com</a></span>
+      <span class="sfr-line sfr-line-dup" aria-hidden="true">Remote IT support — open a ticket anytime · Safe e-waste pickup — book a slot in minutes · Device guides — Tecno, Infinix, Samsung &amp; more · Track requests &amp; impact in your dashboard · <a href="mailto:ugandasmartfix@gmail.com" tabindex="-1">ugandasmartfix@gmail.com</a></span>
+    </div>
   </div>
 </div>
+<script>
+/* Home ticker: setInterval + setProperty(transform, …, "important") so Tailwind cannot win. Multiple boot timings fix cached pages where "load" already fired. */
+(function () {
+  var track = document.getElementById("sfrTickerTrack");
+  if (!track) return;
 
-<!-- NAV GUIDE / PAGE CARDS -->
-<div class="max-w-7xl mx-auto px-4 pb-20">
-  <h2 class="text-center text-white/40 text-xs uppercase tracking-widest mb-8 font-semibold">What would you like to do?</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+  var line = track.children[0];
+  var half = 0;
+  var x = 0;
+  var timer = null;
+  var pxPerTick = 1.1;
 
-    <a href="support.html" class="card-hover glass rounded-2xl p-6 border border-white/10 block">
-      <div class="text-3xl mb-4">🔧</div>
-      <h3 class="font-semibold text-white mb-2">Remote IT Support</h3>
-      <p class="text-xs text-white/50 leading-relaxed">Submit a triage request and get remote help from our engineers for your device or software issue.</p>
-      <div class="mt-4 text-xs text-green-400 font-medium">Get help →</div>
-    </a>
+  function measure() {
+    if (line && line.offsetWidth > 0) half = line.offsetWidth;
+    else half = Math.max(0, (track.scrollWidth || 0) / 2);
+  }
 
-    <a href="recycle.html" class="card-hover glass rounded-2xl p-6 border border-white/10 block">
-      <div class="text-3xl mb-4">♻</div>
-      <h3 class="font-semibold text-white mb-2">E-Waste Pickup</h3>
-      <p class="text-xs text-white/50 leading-relaxed">Schedule a pickup for old electronics. We'll come to you and ensure responsible recycling.</p>
-      <div class="mt-4 text-xs text-green-400 font-medium">Schedule →</div>
-    </a>
+  function step() {
+    if (half <= 0) measure();
+    if (half <= 0) return;
+    x -= pxPerTick;
+    if (x <= -half) x += half;
+    track.style.setProperty("transform", "translate3d(" + x + "px,0,0)", "important");
+  }
 
-    <a href="library.html" class="card-hover glass rounded-2xl p-6 border border-white/10 block">
-      <div class="text-3xl mb-4">📚</div>
-      <h3 class="font-semibold text-white mb-2">Self-Help Library</h3>
-      <p class="text-xs text-white/50 leading-relaxed">Troubleshooting guides for Tecno, Infinix, Samsung and more — written for Ugandan users.</p>
-      <div class="mt-4 text-xs text-green-400 font-medium">Browse guides →</div>
-    </a>
+  function start() {
+    measure();
+    if (half <= 0) return;
+    if (timer) clearInterval(timer);
+    timer = setInterval(step, 18);
+  }
 
-    <a href="safety.html" class="card-hover glass rounded-2xl p-6 border border-white/10 block">
-      <div class="text-3xl mb-4">🛡</div>
-      <h3 class="font-semibold text-white mb-2">Data Safety</h3>
-      <p class="text-xs text-white/50 leading-relaxed">Learn how to safely wipe your device before recycling to protect your personal data.</p>
-      <div class="mt-4 text-xs text-green-400 font-medium">Read article →</div>
-    </a>
+  function boot() {
+    measure();
+    if (half <= 0) measure();
+    start();
+  }
 
-    <a href="impact.html" class="card-hover glass rounded-2xl p-6 border border-white/10 block">
-      <div class="text-3xl mb-4">📊</div>
-      <h3 class="font-semibold text-white mb-2">National Impact</h3>
-      <p class="text-xs text-white/50 leading-relaxed">View live charts and metrics on Uganda's e-waste recovery and community impact progress.</p>
-      <div class="mt-4 text-xs text-green-400 font-medium">View tracker →</div>
-    </a>
+  function onReady() {
+    boot();
+    setTimeout(boot, 120);
+    setTimeout(boot, 400);
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(boot, 0);
+  });
+  if (document.readyState === "complete") onReady();
+  else window.addEventListener("load", onReady);
 
-    <a href="dashboard.html" class="card-hover glass rounded-2xl p-6 border border-white/10 block">
-      <div class="text-3xl mb-4">👤</div>
-      <h3 class="font-semibold text-white mb-2">My Dashboard</h3>
-      <p class="text-xs text-white/50 leading-relaxed">View your repair history, pickup requests, and personal impact contributions.</p>
-      <div class="mt-4 text-xs text-green-400 font-medium">My profile →</div>
-    </a>
+  window.addEventListener("resize", function () {
+    x = 0;
+    measure();
+  });
+})();
+</script>
 
-    <a href="about.html" class="card-hover glass rounded-2xl p-6 border border-white/10 block">
-      <div class="text-3xl mb-4">👨‍💻</div>
-      <h3 class="font-semibold text-white mb-2">Meet the Team</h3>
-      <p class="text-xs text-white/50 leading-relaxed">Seven engineers behind this platform — read their bios, roles, and contributions.</p>
-      <div class="mt-4 text-xs text-green-400 font-medium">Meet us →</div>
-    </a>
+<!-- OUR SERVICES — cards rendered by js/home-services.js -->
+<section id="services" class="relative scroll-mt-24 border-t border-slate-200/90 bg-white shadow-[0_-8px_40px_-12px_rgba(15,23,42,0.06)] mb-16 md:mb-20" aria-labelledby="home-services-heading">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 pt-20 pb-20 sm:pt-24 sm:pb-24 md:pt-28 md:pb-28 lg:pt-32">
+    <div class="mx-auto mb-12 max-w-2xl text-center sm:mb-14 md:mb-16">
+      <p class="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-orange-600 sm:text-xs">What we offer</p>
+      <h2 id="home-services-heading" class="mb-4 text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">Our Services</h2>
+      <p class="mx-auto max-w-xl text-base leading-relaxed text-slate-600 md:text-[17px]">
+        Remote support, responsible recycling, and practical guides — aligned with Uganda’s ICT and e-waste priorities, in one portal.
+      </p>
+    </div>
+    <div id="home-services-root" class="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-8"></div>
+  </div>
+</section>
 
-    <div class="glass rounded-2xl p-6 border border-green-500/20 bg-green-500/5">
-      <div class="text-3xl mb-4">🌍</div>
-      <h3 class="font-semibold text-green-300 mb-2">Our Mission</h3>
-      <p class="text-xs text-white/50 leading-relaxed">Solving Uganda's dual ICT crisis: IT support congestion and growing e-waste mismanagement.</p>
-      <div class="mt-4 text-xs text-green-400/60 font-medium">2026 Internet Technology Project · Kampala</div>
+<!-- PROCESS ROAD — clean two-column layout (Smart Fix & Recycle) -->
+<section id="process" class="scroll-mt-24 border-t border-slate-100 bg-white py-20 sm:py-24 md:py-28 lg:py-32" aria-labelledby="process-heading">
+  <div class="mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-2 lg:gap-20 xl:gap-24">
+    <div class="order-2 max-w-xl lg:order-1">
+      <div class="mb-8" aria-hidden="true">
+        <svg width="56" height="32" viewBox="0 0 56 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="11" width="10" height="10" rx="2" fill="#cbd5e1"/>
+          <rect x="23" y="11" width="10" height="10" rx="2" fill="#10b981"/>
+          <rect x="44" y="11" width="10" height="10" rx="2" fill="#cbd5e1"/>
+          <path d="M13 16h8M35 16h7" stroke="#94a3b8" stroke-width="1.25" stroke-linecap="round"/>
+          <path d="M44 16l5-3v6l-5-3z" fill="#94a3b8"/>
+        </svg>
+      </div>
+      <p class="mb-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-teal-600 sm:text-xs">About our platform</p>
+      <h2 id="process-heading" class="mb-12 text-[1.65rem] font-bold leading-[1.2] tracking-tight text-slate-900 sm:text-3xl md:text-[2rem] lg:mb-14 lg:text-[2.125rem]">
+        Our support &amp; recycling journey
+      </h2>
+      <ol class="list-none space-y-12 md:space-y-14" role="list">
+        <li class="flex gap-6 sm:gap-8 md:gap-10">
+          <span class="process-step-num w-[4.5rem] shrink-0 tabular-nums sm:w-[5rem]" aria-hidden="true">01.</span>
+          <div class="min-w-0 pt-0.5">
+            <h3 class="text-[1.05rem] font-bold leading-snug text-slate-900 sm:text-lg">Request IT help or e-waste pickup</h3>
+            <p class="mt-3 text-[0.9375rem] leading-[1.75] text-slate-500 sm:text-base">
+              Tell us what is wrong or what you want recycled — phones, PCs, batteries, cables — and where you are in Uganda. One form for support, another for collection.
+            </p>
+          </div>
+        </li>
+        <li class="flex gap-6 sm:gap-8 md:gap-10">
+          <span class="process-step-num w-[4.5rem] shrink-0 tabular-nums sm:w-[5rem]" aria-hidden="true">02.</span>
+          <div class="min-w-0 pt-0.5">
+            <h3 class="text-[1.05rem] font-bold leading-snug text-slate-900 sm:text-lg">We triage and set a time with you</h3>
+            <p class="mt-3 text-[0.9375rem] leading-[1.75] text-slate-500 sm:text-base">
+              We review your ticket, match you with an engineer for remote help, or confirm a pickup slot. You get clear next steps — no guesswork.
+            </p>
+          </div>
+        </li>
+        <li class="flex gap-6 sm:gap-8 md:gap-10">
+          <span class="process-step-num w-[4.5rem] shrink-0 tabular-nums sm:w-[5rem]" aria-hidden="true">03.</span>
+          <div class="min-w-0 pt-0.5">
+            <h3 class="text-[1.05rem] font-bold leading-snug text-slate-900 sm:text-lg">Resolve, recycle, and see your impact</h3>
+            <p class="mt-3 text-[0.9375rem] leading-[1.75] text-slate-500 sm:text-base">
+              Fix issues with guidance, wipe data safely, or hand devices in for responsible processing. Follow requests and personal impact in your dashboard.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </div>
+    <div class="relative order-1 mx-auto w-full max-w-[420px] lg:order-2 lg:mx-0 lg:max-w-none lg:justify-self-end">
+      <!-- Decorative accents (reference-style) -->
+      <span class="pointer-events-none absolute -left-1 top-8 z-10 h-2.5 w-2.5 rotate-12 rounded-sm bg-amber-300 sm:left-0 sm:top-12" aria-hidden="true"></span>
+      <span class="pointer-events-none absolute left-4 top-0 z-10 h-3.5 w-3.5 rounded-full bg-pink-200 sm:left-8" aria-hidden="true"></span>
+      <span class="pointer-events-none absolute -right-2 top-6 z-0 h-28 w-28 rounded-full border-2 border-teal-400/35 sm:-right-4 sm:top-4 sm:h-36 sm:w-36" aria-hidden="true"></span>
+      <span class="pointer-events-none absolute bottom-20 left-0 z-10 h-0 w-0 border-l-[9px] border-r-[9px] border-b-[15px] border-l-transparent border-r-transparent border-b-teal-500/70 sm:bottom-24" aria-hidden="true"></span>
+      <span class="pointer-events-none absolute bottom-8 left-6 z-10 h-7 w-7 rounded-full border-2 border-sky-400/50 sm:bottom-10 sm:h-8 sm:w-8" aria-hidden="true"></span>
+      <span class="pointer-events-none absolute bottom-4 right-10 z-10 h-2.5 w-2.5 rotate-45 bg-sky-500/70 sm:right-14" aria-hidden="true"></span>
+      <span class="pointer-events-none absolute -bottom-1 right-2 z-10 h-3 w-3 rotate-45 border border-slate-400/60 sm:right-4" aria-hidden="true"></span>
+      <div class="relative z-[1] mx-auto aspect-square w-full max-w-[min(100%,380px)] overflow-hidden process-visual-circle bg-slate-100 lg:max-w-[min(100%,440px)]">
+        <img
+          src="images/hero.jpg"
+          alt="Collaboration and technology — how Smart Fix &amp; Recycle serves Uganda"
+          class="h-full w-full"
+          width="440"
+          height="440"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUR TEAM — slider; names & roles match about.html -->
+<section id="team" class="scroll-mt-24 border-t border-slate-200/90 bg-slate-50 pt-20 pb-24 sm:pt-24 sm:pb-28" aria-labelledby="team-heading">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <div class="mx-auto mb-10 max-w-2xl text-center md:mb-12">
+      <h2 id="team-heading" class="team-heading-reveal text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">Our team</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600 md:text-lg">
+        Meet a team of expert people with <span class="font-medium text-slate-800">creative ideas</span> behind <span class="font-semibold text-slate-900">Smart Fix &amp; Recycle Uganda</span> — IT support, e-waste recycling, and the tech that connects them. Browse the cards, or read the full story on <a href="about.html" class="font-medium text-emerald-800 underline decoration-emerald-700/25 underline-offset-[3px] hover:text-emerald-900 hover:decoration-emerald-600">About</a>.
+      </p>
     </div>
 
+    <div class="relative">
+      <div class="flex items-stretch gap-3 sm:gap-4">
+        <button type="button" id="teamSliderPrev" class="flex shrink-0 self-center items-center justify-center rounded-full border border-slate-200 bg-white p-2 text-slate-600 shadow-sm transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800 sm:p-2.5" aria-label="Previous">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <div id="teamSlider" class="team-slider flex flex-1 gap-5 overflow-x-auto scroll-smooth pb-2 pt-1 snap-x snap-mandatory [-webkit-overflow-scrolling:touch]">
+      <article class="flex w-[min(100%,300px)] shrink-0 snap-start flex-col rounded-2xl border border-slate-200/90 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] transition-shadow hover:shadow-md sm:w-[280px]">
+        <div class="mx-auto mb-4 h-28 w-28 shrink-0 overflow-hidden rounded-full bg-slate-100 ring-2 ring-slate-100 sm:mx-0">
+          <img src="images/claire.png" alt="Kikaawa Nantume" class="h-full w-full object-cover object-top" width="112" height="112" loading="lazy" />
+        </div>
+        <h3 class="text-center text-lg font-bold text-slate-900 sm:text-left">Kikaawa Nantume</h3>
+        <p class="mt-1 flex items-center justify-center gap-1.5 text-xs font-semibold text-emerald-600 sm:justify-start">
+          <svg class="h-3.5 w-3.5 shrink-0 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A8.5 8.5 0 0112 21a8.5 8.5 0 01-9-8.5V9a2 2 0 012-2h1.5l1-2h9l1 2H21a2 2 0 012 2v4.255z"/></svg>
+          Team lead · Project manager
+        </p>
+        <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-600">Troubleshooting guides for Ugandan brands, library pages, and project coordination.</p>
+      </article>
+
+      <article class="flex w-[min(100%,300px)] shrink-0 snap-start flex-col rounded-2xl border border-slate-200/90 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] transition-shadow hover:shadow-md sm:w-[280px]">
+        <div class="mx-auto mb-4 h-28 w-28 shrink-0 overflow-hidden rounded-full bg-slate-100 ring-2 ring-slate-100 sm:mx-0">
+          <img src="images/claire.png" alt="Ogwang Emmanuel" class="h-full w-full object-cover object-top" width="112" height="112" loading="lazy" />
+        </div>
+        <h3 class="text-center text-lg font-bold text-slate-900 sm:text-left">Ogwang Emmanuel</h3>
+        <p class="mt-1 flex items-center justify-center gap-1.5 text-xs font-semibold text-sky-600 sm:justify-start">
+          <svg class="h-3.5 w-3.5 shrink-0 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/></svg>
+          Frontend · UI/UX
+        </p>
+        <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-600">Glass-style UI, support page flows, and shared styling across the site.</p>
+      </article>
+
+      <article class="flex w-[min(100%,300px)] shrink-0 snap-start flex-col rounded-2xl border border-slate-200/90 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] transition-shadow hover:shadow-md sm:w-[280px]">
+        <div class="mx-auto mb-4 h-28 w-28 shrink-0 overflow-hidden rounded-full bg-slate-100 ring-2 ring-slate-100 sm:mx-0">
+          <img src="images/claire.png" alt="Sseruyigo Aaron" class="h-full w-full object-cover object-top" width="112" height="112" loading="lazy" />
+        </div>
+        <h3 class="text-center text-lg font-bold text-slate-900 sm:text-left">Sseruyigo Aaron</h3>
+        <p class="mt-1 flex items-center justify-center gap-1.5 text-xs font-semibold text-violet-600 sm:justify-start">
+          <svg class="h-3.5 w-3.5 shrink-0 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A2 2 0 013 15.382V5.618a2 2 0 011.105-1.789l9-4.5a2 2 0 011.79 0l9 4.5a2 2 0 011.106 1.79v9.764a2 2 0 01-1.106 1.789L15 20M9 20v-8M9 12h6m6 8v-8"/></svg>
+          GIS &amp; maps
+        </p>
+        <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-600">Pickup scheduling, maps integration, and location flows for recycling.</p>
+      </article>
+
+      <article class="flex w-[min(100%,300px)] shrink-0 snap-start flex-col rounded-2xl border border-slate-200/90 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] transition-shadow hover:shadow-md sm:w-[280px]">
+        <div class="mx-auto mb-4 h-28 w-28 shrink-0 overflow-hidden rounded-full bg-slate-100 ring-2 ring-slate-100 sm:mx-0">
+          <img src="images/claire.png" alt="Claire Namagala" class="h-full w-full object-cover object-top" width="112" height="112" loading="lazy" />
+        </div>
+        <h3 class="text-center text-lg font-bold text-slate-900 sm:text-left">Claire Namagala</h3>
+        <p class="mt-1 flex items-center justify-center gap-1.5 text-xs font-semibold text-amber-600 sm:justify-start">
+          <svg class="h-3.5 w-3.5 shrink-0 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          Lead maintainer
+        </p>
+        <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-600">Architecture, deployment, and keeping the stack running end-to-end.</p>
+      </article>
+
+      <article class="flex w-[min(100%,300px)] shrink-0 snap-start flex-col rounded-2xl border border-slate-200/90 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] transition-shadow hover:shadow-md sm:w-[280px]">
+        <div class="mx-auto mb-4 h-28 w-28 shrink-0 overflow-hidden rounded-full bg-slate-100 ring-2 ring-slate-100 sm:mx-0">
+          <img src="images/claire.png" alt="Bazibu Yatifu" class="h-full w-full object-cover object-top" width="112" height="112" loading="lazy" />
+        </div>
+        <h3 class="text-center text-lg font-bold text-slate-900 sm:text-left">Bazibu Yatifu</h3>
+        <p class="mt-1 flex items-center justify-center gap-1.5 text-xs font-semibold text-rose-600 sm:justify-start">
+          <svg class="h-3.5 w-3.5 shrink-0 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+          QA &amp; compliance
+        </p>
+        <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-600">Safety content, data protection, and security reviews on forms.</p>
+      </article>
+
+      <article class="flex w-[min(100%,300px)] shrink-0 snap-start flex-col rounded-2xl border border-slate-200/90 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] transition-shadow hover:shadow-md sm:w-[280px]">
+        <div class="mx-auto mb-4 h-28 w-28 shrink-0 overflow-hidden rounded-full bg-slate-100 ring-2 ring-slate-100 sm:mx-0">
+          <img src="images/claire.png" alt="Ashaba Robert" class="h-full w-full object-cover object-top" width="112" height="112" loading="lazy" />
+        </div>
+        <h3 class="text-center text-lg font-bold text-slate-900 sm:text-left">Ashaba Robert</h3>
+        <p class="mt-1 flex items-center justify-center gap-1.5 text-xs font-semibold text-cyan-600 sm:justify-start">
+          <svg class="h-3.5 w-3.5 shrink-0 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v7.125c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 013 20.25v-7.125zm6.75-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v12c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125v-12zm6.75 2.25c0-.621.504-1.125 1.125-1.125h2.25C19.496 9 20 9.504 20 10.125v10.125c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V10.5z"/></svg>
+          Data &amp; visualisation
+        </p>
+        <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-600">Impact metrics, charts, and database work behind the tracker.</p>
+      </article>
+
+      <article class="flex w-[min(100%,300px)] shrink-0 snap-start flex-col rounded-2xl border border-slate-200/90 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] transition-shadow hover:shadow-md sm:w-[280px]">
+        <div class="mx-auto mb-4 h-28 w-28 shrink-0 overflow-hidden rounded-full bg-slate-100 ring-2 ring-slate-100 sm:mx-0">
+          <img src="images/claire.png" alt="Babirye Patience Laura" class="h-full w-full object-cover object-top" width="112" height="112" loading="lazy" />
+        </div>
+        <h3 class="text-center text-lg font-bold text-slate-900 sm:text-left">Babirye Patience Laura</h3>
+        <p class="mt-1 flex items-center justify-center gap-1.5 text-xs font-semibold text-orange-600 sm:justify-start">
+          <svg class="h-3.5 w-3.5 shrink-0 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3V6.75a3 3 0 013-3h13.5a3 3 0 013 3v4.5a3 3 0 01-3 3M5.25 14.25v4.125c0 .621.504 1.125 1.125 1.125h13.5c.621 0 1.125-.504 1.125-1.125V14.25M9 10.5h.008v.008H9V10.5zm3 0h.008v.008h-.008V10.5zm3 0h.008v.008h-.008V10.5z"/></svg>
+          Backend · Database lead
+        </p>
+        <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-600">Dashboard, APIs, authentication, and Neon PostgreSQL integration.</p>
+      </article>
+        </div>
+        <button type="button" id="teamSliderNext" class="flex shrink-0 self-center items-center justify-center rounded-full border border-slate-200 bg-white p-2 text-slate-600 shadow-sm transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800 sm:p-2.5" aria-label="Next">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+      <p class="mt-3 text-center text-xs text-slate-400 sm:hidden">Swipe sideways to see more</p>
+    </div>
   </div>
-</div>
+</section>
 
-<footer class="text-center text-xs text-white/25 pb-8">&copy;Smart Fix & Recycle Uganda · 2026 group G Class Project · Kampala</footer>
+<footer class="border-t border-emerald-900/20 bg-gradient-to-br from-emerald-600 via-teal-600 to-amber-500 text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]" role="contentinfo">
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+      <div class="sm:col-span-2 lg:col-span-1">
+        <a href="index.html" class="inline-flex items-center gap-3">
+          <img src="images/logo.png" alt="" class="brand-mark-footer" width="60" height="60" loading="lazy" />
+          <span class="text-base font-semibold text-slate-50">Smart Fix &amp; Recycle</span>
+        </a>
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-slate-100/85">
+          ICT support, repair guides, and responsible e-waste collection for households and organisations in Uganda.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-100/70">Services</h2>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          <li><a href="support.html" class="text-slate-50 transition hover:underline">Device support</a></li>
+          <li><a href="recycle.html" class="text-slate-50 transition hover:underline">E-waste recycling</a></li>
+          <li><a href="library.html" class="text-slate-50 transition hover:underline">Guide library</a></li>
+          <li><a href="index.html#services" class="text-slate-50 transition hover:underline">Our services</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-100/70">Organisation</h2>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          <li><a href="impact.html" class="text-slate-50 transition hover:underline">Impact &amp; metrics</a></li>
+          <li><a href="safety.html" class="text-slate-50 transition hover:underline">Safety &amp; privacy</a></li>
+          <li><a href="about.html" class="text-slate-50 transition hover:underline">About the team</a></li>
+          <li><a href="dashboard.html" class="text-slate-50 transition hover:underline">Member dashboard</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-100/70">Contact</h2>
+        <address class="mt-4 not-italic text-sm leading-relaxed text-slate-100/85">
+          <p>Kampala, Uganda</p>
+          <p class="mt-2">
+            <a href="mailto:ugandasmartfix@gmail.com" class="text-slate-50 underline decoration-slate-100/40 underline-offset-2 transition hover:decoration-slate-50">ugandasmartfix@gmail.com</a>
+          </p>
+          <p class="mt-2">
+            <a href="support.html" class="text-slate-50 transition hover:underline">Get help &amp; enquiries</a>
+          </p>
+        </address>
+      </div>
+    </div>
+  </div>
+</footer>
 
+<script src="./js/home-services.js"></script>
 <script src="./js/auth.js"></script>
 <script>
-  SFRAuth.mountNavbar('authNavSlot');
-  SFRAuth.mountNavbar('authNavSlotMobile');
+  try {
+    if (typeof SFRAuth !== "undefined") {
+      SFRAuth.mountNavbar("authNavSlot");
+      SFRAuth.mountNavbar("authNavSlotMobile");
+    }
+  } catch (e) {}
+</script>
+<script>
+(function () {
+  var track = document.getElementById("teamSlider");
+  var prev = document.getElementById("teamSliderPrev");
+  var next = document.getElementById("teamSliderNext");
+  if (!track || !prev || !next) return;
+  function step() {
+    var card = track.querySelector("article");
+    if (!card) return 300;
+    var gap = 20;
+    var cs = window.getComputedStyle(track);
+    var g = parseFloat(cs.columnGap || cs.gap) || gap;
+    return card.getBoundingClientRect().width + g;
+  }
+  prev.addEventListener("click", function () {
+    track.scrollBy({ left: -step(), behavior: "smooth" });
+  });
+  next.addEventListener("click", function () {
+    track.scrollBy({ left: step(), behavior: "smooth" });
+  });
+})();
+
+(function () {
+  var heading = document.getElementById("team-heading");
+  if (!heading) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    heading.classList.add("is-visible");
+    return;
+  }
+  /* Observe the heading, not the whole section — a tall #team meant threshold:0.15 on the
+     section rarely fired until far below the heading. */
+  var obs = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        heading.classList.add("is-visible");
+        obs.unobserve(heading);
+      });
+    },
+    { root: null, rootMargin: "0px 0px -8% 0px", threshold: 0 }
+  );
+  obs.observe(heading);
+})();
 </script>
 </body>
 </html>

@@ -132,14 +132,22 @@ h1#site-name.sfr-admin-branding {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  font-size: 1.35rem;
-  line-height: 1;
-  border-radius: 0.65rem;
-  background: rgba(248, 250, 252, 0.08);
-  border: 1px solid rgba(248, 250, 252, 0.25);
+  width: 3.75rem;
+  height: 3.75rem;
   flex-shrink: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.sfr-admin-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.24))
+    drop-shadow(0 4px 14px rgba(15, 23, 42, 0.12));
 }
 
 .sfr-admin-brand-text {
