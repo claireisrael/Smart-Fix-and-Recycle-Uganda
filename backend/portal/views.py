@@ -9,6 +9,7 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import secrets
+import logging
 
 from .models import SupportRequest, PickupRequest, PasswordResetCode, EmailVerificationToken, Payment
 from .serializers import (
@@ -23,6 +24,8 @@ from .serializers import (
     AdminPaymentSerializer,
     VerifyEmailCodeSerializer,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class RegisterView(generics.CreateAPIView):
@@ -48,20 +51,27 @@ class RegisterView(generics.CreateAPIView):
         if settings.DEBUG:
             print(f"[DEBUG] Email verification link for {user.email}: {verify_url}")
             print(f"[DEBUG] Email verification code for {user.email}: {code}")
-        send_mail(
-            subject="Verify your Smart Fix & Recycle Uganda account",
-            message=(
-                "Welcome to Smart Fix & Recycle Uganda.\n\n"
-                "Please verify your email using either method below:\n\n"
-                f"1) Verification code: {code}\n"
-                "   Enter this code on the verification screen.\n\n"
-                f"2) Verification link:\n{verify_url}\n\n"
-                "If you didn’t create this account, you can ignore this email."
-            ),
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[user.email],
-            fail_silently=False,
-        )
+
+        try:
+            logger.info("Sending verification email to=%s from=%s", user.email, settings.DEFAULT_FROM_EMAIL)
+            send_mail(
+                subject="Verify your Smart Fix & Recycle Uganda account",
+                message=(
+                    "Welcome to Smart Fix & Recycle Uganda.\n\n"
+                    "Please verify your email using either method below:\n\n"
+                    f"1) Verification code: {code}\n"
+                    "   Enter this code on the verification screen.\n\n"
+                    f"2) Verification link:\n{verify_url}\n\n"
+                    "If you didn’t create this account, you can ignore this email."
+                ),
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[user.email],
+                fail_silently=False,
+            )
+            logger.info("Verification email sent to=%s", user.email)
+        except Exception:
+            logger.exception("Verification email failed to=%s", user.email)
+            raise
 
 
 class SupportRequestCreateView(generics.CreateAPIView):
@@ -173,19 +183,26 @@ class ForgotPasswordView(APIView):
         reset_url = f"{settings.FRONTEND_BASE_URL}/pages/login.html#forgot"
         if settings.DEBUG:
             print(f"[DEBUG] Password reset code for {user.email}: {reset.code}")
-        send_mail(
-            subject="Smart Fix & Recycle Uganda password reset code",
-            message=(
-                "Use the code below to reset your password:\n\n"
-                f"{reset.code}\n\n"
-                "This code expires in 10 minutes.\n\n"
-                f"Reset page: {reset_url}\n\n"
-                "If you didn’t request a reset, you can ignore this email."
-            ),
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[user.email],
-            fail_silently=False,
-        )
+
+        try:
+            logger.info("Sending password reset email to=%s from=%s", user.email, settings.DEFAULT_FROM_EMAIL)
+            send_mail(
+                subject="Smart Fix & Recycle Uganda password reset code",
+                message=(
+                    "Use the code below to reset your password:\n\n"
+                    f"{reset.code}\n\n"
+                    "This code expires in 10 minutes.\n\n"
+                    f"Reset page: {reset_url}\n\n"
+                    "If you didn’t request a reset, you can ignore this email."
+                ),
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[user.email],
+                fail_silently=False,
+            )
+            logger.info("Password reset email sent to=%s", user.email)
+        except Exception:
+            logger.exception("Password reset email failed to=%s", user.email)
+            raise
 
         return Response({"detail": "If an account exists for that email, a reset code has been sent."})
 
@@ -304,18 +321,24 @@ class ResendVerificationView(APIView):
         if settings.DEBUG:
             print(f"[DEBUG] Resent verification link for {user.email}: {verify_url}")
             print(f"[DEBUG] Resent verification code for {user.email}: {code}")
-        send_mail(
-            subject="Verify your Smart Fix & Recycle Uganda account (resend)",
-            message=(
-                "Use the verification code below (recommended):\n\n"
-                f"{code}\n\n"
-                "Or click this link:\n"
-                f"{verify_url}\n"
-            ),
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[user.email],
-            fail_silently=False,
-        )
+        try:
+            logger.info("Resending verification email to=%s from=%s", user.email, settings.DEFAULT_FROM_EMAIL)
+            send_mail(
+                subject="Verify your Smart Fix & Recycle Uganda account (resend)",
+                message=(
+                    "Use the verification code below (recommended):\n\n"
+                    f"{code}\n\n"
+                    "Or click this link:\n"
+                    f"{verify_url}\n"
+                ),
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[user.email],
+                fail_silently=False,
+            )
+            logger.info("Resent verification email sent to=%s", user.email)
+        except Exception:
+            logger.exception("Resend verification email failed to=%s", user.email)
+            raise
         return Response({"detail": "Verification email resent."})
 
 
