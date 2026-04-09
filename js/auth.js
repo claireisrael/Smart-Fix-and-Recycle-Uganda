@@ -16,7 +16,23 @@
     authModalMode: "sfr_auth_modal_mode",
   };
 
-  const API_BASE = localStorage.getItem("SFR_API_BASE") || "http://127.0.0.1:8000";
+  function computeDefaultApiBase() {
+    try {
+      const host = window.location.hostname || "";
+      // Local dev (Live Server, etc.)
+      if (host === "localhost" || host === "127.0.0.1") return "http://127.0.0.1:8000";
+
+      // Production: frontend is deployed separately (e.g. Vercel) and must call the Render API.
+      return "https://smart-fix-and-recycle-uganda.onrender.com";
+    } catch {
+      return "http://127.0.0.1:8000";
+    }
+  }
+
+  const API_BASE =
+    window.SFR_API_BASE ||
+    localStorage.getItem("SFR_API_BASE") ||
+    computeDefaultApiBase();
 
   async function api(path, opts) {
     const res = await fetch(API_BASE + path, {
