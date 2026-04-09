@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     # third-party
     "corsheaders",
     "rest_framework",
+    "anymail",
     # local
     "portal.apps.PortalConfig",
 ]
@@ -104,11 +105,17 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER or "no-reply@smartfix.local")
 
+# SendGrid (Email API over HTTPS). Use this in production to avoid SMTP port blocks.
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", "").strip()
+if SENDGRID_API_KEY:
+    EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
+    ANYMAIL = {"SENDGRID_API_KEY": SENDGRID_API_KEY}
+
 # Frontend URL used in verification links
 FRONTEND_BASE_URL = os.environ.get("FRONTEND_BASE_URL", "http://127.0.0.1:5500")
 
 # In local dev, if SMTP isn't configured, print emails to console instead of failing
-if DEBUG and (not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD):
+if DEBUG and (not SENDGRID_API_KEY) and (not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD):
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
