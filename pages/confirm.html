@@ -9,15 +9,7 @@
 </head>
 <body class="auth-shell">
 
-<nav class="auth-nav fixed left-0 right-0 top-0 z-50">
-  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
-    <a href="../index.html" class="flex items-center gap-2.5">
-      <img src="../images/logo.png" alt="" class="brand-mark-nav" width="64" height="64" loading="lazy" />
-      <span class="text-sm font-bold text-slate-900">Smart Fix & Recycle</span>
-    </a>
-    <div id="authNavSlot"></div>
-  </div>
-</nav>
+<div id="siteNav"></div>
 
 <main class="flex min-h-[calc(100vh-5rem)] items-center justify-center px-4 pb-12 pt-20">
   <div class="w-full max-w-[340px]">
@@ -58,7 +50,7 @@
 
 <script src="../js/auth.js"></script>
 <script>
-  SFRAuth.mountNavbar("authNavSlot");
+  SFRAuth.mountSiteNavbar({ targetId: "siteNav", active: "" });
   SFRAuth.handleConfirm("confirmForm", "alert", "hint");
   document.getElementById("resendBtn")?.addEventListener("click", function () {
     SFRAuth.handleResendVerification?.("alert");
