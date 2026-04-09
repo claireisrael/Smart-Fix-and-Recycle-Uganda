@@ -53,6 +53,7 @@ class RegisterView(generics.CreateAPIView):
             print(f"[DEBUG] Email verification code for {user.email}: {code}")
 
         try:
+            print(f"[EMAIL] sending verification to={user.email} from={settings.DEFAULT_FROM_EMAIL}")
             logger.info("Sending verification email to=%s from=%s", user.email, settings.DEFAULT_FROM_EMAIL)
             send_mail(
                 subject="Verify your Smart Fix & Recycle Uganda account",
@@ -68,8 +69,10 @@ class RegisterView(generics.CreateAPIView):
                 recipient_list=[user.email],
                 fail_silently=False,
             )
+            print(f"[EMAIL] verification sent to={user.email}")
             logger.info("Verification email sent to=%s", user.email)
         except Exception:
+            print(f"[EMAIL] verification FAILED to={user.email}")
             logger.exception("Verification email failed to=%s", user.email)
             raise
 
@@ -185,6 +188,7 @@ class ForgotPasswordView(APIView):
             print(f"[DEBUG] Password reset code for {user.email}: {reset.code}")
 
         try:
+            print(f"[EMAIL] sending password reset to={user.email} from={settings.DEFAULT_FROM_EMAIL}")
             logger.info("Sending password reset email to=%s from=%s", user.email, settings.DEFAULT_FROM_EMAIL)
             send_mail(
                 subject="Smart Fix & Recycle Uganda password reset code",
@@ -199,8 +203,10 @@ class ForgotPasswordView(APIView):
                 recipient_list=[user.email],
                 fail_silently=False,
             )
+            print(f"[EMAIL] password reset sent to={user.email}")
             logger.info("Password reset email sent to=%s", user.email)
         except Exception:
+            print(f"[EMAIL] password reset FAILED to={user.email}")
             logger.exception("Password reset email failed to=%s", user.email)
             raise
 
@@ -322,6 +328,7 @@ class ResendVerificationView(APIView):
             print(f"[DEBUG] Resent verification link for {user.email}: {verify_url}")
             print(f"[DEBUG] Resent verification code for {user.email}: {code}")
         try:
+            print(f"[EMAIL] resending verification to={user.email} from={settings.DEFAULT_FROM_EMAIL}")
             logger.info("Resending verification email to=%s from=%s", user.email, settings.DEFAULT_FROM_EMAIL)
             send_mail(
                 subject="Verify your Smart Fix & Recycle Uganda account (resend)",
@@ -335,8 +342,10 @@ class ResendVerificationView(APIView):
                 recipient_list=[user.email],
                 fail_silently=False,
             )
+            print(f"[EMAIL] resent verification sent to={user.email}")
             logger.info("Resent verification email sent to=%s", user.email)
         except Exception:
+            print(f"[EMAIL] resend verification FAILED to={user.email}")
             logger.exception("Resend verification email failed to=%s", user.email)
             raise
         return Response({"detail": "Verification email resent."})
