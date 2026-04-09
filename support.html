@@ -59,6 +59,7 @@
     <p class="text-blue-400 text-xs font-medium uppercase tracking-widest mb-2">🔧 Remote Triage</p>
     <h1 class="text-3xl font-bold mb-2">IT Help & Support</h1>
     <p class="text-white/50 text-sm">Describe your issue and our engineers will respond within 24 hours.</p>
+    <p class="mt-2 text-xs text-white/40">Sign in to submit — requests are tied to your account and appear in your dashboard.</p>
   </div>
 
   <!-- How it works -->
@@ -83,7 +84,7 @@
   <!-- Support Form -->
   <div class="glass rounded-2xl p-8 border border-white/10 mb-10">
     <h2 class="text-lg font-semibold mb-6">Submit a Support Request</h2>
-    <form id="supportForm" method="POST" action="/api/support" class="space-y-5">
+    <form id="supportForm" method="post" action="#" class="space-y-5">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
           <label class="text-xs text-white/50 mb-1.5 block">Full Name *</label>
@@ -127,13 +128,14 @@
           <option>Entebbe</option><option>Jinja</option><option>Gulu</option><option>Mbarara</option><option>Other</option>
         </select>
       </div>
-      <button type="submit" class="w-full bg-orange-500 hover:bg-orange-400 text-black font-semibold py-3 rounded-xl text-sm transition">
+      <p id="supportError" class="hidden rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200" role="alert"></p>
+      <button type="submit" id="supportSubmitBtn" class="w-full bg-orange-500 hover:bg-orange-400 text-black font-semibold py-3 rounded-xl text-sm transition disabled:cursor-not-allowed disabled:opacity-60">
         Submit Support Request →
       </button>
-      <p class="text-xs text-white/30 text-center">Your data is handled securely via POST. We never share your information.</p>
+      <p class="text-xs text-white/30 text-center">Your data is sent securely to our servers. We never sell your information.</p>
     </form>
     <div id="successMsg" class="hidden mt-4 glass rounded-xl p-4 border border-green-500/30 text-green-300 text-sm text-center">
-      ✅ Request submitted! An engineer will contact you within 24 hours.
+      Request submitted. An engineer will contact you within 24 hours. You can track status under <strong>My tickets</strong> on your dashboard.
     </div>
   </div>
 
@@ -166,27 +168,50 @@
 <script src="./js/auth.js"></script>
 <script>
   SFRAuth.mountNavbar('authNavSlot');
-  document.getElementById('supportForm').addEventListener('submit', function(e){
+  document.getElementById('supportForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    if(!SFRAuth.requireAuth({role:'user'})) return;
+    if (!SFRAuth.requireAuth()) return;
 
-    const form = this;
-    const payload = {
-      name: form.name.value,
-      contact: form.contact.value,
+    var form = this;
+    var errEl = document.getElementById('supportError');
+    var okEl = document.getElementById('successMsg');
+    var btn = document.getElementById('supportSubmitBtn');
+
+    errEl.classList.add('hidden');
+    errEl.textContent = '';
+    okEl.classList.add('hidden');
+
+    var payload = {
+      name: form.name.value.trim(),
+      contact: form.contact.value.trim(),
       brand: form.brand.value,
       category: form.category.value,
-      description: form.description.value,
-      district: form.district.value || "",
+      description: form.description.value.trim(),
+      district: form.district.value || '',
     };
 
-    (async () => {
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    (async function () {
       try {
         await SFRAuth.apiCreateSupport(payload);
-        document.getElementById('successMsg').classList.remove('hidden');
+        okEl.classList.remove('hidden');
         form.reset();
       } catch (err) {
-        alert(err?.message || 'Could not submit request. Are you logged in?');
+        var msg = err && err.message ? err.message : 'Could not submit.';
+        if (err && err.status === 401) msg = 'Session expired. Please sign in again.';
+        if (err && err.status === 403) msg = 'You do not have permission to submit.';
+        if (err && err.data && typeof err.data === 'object') {
+          var d = err.data;
+          if (d.detail) msg = typeof d.detail === 'string' ? d.detail : JSON.stringify(d.detail);
+          else if (d.non_field_errors) msg = Array.isArray(d.non_field_errors) ? d.non_field_errors.join(' ') : String(d.non_field_errors);
+        }
+        errEl.textContent = msg;
+        errEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Submit Support Request →';
       }
     })();
   });

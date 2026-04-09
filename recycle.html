@@ -63,6 +63,7 @@
     </div>
     <h1 class="text-3xl font-bold mb-2">Schedule a Recycling Pickup</h1>
     <p class="text-white/50 text-sm">We collect your old electronics, laptops, phones, and appliances — responsibly and for free.</p>
+    <p class="mt-2 text-xs text-white/40">Sign in to book — pickups are tied to your account and appear on your dashboard.</p>
   </div>
 
   <!-- What we accept -->
@@ -84,18 +85,18 @@
     <!-- Pickup form -->
     <div class="glass rounded-2xl p-6 border border-white/10">
       <h2 class="text-lg font-semibold mb-5">Book Your Pickup</h2>
-      <form id="recycleForm" class="space-y-4">
+      <form id="recycleForm" method="post" action="#" class="space-y-4">
         <div>
           <label class="text-xs text-white/50 mb-1.5 block">Full Name *</label>
-          <input type="text" placeholder="Your full name" required/>
+          <input type="text" name="name" placeholder="Your full name" required/>
         </div>
         <div>
           <label class="text-xs text-white/50 mb-1.5 block">Phone Number *</label>
-          <input type="tel" placeholder="+256 7XX XXX XXX" required/>
+          <input type="tel" name="phone" placeholder="+256 7XX XXX XXX" required/>
         </div>
         <div>
           <label class="text-xs text-white/50 mb-1.5 block">District *</label>
-          <select required>
+          <select name="district" required>
             <option value="">Select district…</option>
             <option>Kampala Central</option><option>Nakawa</option><option>Makindye</option>
             <option>Rubaga</option><option>Kawempe</option><option>Wakiso</option>
@@ -104,20 +105,21 @@
         </div>
         <div>
           <label class="text-xs text-white/50 mb-1.5 block">Street / Landmark *</label>
-          <input type="text" placeholder="e.g. Opposite Nakawa Market, Gate 3" required/>
+          <input type="text" name="landmark" placeholder="e.g. Opposite Nakawa Market, Gate 3" required/>
         </div>
         <div>
           <label class="text-xs text-white/50 mb-1.5 block">Items to Recycle *</label>
-          <textarea rows="3" placeholder="List items: e.g. 2 old phones, 1 broken laptop, cables…" required></textarea>
+          <textarea name="items" rows="3" placeholder="List items: e.g. 2 old phones, 1 broken laptop, cables…" required></textarea>
         </div>
         <div>
           <label class="text-xs text-white/50 mb-1.5 block">Preferred Pickup Date</label>
-          <input type="date"/>
+          <input type="date" name="preferred_date"/>
         </div>
-        <button type="submit" class="w-full bg-orange-500 hover:bg-orange-400 text-black font-semibold py-3 rounded-xl text-sm transition">Book Pickup →</button>
+        <p id="recycleError" class="hidden rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200" role="alert"></p>
+        <button type="submit" id="recycleSubmitBtn" class="w-full bg-orange-500 hover:bg-orange-400 text-black font-semibold py-3 rounded-xl text-sm transition disabled:cursor-not-allowed disabled:opacity-60">Book Pickup →</button>
       </form>
       <div id="recycleSuccess" class="hidden mt-4 glass rounded-xl p-4 border border-green-500/30 text-green-300 text-sm text-center">
-        ✅ Pickup booked! We'll confirm via SMS within 2 hours.
+        Pickup booked! We’ll confirm via SMS within 2 hours. Track it under <strong>My pickup requests</strong> on your dashboard.
       </div>
     </div>
 
@@ -176,32 +178,54 @@
 </main>
 
 <footer class="text-center text-xs text-white/25 pb-8">&copy;Smart Fix & Recycle Uganda · 2026 group G Class Project . Kampala</footer>
-</footer>
 <script src="./js/auth.js"></script>
 <script>
   SFRAuth.mountNavbar('authNavSlot');
-  document.getElementById('recycleForm').addEventListener('submit',function(e){
+  document.getElementById('recycleForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    if(!SFRAuth.requireAuth({role:'user'})) return;
+    if (!SFRAuth.requireAuth()) return;
 
-    const form = this;
-    const inputs = form.querySelectorAll('input, select, textarea');
-    const name = inputs[0].value;
-    const phone = inputs[1].value;
-    const district = inputs[2].value;
-    const landmark = inputs[3].value;
-    const items = inputs[4].value;
-    const preferredDate = inputs[5].value || null;
+    var form = this;
+    var errEl = document.getElementById('recycleError');
+    var okEl = document.getElementById('recycleSuccess');
+    var btn = document.getElementById('recycleSubmitBtn');
 
-    const payload = { name, phone, district, landmark, items, preferred_date: preferredDate };
+    errEl.classList.add('hidden');
+    errEl.textContent = '';
+    okEl.classList.add('hidden');
 
-    (async () => {
+    var pref = form.preferred_date.value.trim();
+    var payload = {
+      name: form.name.value.trim(),
+      phone: form.phone.value.trim(),
+      district: form.district.value,
+      landmark: form.landmark.value.trim(),
+      items: form.items.value.trim(),
+      preferred_date: pref ? pref : null,
+    };
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    (async function () {
       try {
         await SFRAuth.apiCreatePickup(payload);
-        document.getElementById('recycleSuccess').classList.remove('hidden');
+        okEl.classList.remove('hidden');
         form.reset();
       } catch (err) {
-        alert(err?.message || 'Could not book pickup. Are you logged in?');
+        var msg = err && err.message ? err.message : 'Could not book pickup.';
+        if (err && err.status === 401) msg = 'Session expired. Please sign in again.';
+        if (err && err.status === 403) msg = 'You do not have permission to book a pickup.';
+        if (err && err.data && typeof err.data === 'object') {
+          var d = err.data;
+          if (d.detail) msg = typeof d.detail === 'string' ? d.detail : JSON.stringify(d.detail);
+          else if (d.non_field_errors) msg = Array.isArray(d.non_field_errors) ? d.non_field_errors.join(' ') : String(d.non_field_errors);
+        }
+        errEl.textContent = msg;
+        errEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Book Pickup →';
       }
     })();
   });
