@@ -4,12 +4,21 @@
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>E-Waste Pickup | Smart Fix & Recycle Uganda</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/brand.css"/>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
   *{font-family:'Inter',sans-serif}
   body{min-height:100vh;background:linear-gradient(180deg,#ffffff 0%,#f3f4f6 100%)}
   .glass{background:rgba(255,255,255,0.72);backdrop-filter:blur(16px);border:1px solid rgba(15,23,42,0.10)}
-  nav{background:rgba(255,255,255,0.82);backdrop-filter:blur(20px);border-bottom:1px solid rgba(15,23,42,0.08)}
+  nav{
+    background:
+      linear-gradient(135deg, rgba(209, 250, 229, 0.52) 0%, rgba(204, 251, 241, 0.46) 45%, rgba(254, 243, 199, 0.5) 100%),
+      rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(16, 185, 129, 0.14);
+    box-shadow: 0 10px 28px rgba(6, 78, 59, 0.05);
+  }
   .text-white{color:rgb(15 23 42) !important}
   .text-white\/80{color:rgba(15,23,42,.80) !important}
   .text-white\/70{color:rgba(15,23,42,.70) !important}
@@ -32,7 +41,7 @@
 
 <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
   <div class="max-w-7xl mx-auto flex items-center gap-4">
-    <a href="index.html" class="flex items-center gap-2 flex-shrink-0"><span class="text-green-400 text-xl">♻</span><span class="font-semibold text-sm">Smart Fix & Recycle</span><span class="text-white/40 text-xs hidden sm:block">Uganda</span></a>
+    <a href="index.html" class="flex items-center gap-2 flex-shrink-0"><img src="images/logo.png" alt="" class="brand-mark-nav" width="64" height="64" loading="lazy" /><span class="font-semibold text-sm">Smart Fix & Recycle</span><span class="text-white/40 text-xs hidden sm:block">Uganda</span></a>
     <div class="hidden md:flex flex-1 min-w-0 items-center justify-end gap-6 text-xs text-white/60 font-medium">
       <a href="index.html" class="hover:text-white transition">Home</a>
       <a href="support.html" class="hover:text-white transition">Support</a>
@@ -48,9 +57,13 @@
 
 <main class="pt-28 pb-16 px-4 max-w-6xl mx-auto">
   <div class="mb-8">
-    <p class="text-green-400 text-xs font-medium uppercase tracking-widest mb-2">♻ E-Waste Pickup</p>
+    <div class="mb-6 flex flex-wrap items-center gap-3">
+      <img src="images/logo.png" alt="" class="brand-mark-nav" width="64" height="64" loading="lazy" />
+      <p class="text-green-400 text-xs font-medium uppercase tracking-widest">E-Waste Pickup</p>
+    </div>
     <h1 class="text-3xl font-bold mb-2">Schedule a Recycling Pickup</h1>
     <p class="text-white/50 text-sm">We collect your old electronics, laptops, phones, and appliances — responsibly and for free.</p>
+    <p class="mt-2 text-xs text-white/40">Sign in to book — pickups are tied to your account and appear on your dashboard.</p>
   </div>
 
   <!-- What we accept -->
@@ -72,18 +85,18 @@
     <!-- Pickup form -->
     <div class="glass rounded-2xl p-6 border border-white/10">
       <h2 class="text-lg font-semibold mb-5">Book Your Pickup</h2>
-      <form id="recycleForm" class="space-y-4">
+      <form id="recycleForm" method="post" action="#" class="space-y-4">
         <div>
           <label class="text-xs text-white/50 mb-1.5 block">Full Name *</label>
-          <input type="text" placeholder="Your full name" required/>
+          <input type="text" name="name" placeholder="Your full name" required/>
         </div>
         <div>
           <label class="text-xs text-white/50 mb-1.5 block">Phone Number *</label>
-          <input type="tel" placeholder="+256 7XX XXX XXX" required/>
+          <input type="tel" name="phone" placeholder="+256 7XX XXX XXX" required/>
         </div>
         <div>
           <label class="text-xs text-white/50 mb-1.5 block">District *</label>
-          <select required>
+          <select name="district" required>
             <option value="">Select district…</option>
             <option>Kampala Central</option><option>Nakawa</option><option>Makindye</option>
             <option>Rubaga</option><option>Kawempe</option><option>Wakiso</option>
@@ -92,20 +105,21 @@
         </div>
         <div>
           <label class="text-xs text-white/50 mb-1.5 block">Street / Landmark *</label>
-          <input type="text" placeholder="e.g. Opposite Nakawa Market, Gate 3" required/>
+          <input type="text" name="landmark" placeholder="e.g. Opposite Nakawa Market, Gate 3" required/>
         </div>
         <div>
           <label class="text-xs text-white/50 mb-1.5 block">Items to Recycle *</label>
-          <textarea rows="3" placeholder="List items: e.g. 2 old phones, 1 broken laptop, cables…" required></textarea>
+          <textarea name="items" rows="3" placeholder="List items: e.g. 2 old phones, 1 broken laptop, cables…" required></textarea>
         </div>
         <div>
           <label class="text-xs text-white/50 mb-1.5 block">Preferred Pickup Date</label>
-          <input type="date"/>
+          <input type="date" name="preferred_date"/>
         </div>
-        <button type="submit" class="w-full bg-orange-500 hover:bg-orange-400 text-black font-semibold py-3 rounded-xl text-sm transition">Book Pickup →</button>
+        <p id="recycleError" class="hidden rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200" role="alert"></p>
+        <button type="submit" id="recycleSubmitBtn" class="w-full bg-orange-500 hover:bg-orange-400 text-black font-semibold py-3 rounded-xl text-sm transition disabled:cursor-not-allowed disabled:opacity-60">Book Pickup →</button>
       </form>
       <div id="recycleSuccess" class="hidden mt-4 glass rounded-xl p-4 border border-green-500/30 text-green-300 text-sm text-center">
-        ✅ Pickup booked! We'll confirm via SMS within 2 hours.
+        Pickup booked! We’ll confirm via SMS within 2 hours. Track it under <strong>My pickup requests</strong> on your dashboard.
       </div>
     </div>
 
@@ -164,32 +178,54 @@
 </main>
 
 <footer class="text-center text-xs text-white/25 pb-8">&copy;Smart Fix & Recycle Uganda · 2026 group G Class Project . Kampala</footer>
-</footer>
 <script src="./js/auth.js"></script>
 <script>
   SFRAuth.mountNavbar('authNavSlot');
-  document.getElementById('recycleForm').addEventListener('submit',function(e){
+  document.getElementById('recycleForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    if(!SFRAuth.requireAuth({role:'user'})) return;
+    if (!SFRAuth.requireAuth()) return;
 
-    const form = this;
-    const inputs = form.querySelectorAll('input, select, textarea');
-    const name = inputs[0].value;
-    const phone = inputs[1].value;
-    const district = inputs[2].value;
-    const landmark = inputs[3].value;
-    const items = inputs[4].value;
-    const preferredDate = inputs[5].value || null;
+    var form = this;
+    var errEl = document.getElementById('recycleError');
+    var okEl = document.getElementById('recycleSuccess');
+    var btn = document.getElementById('recycleSubmitBtn');
 
-    const payload = { name, phone, district, landmark, items, preferred_date: preferredDate };
+    errEl.classList.add('hidden');
+    errEl.textContent = '';
+    okEl.classList.add('hidden');
 
-    (async () => {
+    var pref = form.preferred_date.value.trim();
+    var payload = {
+      name: form.name.value.trim(),
+      phone: form.phone.value.trim(),
+      district: form.district.value,
+      landmark: form.landmark.value.trim(),
+      items: form.items.value.trim(),
+      preferred_date: pref ? pref : null,
+    };
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    (async function () {
       try {
         await SFRAuth.apiCreatePickup(payload);
-        document.getElementById('recycleSuccess').classList.remove('hidden');
+        okEl.classList.remove('hidden');
         form.reset();
       } catch (err) {
-        alert(err?.message || 'Could not book pickup. Are you logged in?');
+        var msg = err && err.message ? err.message : 'Could not book pickup.';
+        if (err && err.status === 401) msg = 'Session expired. Please sign in again.';
+        if (err && err.status === 403) msg = 'You do not have permission to book a pickup.';
+        if (err && err.data && typeof err.data === 'object') {
+          var d = err.data;
+          if (d.detail) msg = typeof d.detail === 'string' ? d.detail : JSON.stringify(d.detail);
+          else if (d.non_field_errors) msg = Array.isArray(d.non_field_errors) ? d.non_field_errors.join(' ') : String(d.non_field_errors);
+        }
+        errEl.textContent = msg;
+        errEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Book Pickup →';
       }
     })();
   });

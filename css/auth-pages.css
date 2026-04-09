@@ -1,5 +1,6 @@
 /* Shared shell for login / register / confirm — matches auth modal (slate + orange) */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("brand.css");
 
 .auth-shell {
   font-family: "Inter", system-ui, sans-serif;
@@ -15,11 +16,13 @@
 }
 
 .auth-nav {
-  background: rgba(255, 255, 255, 0.92);
+  background:
+    linear-gradient(135deg, rgba(209, 250, 229, 0.52) 0%, rgba(204, 251, 241, 0.46) 45%, rgba(254, 243, 199, 0.5) 100%),
+    rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.14);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65) inset, 0 10px 28px rgba(6, 78, 59, 0.05);
 }
 
 .auth-code-input {

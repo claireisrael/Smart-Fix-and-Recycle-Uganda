@@ -8,7 +8,7 @@
 {% block branding %}
 <h1 id="site-name" class="sfr-admin-branding">
   <a href="{% url 'admin:index' %}" class="sfr-admin-brand-link">
-    <span class="sfr-admin-logo" aria-hidden="true">♻</span>
+    <span class="sfr-admin-logo" aria-hidden="true"><img src="{% static 'admin/img/logo.png' %}" alt="" width="36" height="36" loading="lazy" /></span>
     <span class="sfr-admin-brand-text">
       <span class="sfr-admin-title">Smart Fix &amp; Recycle</span>
       <span class="sfr-admin-sub">{% trans "Uganda · Administration" %}</span>

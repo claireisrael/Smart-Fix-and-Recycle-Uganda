@@ -4,13 +4,22 @@
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Data Safety | Smart Fix & Recycle Uganda</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/brand.css"/>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap');
   *{font-family:'Inter',sans-serif}
   .prose{font-family:'Merriweather',serif;line-height:1.9;color:rgba(255,255,255,0.75)}
   body{min-height:100vh;background:linear-gradient(180deg,#ffffff 0%,#f3f4f6 100%)}
   .glass{background:rgba(255,255,255,0.72);backdrop-filter:blur(16px);border:1px solid rgba(15,23,42,0.10)}
-  nav{background:rgba(255,255,255,0.82);backdrop-filter:blur(20px);border-bottom:1px solid rgba(15,23,42,0.08)}
+  nav{
+    background:
+      linear-gradient(135deg, rgba(209, 250, 229, 0.52) 0%, rgba(204, 251, 241, 0.46) 45%, rgba(254, 243, 199, 0.5) 100%),
+      rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(16, 185, 129, 0.14);
+    box-shadow: 0 10px 28px rgba(6, 78, 59, 0.05);
+  }
   .text-white{color:rgb(15 23 42) !important}
   .text-white\/80{color:rgba(15,23,42,.80) !important}
   .text-white\/70{color:rgba(15,23,42,.70) !important}
@@ -29,7 +38,7 @@
 
 <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
   <div class="max-w-7xl mx-auto flex items-center justify-between">
-    <a href="index.html" class="flex items-center gap-2"><span class="text-green-400 text-xl">♻</span><span class="font-semibold text-sm">Smart Fix & Recycle</span><span class="text-white/40 text-xs hidden sm:block">Uganda</span></a>
+    <a href="index.html" class="flex items-center gap-2"><img src="images/logo.png" alt="" class="brand-mark-nav" width="64" height="64" loading="lazy" /><span class="font-semibold text-sm">Smart Fix & Recycle</span><span class="text-white/40 text-xs hidden sm:block">Uganda</span></a>
     <div class="hidden md:flex items-center gap-6 text-xs text-white/60 font-medium">
       <a href="index.html" class="hover:text-white transition">Home</a>
       <a href="support.html" class="hover:text-white transition">Support</a>
