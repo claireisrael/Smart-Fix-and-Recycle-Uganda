@@ -29,6 +29,17 @@
     }
   }
 
+  function isDebugEnabled() {
+    try {
+      return (
+        localStorage.getItem("SFR_DEBUG") === "1" ||
+        new URLSearchParams(window.location.search).get("debug") === "1"
+      );
+    } catch {
+      return false;
+    }
+  }
+
   function isLocalhostBase(base) {
     const b = String(base || "").toLowerCase();
     return b.includes("127.0.0.1") || b.includes("localhost");
@@ -47,6 +58,16 @@
     computeDefaultApiBase();
 
   async function api(path, opts) {
+    const dbg = isDebugEnabled();
+    if (dbg) {
+      try {
+        console.info("[SFR api] request", {
+          url: API_BASE + path,
+          method: opts?.method || "GET",
+          hasAuth: Boolean(opts?.headers?.Authorization),
+        });
+      } catch {}
+    }
     const res = await fetch(API_BASE + path, {
       method: opts?.method || "GET",
       headers: opts?.headers || {},
@@ -58,6 +79,16 @@
       data = text ? JSON.parse(text) : null;
     } catch {
       data = { detail: text };
+    }
+    if (dbg) {
+      try {
+        console.info("[SFR api] response", {
+          url: API_BASE + path,
+          status: res.status,
+          ok: res.ok,
+          detail: data?.detail,
+        });
+      } catch {}
     }
     if (!res.ok) {
       const detail = data?.detail || "Request failed.";
