@@ -68,11 +68,15 @@
         });
       } catch {}
     }
-    const res = await fetch(API_BASE + path, {
-      method: opts?.method || "GET",
-      headers: opts?.headers || {},
-      body: opts?.body,
-    });
+    const doFetch = async (overrideHeaders) => {
+      return await fetch(API_BASE + path, {
+        method: opts?.method || "GET",
+        headers: overrideHeaders || opts?.headers || {},
+        body: opts?.body,
+      });
+    };
+
+    let res = await doFetch();
     const text = await res.text();
     let data = null;
     try {
@@ -94,11 +98,51 @@
       const detail = data?.detail || "Request failed.";
       const detailStr = typeof detail === "string" ? detail : JSON.stringify(detail);
 
-      // If the access token is expired/invalid, clear session so the UI can re-auth cleanly.
-      if (
-        res.status === 401 &&
-        /token not valid|not valid for any token type|authentication credentials were not provided/i.test(detailStr)
-      ) {
+      // If the access token is expired/invalid, attempt refresh once, then retry.
+      if (res.status === 401) {
+        const hasAuthHeader = Boolean(opts?.headers?.Authorization);
+        const isTokenError = /token not valid|not valid for any token type|authentication credentials were not provided|unauthorized/i.test(
+          detailStr
+        );
+        if (hasAuthHeader && isTokenError) {
+          try {
+            const fresh = await refreshAccessToken();
+            if (fresh?.access) {
+              const newHeaders = { ...(opts?.headers || {}) };
+              newHeaders.Authorization = `Bearer ${fresh.access}`;
+              res = await doFetch(newHeaders);
+              const text2 = await res.text();
+              let data2 = null;
+              try {
+                data2 = text2 ? JSON.parse(text2) : null;
+              } catch {
+                data2 = { detail: text2 };
+              }
+              if (dbg) {
+                try {
+                  console.info("[SFR api] retry response", {
+                    url: API_BASE + path,
+                    status: res.status,
+                    ok: res.ok,
+                    detail: data2?.detail,
+                  });
+                } catch {}
+              }
+              if (res.ok) return data2;
+              const msg2 = data2?.detail || "Request failed.";
+              const err2 = new Error(typeof msg2 === "string" ? msg2 : JSON.stringify(msg2));
+              err2.status = res.status;
+              err2.data = data2;
+              throw err2;
+            }
+          } catch (_) {
+            // fall through to normal error handling
+          }
+        }
+      }
+
+      // If token is invalid and refresh failed, clear session so UI can re-auth cleanly.
+      if (res.status === 401) {
         try {
           clearSession();
         } catch (_) {}
@@ -259,6 +303,25 @@
 
   function clearSession() {
     localStorage.removeItem(STORAGE_KEYS.session);
+  }
+
+  async function refreshAccessToken() {
+    const s = getSession();
+    const refresh = (s?.refresh || "").trim();
+    if (!refresh) return null;
+    try {
+      const tokens = await api("/api/auth/token/refresh/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refresh }),
+      });
+      if (!tokens?.access) return null;
+      const next = { ...s, access: tokens.access };
+      setSession(next);
+      return next;
+    } catch {
+      return null;
+    }
   }
 
   function redirect(to) {
@@ -1350,9 +1413,18 @@
     handleForgot,
     getSession,
     refreshMeIntoSession,
+    refreshAccessToken,
     openAuthModal,
     apiCreateSupport,
     apiCreatePickup,
+    apiGetMeDashboard: (async () => {
+      const s = getSession();
+      if (!s?.access) throw new Error("Not logged in.");
+      return api("/api/me/dashboard/", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${s.access}` },
+      });
+    }),
     setAlert,
     hideAlert,
   };

@@ -373,35 +373,10 @@ function showSessionFallback(session) {
       showSessionFallback(session);
       return;
     }
-    var base = apiBase().replace(/\/$/, "");
-    try {
-      if (localStorage.getItem("SFR_DEBUG") === "1") {
-        console.info("[SFR dashboard] using apiBase", {
-          base,
-          hostname: window.location.hostname,
-          override: localStorage.getItem("SFR_API_BASE"),
-          hasToken: Boolean(token),
-        });
-      }
-    } catch (_) {}
-
-    var url = base + "/api/me/dashboard/";
-    var res = await fetch(url, {
-      headers: { Authorization: "Bearer " + token },
-    });
+    // Use shared API client (handles prod base + token refresh + debug logs)
+    var data = await SFRAuth.apiGetMeDashboard();
     loading.classList.add("hidden");
     section.classList.remove("hidden");
-    if (!res.ok) {
-      try {
-        if (localStorage.getItem("SFR_DEBUG") === "1") {
-          const t = await res.text();
-          console.error("[SFR dashboard] fetch failed", { url, status: res.status, body: t });
-        }
-      } catch (_) {}
-      showSessionFallback(session);
-      return;
-    }
-    var data = await res.json();
     try {
       if (localStorage.getItem("SFR_DEBUG") === "1") {
         console.info("[SFR dashboard] loaded", {
