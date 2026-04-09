@@ -164,6 +164,18 @@
     el.textContent = "";
   }
 
+  function prettyFirstName(raw) {
+    const s = String(raw || "").trim();
+    if (!s) return "";
+    const left = s.includes("@") ? s.split("@")[0] : s;
+    const cleaned = left.replace(/[_\-.]+/g, " ").replace(/\s+/g, " ").trim();
+    // Drop trailing digits (e.g. "israelclaire5" -> "israelclaire")
+    const noDigits = cleaned.replace(/\d+$/g, "").trim();
+    const firstToken = (noDigits || cleaned).split(" ")[0] || "";
+    if (!firstToken) return "";
+    return firstToken.charAt(0).toUpperCase() + firstToken.slice(1);
+  }
+
   function getSession() {
     const s = readJson(STORAGE_KEYS.session, null);
     if (!s || typeof s !== "object") return null;
@@ -190,9 +202,10 @@
         const full = `${fn} ${ln}`.trim();
         if (full) return full;
         if (fn) return fn;
-        // Last resort: use email local-part if present
+        // Last resort: prefer a clean single-name fallback
         const email = String(me?.user?.email || s.email || "");
-        return email ? email.split("@")[0] : (s.firstName || "User");
+        const username = String(me?.user?.username || "").trim();
+        return prettyFirstName(fn || username || email || s.firstName) || "User";
       })();
 
       const updates = {
