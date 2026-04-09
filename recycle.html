@@ -19,84 +19,228 @@
     border-bottom: 1px solid rgba(16, 185, 129, 0.14);
     box-shadow: 0 10px 28px rgba(6, 78, 59, 0.05);
   }
-  .text-white{color:rgb(15 23 42) !important}
-  .text-white\/80{color:rgba(15,23,42,.80) !important}
-  .text-white\/70{color:rgba(15,23,42,.70) !important}
-  .text-white\/60{color:rgba(15,23,42,.60) !important}
-  .text-white\/50{color:rgba(15,23,42,.50) !important}
-  .text-white\/40{color:rgba(15,23,42,.40) !important}
-  .text-white\/30{color:rgba(15,23,42,.30) !important}
-  .text-white\/25{color:rgba(15,23,42,.25) !important}
   /* Theme: Tech=Blue, Environment=Green, Action=Orange */
   .nav-active{color:#fb923c;border-bottom:2px solid #fb923c} /* Action */
-  input,select,textarea{background:rgba(255,255,255,0.85);border:1px solid rgba(15,23,42,0.12);color:rgb(15 23 42);border-radius:10px;padding:10px 14px;width:100%;font-size:14px;outline:none;transition:border .2s}
-  input:focus,select:focus,textarea:focus{border-color:rgba(74,222,128,0.5)}
-  input::placeholder,textarea::placeholder{color:rgba(15,23,42,0.40)}
-  select option{background:#ffffff;color:rgb(15 23 42)}
+  .sfr-label{display:block;margin-bottom:6px;font-size:12px;color:rgb(71 85 105);font-weight:600}
+  .sfr-input{
+    width:100%;
+    border-radius:12px;
+    border:1px solid rgba(226,232,240,1);
+    background:rgba(248,250,252,1);
+    padding:10px 12px;
+    font-size:14px;
+    color:rgb(15 23 42);
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+    box-shadow: inset 0 1px 2px rgba(15,23,42,0.04);
+  }
+  .sfr-input::placeholder{color:rgba(100,116,139,0.65)}
+  .sfr-input:focus{
+    border-color: rgba(251,146,60,0.75);
+    background:#fff;
+    box-shadow: 0 0 0 4px rgba(251,146,60,0.18), inset 0 1px 2px rgba(15,23,42,0.04);
+  }
+  select.sfr-input{padding-right:34px}
+  textarea.sfr-input{resize:vertical; min-height:120px}
+  .sfr-input[disabled]{opacity:.75; cursor:not-allowed; background:rgba(241,245,249,1)}
   .map-placeholder{background:rgba(255,255,255,0.04);border:1px dashed rgba(74,222,128,0.3);border-radius:16px;height:320px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
   ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(74,222,128,0.3);border-radius:4px}
+  .full-bleed{position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;width:100vw}
 </style>
 </head>
-<body class="text-white">
+<body class="text-slate-900">
 
-<nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
-  <div class="max-w-7xl mx-auto flex items-center gap-4">
-    <a href="index.html" class="flex items-center gap-2 flex-shrink-0"><img src="images/logo.png" alt="" class="brand-mark-nav" width="64" height="64" loading="lazy" /><span class="font-semibold text-sm">Smart Fix & Recycle</span><span class="text-white/40 text-xs hidden sm:block">Uganda</span></a>
-    <div class="hidden md:flex flex-1 min-w-0 items-center justify-end gap-6 text-xs text-white/60 font-medium">
-      <a href="index.html" class="hover:text-white transition">Home</a>
-      <a href="support.html" class="hover:text-white transition">Support</a>
-      <a href="recycle.html" class="nav-active pb-0.5">Recycle</a>
-      <a href="library.html" class="hover:text-white transition">Library</a>
-      <a href="safety.html" class="hover:text-white transition">Safety</a>
-      <a href="impact.html" class="hover:text-white transition">Impact</a>
-      <a href="about.html" class="hover:text-white transition">About</a>
-      <div class="flex flex-shrink-0 items-center" id="authNavSlot"></div>
+<div id="siteNav"></div>
+
+<!-- Hero (matches Support page style) -->
+<section class="relative pt-24 md:pt-28">
+  <div class="full-bleed relative overflow-hidden h-[520px] md:h-[660px]">
+    <img
+      src="images/dispose.jpg"
+      alt="E-waste recycling pickup"
+      class="absolute inset-0 h-full w-full object-cover"
+      style="object-position: 50% 35%;"
+      loading="eager"
+    />
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute inset-0 bg-gradient-to-b from-slate-900/20 via-slate-900/10 to-slate-900/30"></div>
+      <div class="absolute right-0 top-0 bottom-0 w-[70%] bg-gradient-to-l from-white/20 via-white/0 to-white/0"></div>
+    </div>
+
+    <div class="relative h-full max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="h-full flex items-center justify-end">
+        <div class="w-full max-w-xl">
+          <div class="rounded-3xl bg-white/75 ring-1 ring-emerald-200/70 px-6 py-6 sm:px-8 sm:py-8 backdrop-blur-md shadow-[0_22px_50px_-24px_rgba(15,23,42,0.35)]">
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-[1.08]">
+              Schedule a recycling pickup.
+            </h1>
+            <p class="mt-3 text-base sm:text-[16px] leading-relaxed text-slate-700">
+              We collect phones, laptops, cables and appliances — and dispose of them responsibly.
+              Book in seconds and track your pickup on your dashboard.
+            </p>
+
+            <div class="mt-5 flex flex-wrap items-center gap-3">
+              <a href="#book" class="inline-flex items-center justify-center rounded-full bg-orange-500 px-6 py-3 text-sm font-extrabold text-slate-900 shadow-md shadow-orange-500/25 transition hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-slate-900/30">
+                Book a pickup →
+              </a>
+              <a href="#accepted" class="inline-flex items-center justify-center rounded-full bg-white/70 px-6 py-3 text-sm font-bold text-slate-800 ring-1 ring-slate-200 backdrop-blur-md transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-orange-300 focus:ring-offset-2 focus:ring-offset-white/20">
+                What we accept
+              </a>
+            </div>
+
+            <p class="mt-4 text-sm text-slate-600">
+              You must be signed in to submit — your pickup is tied to your account.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</nav>
+</section>
 
-<main class="pt-28 pb-16 px-4 max-w-6xl mx-auto">
-  <div class="mb-8">
-    <div class="mb-6 flex flex-wrap items-center gap-3">
-      <img src="images/logo.png" alt="" class="brand-mark-nav" width="64" height="64" loading="lazy" />
-      <p class="text-green-400 text-xs font-medium uppercase tracking-widest">E-Waste Pickup</p>
-    </div>
-    <h1 class="text-3xl font-bold mb-2">Schedule a Recycling Pickup</h1>
-    <p class="text-white/50 text-sm">We collect your old electronics, laptops, phones, and appliances — responsibly and for free.</p>
-    <p class="mt-2 text-xs text-white/40">Sign in to book — pickups are tied to your account and appear on your dashboard.</p>
-  </div>
+<main class="pb-16 px-4 max-w-6xl mx-auto">
+  <div class="h-10 md:h-14"></div>
 
   <!-- What we accept -->
-  <div class="glass rounded-2xl p-6 border border-white/10 mb-8">
-    <h2 class="text-xs font-semibold text-white/50 uppercase tracking-widest mb-4">✅ What We Accept</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">📱</div><div class="text-xs text-white/70">Mobile Phones</div></div>
-      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">💻</div><div class="text-xs text-white/70">Laptops & PCs</div></div>
-      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">🖥</div><div class="text-xs text-white/70">Monitors & TVs</div></div>
-      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">🔋</div><div class="text-xs text-white/70">Batteries</div></div>
-      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">🖨</div><div class="text-xs text-white/70">Printers</div></div>
-      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">📷</div><div class="text-xs text-white/70">Cameras</div></div>
-      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">🎮</div><div class="text-xs text-white/70">Gaming Devices</div></div>
-      <div class="bg-white/5 rounded-xl p-3 text-center border border-white/08"><div class="text-2xl mb-1">🔌</div><div class="text-xs text-white/70">Cables & Chargers</div></div>
+  <section id="accepted" class="mb-10 scroll-mt-32">
+    <div class="text-center">
+      <div class="mx-auto inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-widest text-orange-800">
+        <span class="text-sm">✅</span><span>What we accept</span>
+      </div>
+      <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 md:text-4xl">Recycle these items safely</h2>
+      <p class="mx-auto mt-2 max-w-2xl text-sm text-slate-600 md:text-base">Common e‑waste we collect for responsible recycling and disposal.</p>
     </div>
+
+    <div class="mt-7 grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-4">
+      <div class="group relative overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-900/10">
+        <div class="absolute inset-0 opacity-0 transition group-hover:opacity-100" style="background: radial-gradient(600px 220px at 50% 0%, rgba(16,185,129,0.18) 0%, rgba(251,146,60,0.14) 42%, rgba(255,255,255,0) 72%);"></div>
+        <div class="absolute inset-0 rounded-3xl p-[1px]" style="background: linear-gradient(135deg, rgba(16,185,129,0.32), rgba(251,146,60,0.26));"></div>
+        <div class="relative rounded-[22px] bg-white/85 backdrop-blur px-4 py-5 text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl ring-1 ring-emerald-100 shadow-sm" style="background: linear-gradient(135deg, rgba(209,250,229,0.9), rgba(255,255,255,0.9));">
+            <span class="text-2xl">📱</span>
+          </div>
+          <div class="mt-3 text-sm font-extrabold tracking-tight text-slate-900">Mobile Phones</div>
+          <div class="mt-1 text-xs text-slate-600">Smartphones & feature phones</div>
+        </div>
+      </div>
+      <div class="group relative overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-900/10">
+        <div class="absolute inset-0 opacity-0 transition group-hover:opacity-100" style="background: radial-gradient(600px 220px at 50% 0%, rgba(16,185,129,0.18) 0%, rgba(251,146,60,0.14) 42%, rgba(255,255,255,0) 72%);"></div>
+        <div class="absolute inset-0 rounded-3xl p-[1px]" style="background: linear-gradient(135deg, rgba(16,185,129,0.32), rgba(251,146,60,0.26));"></div>
+        <div class="relative rounded-[22px] bg-white/85 backdrop-blur px-4 py-5 text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl ring-1 ring-emerald-100 shadow-sm" style="background: linear-gradient(135deg, rgba(209,250,229,0.9), rgba(255,255,255,0.9));">
+            <span class="text-2xl">💻</span>
+          </div>
+          <div class="mt-3 text-sm font-extrabold tracking-tight text-slate-900">Laptops & PCs</div>
+          <div class="mt-1 text-xs text-slate-600">Desktops, CPUs, accessories</div>
+        </div>
+      </div>
+      <div class="group relative overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-900/10">
+        <div class="absolute inset-0 opacity-0 transition group-hover:opacity-100" style="background: radial-gradient(600px 220px at 50% 0%, rgba(16,185,129,0.18) 0%, rgba(251,146,60,0.14) 42%, rgba(255,255,255,0) 72%);"></div>
+        <div class="absolute inset-0 rounded-3xl p-[1px]" style="background: linear-gradient(135deg, rgba(16,185,129,0.32), rgba(251,146,60,0.26));"></div>
+        <div class="relative rounded-[22px] bg-white/85 backdrop-blur px-4 py-5 text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl ring-1 ring-emerald-100 shadow-sm" style="background: linear-gradient(135deg, rgba(209,250,229,0.9), rgba(255,255,255,0.9));">
+            <span class="text-2xl">🖥</span>
+          </div>
+          <div class="mt-3 text-sm font-extrabold tracking-tight text-slate-900">Monitors & TVs</div>
+          <div class="mt-1 text-xs text-slate-600">Screens & display panels</div>
+        </div>
+      </div>
+      <div class="group relative overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-900/10">
+        <div class="absolute inset-0 opacity-0 transition group-hover:opacity-100" style="background: radial-gradient(600px 220px at 50% 0%, rgba(16,185,129,0.18) 0%, rgba(251,146,60,0.14) 42%, rgba(255,255,255,0) 72%);"></div>
+        <div class="absolute inset-0 rounded-3xl p-[1px]" style="background: linear-gradient(135deg, rgba(16,185,129,0.32), rgba(251,146,60,0.26));"></div>
+        <div class="relative rounded-[22px] bg-white/85 backdrop-blur px-4 py-5 text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl ring-1 ring-emerald-100 shadow-sm" style="background: linear-gradient(135deg, rgba(209,250,229,0.9), rgba(255,255,255,0.9));">
+            <span class="text-2xl">🔋</span>
+          </div>
+          <div class="mt-3 text-sm font-extrabold tracking-tight text-slate-900">Batteries</div>
+          <div class="mt-1 text-xs text-slate-600">Laptop & phone batteries</div>
+        </div>
+      </div>
+      <div class="group relative overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-900/10">
+        <div class="absolute inset-0 opacity-0 transition group-hover:opacity-100" style="background: radial-gradient(600px 220px at 50% 0%, rgba(16,185,129,0.18) 0%, rgba(251,146,60,0.14) 42%, rgba(255,255,255,0) 72%);"></div>
+        <div class="absolute inset-0 rounded-3xl p-[1px]" style="background: linear-gradient(135deg, rgba(16,185,129,0.32), rgba(251,146,60,0.26));"></div>
+        <div class="relative rounded-[22px] bg-white/85 backdrop-blur px-4 py-5 text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl ring-1 ring-emerald-100 shadow-sm" style="background: linear-gradient(135deg, rgba(209,250,229,0.9), rgba(255,255,255,0.9));">
+            <span class="text-2xl">🖨</span>
+          </div>
+          <div class="mt-3 text-sm font-extrabold tracking-tight text-slate-900">Printers</div>
+          <div class="mt-1 text-xs text-slate-600">Printers & scanners</div>
+        </div>
+      </div>
+      <div class="group relative overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-900/10">
+        <div class="absolute inset-0 opacity-0 transition group-hover:opacity-100" style="background: radial-gradient(600px 220px at 50% 0%, rgba(16,185,129,0.18) 0%, rgba(251,146,60,0.14) 42%, rgba(255,255,255,0) 72%);"></div>
+        <div class="absolute inset-0 rounded-3xl p-[1px]" style="background: linear-gradient(135deg, rgba(16,185,129,0.32), rgba(251,146,60,0.26));"></div>
+        <div class="relative rounded-[22px] bg-white/85 backdrop-blur px-4 py-5 text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl ring-1 ring-emerald-100 shadow-sm" style="background: linear-gradient(135deg, rgba(209,250,229,0.9), rgba(255,255,255,0.9));">
+            <span class="text-2xl">📷</span>
+          </div>
+          <div class="mt-3 text-sm font-extrabold tracking-tight text-slate-900">Cameras</div>
+          <div class="mt-1 text-xs text-slate-600">Cameras & accessories</div>
+        </div>
+      </div>
+      <div class="group relative overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-900/10">
+        <div class="absolute inset-0 opacity-0 transition group-hover:opacity-100" style="background: radial-gradient(600px 220px at 50% 0%, rgba(16,185,129,0.18) 0%, rgba(251,146,60,0.14) 42%, rgba(255,255,255,0) 72%);"></div>
+        <div class="absolute inset-0 rounded-3xl p-[1px]" style="background: linear-gradient(135deg, rgba(16,185,129,0.32), rgba(251,146,60,0.26));"></div>
+        <div class="relative rounded-[22px] bg-white/85 backdrop-blur px-4 py-5 text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl ring-1 ring-emerald-100 shadow-sm" style="background: linear-gradient(135deg, rgba(209,250,229,0.9), rgba(255,255,255,0.9));">
+            <span class="text-2xl">🎮</span>
+          </div>
+          <div class="mt-3 text-sm font-extrabold tracking-tight text-slate-900">Gaming Devices</div>
+          <div class="mt-1 text-xs text-slate-600">Consoles & controllers</div>
+        </div>
+      </div>
+      <div class="group relative overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-900/10">
+        <div class="absolute inset-0 opacity-0 transition group-hover:opacity-100" style="background: radial-gradient(600px 220px at 50% 0%, rgba(16,185,129,0.18) 0%, rgba(251,146,60,0.14) 42%, rgba(255,255,255,0) 72%);"></div>
+        <div class="absolute inset-0 rounded-3xl p-[1px]" style="background: linear-gradient(135deg, rgba(16,185,129,0.32), rgba(251,146,60,0.26));"></div>
+        <div class="relative rounded-[22px] bg-white/85 backdrop-blur px-4 py-5 text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl ring-1 ring-emerald-100 shadow-sm" style="background: linear-gradient(135deg, rgba(209,250,229,0.9), rgba(255,255,255,0.9));">
+            <span class="text-2xl">🔌</span>
+          </div>
+          <div class="mt-3 text-sm font-extrabold tracking-tight text-slate-900">Cables & Chargers</div>
+          <div class="mt-1 text-xs text-slate-600">Adapters, wires, chargers</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Separator -->
+  <div class="my-10 md:my-12">
+    <div class="h-px w-full bg-gradient-to-r from-transparent via-emerald-200/70 to-transparent"></div>
   </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-    <!-- Pickup form -->
-    <div class="glass rounded-2xl p-6 border border-white/10">
-      <h2 class="text-lg font-semibold mb-5">Book Your Pickup</h2>
-      <form id="recycleForm" method="post" action="#" class="space-y-4">
+  <!-- Book pickup -->
+  <section id="book" class="mb-10 scroll-mt-32">
+    <div class="text-center">
+      <div class="mx-auto inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-widest text-orange-800">
+        <span class="text-sm">📦</span><span>Book a pickup</span>
+      </div>
+      <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 md:text-4xl">From request to collection</h2>
+      <p class="mx-auto mt-2 max-w-2xl text-sm text-slate-600 md:text-base">
+        Submit your pickup details, our team confirms the schedule, then we collect your items. Track everything on your dashboard.
+      </p>
+    </div>
+
+    <div class="mt-7 max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
+        <!-- Form -->
+        <div class="glass rounded-2xl p-5 sm:p-6 border border-white/10">
+          <h3 class="text-base font-extrabold text-slate-900 mb-4">Pickup details</h3>
+          <form id="recycleForm" method="post" action="#" class="space-y-3.5">
         <div>
-          <label class="text-xs text-white/50 mb-1.5 block">Full Name *</label>
-          <input type="text" name="name" placeholder="Your full name" required/>
+          <label class="sfr-label">Full Name *</label>
+          <input class="sfr-input" type="text" name="name" placeholder="Your full name" required/>
         </div>
         <div>
-          <label class="text-xs text-white/50 mb-1.5 block">Phone Number *</label>
-          <input type="tel" name="phone" placeholder="+256 7XX XXX XXX" required/>
+          <label class="sfr-label">Email (from your account)</label>
+          <input class="sfr-input" type="email" name="email_display" placeholder="you@example.com" disabled/>
         </div>
         <div>
-          <label class="text-xs text-white/50 mb-1.5 block">District *</label>
-          <select name="district" required>
+          <label class="sfr-label">Phone Number *</label>
+          <input class="sfr-input" type="tel" name="phone" placeholder="+256 7XX XXX XXX" required/>
+        </div>
+        <div>
+          <label class="sfr-label">District *</label>
+          <select class="sfr-input" name="district" required>
             <option value="">Select district…</option>
             <option>Kampala Central</option><option>Nakawa</option><option>Makindye</option>
             <option>Rubaga</option><option>Kawempe</option><option>Wakiso</option>
@@ -104,83 +248,69 @@
           </select>
         </div>
         <div>
-          <label class="text-xs text-white/50 mb-1.5 block">Street / Landmark *</label>
-          <input type="text" name="landmark" placeholder="e.g. Opposite Nakawa Market, Gate 3" required/>
+          <label class="sfr-label">Street / Landmark *</label>
+          <input class="sfr-input" type="text" name="landmark" placeholder="e.g. Opposite Nakawa Market, Gate 3" required/>
         </div>
         <div>
-          <label class="text-xs text-white/50 mb-1.5 block">Items to Recycle *</label>
-          <textarea name="items" rows="3" placeholder="List items: e.g. 2 old phones, 1 broken laptop, cables…" required></textarea>
+          <label class="sfr-label">Items to Recycle *</label>
+          <textarea class="sfr-input" name="items" rows="3" placeholder="List items: e.g. 2 old phones, 1 broken laptop, cables…" required></textarea>
         </div>
         <div>
-          <label class="text-xs text-white/50 mb-1.5 block">Preferred Pickup Date</label>
-          <input type="date" name="preferred_date"/>
+          <label class="sfr-label">Preferred Pickup Date</label>
+          <input class="sfr-input" type="date" name="preferred_date"/>
         </div>
-        <p id="recycleError" class="hidden rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200" role="alert"></p>
-        <button type="submit" id="recycleSubmitBtn" class="w-full bg-orange-500 hover:bg-orange-400 text-black font-semibold py-3 rounded-xl text-sm transition disabled:cursor-not-allowed disabled:opacity-60">Book Pickup →</button>
+        <p id="recycleError" class="hidden rounded-xl border border-red-500/30 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert"></p>
+        <button type="submit" id="recycleSubmitBtn" class="w-full bg-orange-500 hover:bg-orange-400 text-black font-extrabold py-2.5 rounded-xl text-sm transition disabled:cursor-not-allowed disabled:opacity-60">Book Pickup →</button>
       </form>
-      <div id="recycleSuccess" class="hidden mt-4 glass rounded-xl p-4 border border-green-500/30 text-green-300 text-sm text-center">
+      <div id="recycleSuccess" class="hidden mt-4 glass rounded-xl p-4 border border-emerald-200 bg-emerald-50/60 text-emerald-800 text-sm text-center">
         Pickup booked! We’ll confirm via SMS within 2 hours. Track it under <strong>My pickup requests</strong> on your dashboard.
       </div>
-    </div>
-
-    <!-- Map -->
-    <div>
-      <div class="glass rounded-2xl p-5 border border-white/10 mb-4">
-        <h2 class="text-sm font-semibold text-white/70 uppercase tracking-widest mb-4">📍 Drop-off Centres</h2>
-        <!-- Google Maps embed — replace YOUR_API_KEY or use iframe embed URL -->
-        <div class="map-placeholder" id="mapContainer">
-          <div class="text-4xl">🗺</div>
-          <div class="text-sm text-white/50 text-center px-4">
-            Google Maps loads here.<br/>
-            Add your Google Maps API key to activate GPS pinning.
-          </div>
-          <code class="text-xs text-green-400/60 bg-white/5 px-3 py-1 rounded-lg">Replace with Google Maps iframe embed</code>
         </div>
-        <!-- UNCOMMENT AND REPLACE src with your Maps embed URL:
-        <iframe
-          src="https://www.google.com/maps/embed?pb=YOUR_EMBED_URL"
-          width="100%" height="320" style="border:0;border-radius:12px" allowfullscreen loading="lazy">
-        </iframe>
-        -->
-      </div>
 
-      <!-- Drop-off locations list -->
-      <div class="glass rounded-2xl p-5 border border-white/10">
-        <h3 class="text-xs font-semibold text-white/50 uppercase tracking-widest mb-3">Collection Points</h3>
-        <div class="space-y-3">
-          <div class="flex items-start gap-3 p-3 bg-white/5 rounded-xl border border-white/08">
-            <span class="text-green-400 mt-0.5">📍</span>
-            <div><div class="text-sm font-medium">Nakawa Repair Hub</div><div class="text-xs text-white/50">Nakawa Industrial Area, Kampala · Mon–Sat 8am–6pm</div></div>
-          </div>
-          <div class="flex items-start gap-3 p-3 bg-white/5 rounded-xl border border-white/08">
-            <span class="text-green-400 mt-0.5">📍</span>
-            <div><div class="text-sm font-medium">Kampala Central Office</div><div class="text-xs text-white/50">Kampala Road, near City Hall · Mon–Fri 9am–5pm</div></div>
-          </div>
-          <div class="flex items-start gap-3 p-3 bg-white/5 rounded-xl border border-white/08">
-            <span class="text-green-400 mt-0.5">📍</span>
-            <div><div class="text-sm font-medium">Wakiso Collection Point</div><div class="text-xs text-white/50">Nansana Trading Centre, Wakiso · Sat 9am–2pm</div></div>
+        <!-- Image panel -->
+        <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm min-h-[360px] lg:min-h-full">
+          <img src="images/dispose.jpg" alt="" class="absolute inset-0 h-full w-full object-cover" style="object-position: 50% 35%;" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-b from-slate-900/15 via-slate-900/15 to-slate-900/35"></div>
+          <div class="relative h-full p-6 flex flex-col justify-end">
+            <div class="rounded-2xl bg-white/80 backdrop-blur-md ring-1 ring-white/40 p-5 shadow-[0_18px_45px_-22px_rgba(15,23,42,0.45)]">
+              <div class="text-[11px] font-extrabold uppercase tracking-widest text-orange-700">How it flows</div>
+              <ul class="mt-2 space-y-2 text-sm text-slate-700">
+                <li class="flex gap-2"><span class="mt-0.5 text-emerald-700">1.</span><span>Submit your pickup details.</span></li>
+                <li class="flex gap-2"><span class="mt-0.5 text-emerald-700">2.</span><span>We confirm your pickup time via email.</span></li>
+                <li class="flex gap-2"><span class="mt-0.5 text-emerald-700">3.</span><span>We collect and update your dashboard.</span></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Why recycle -->
-  <div class="glass rounded-2xl p-6 border border-white/10">
-    <h2 class="text-xs font-semibold text-white/50 uppercase tracking-widest mb-5">🌍 Why It Matters</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-      <div><div class="text-green-400 font-semibold mb-1">50M+ tons</div><div class="text-white/50 text-xs">of e-waste generated globally each year — Africa's share is growing fast.</div></div>
-      <div><div class="text-blue-400 font-semibold mb-1">70% recoverable</div><div class="text-white/50 text-xs">Metals like gold, copper and aluminium in electronics can be recovered and reused.</div></div>
-      <div><div class="text-red-400 font-semibold mb-1">Toxic if dumped</div><div class="text-white/50 text-xs">Lead, mercury and cadmium in old devices contaminate soil and water if improperly disposed.</div></div>
+      <div class="mt-4 rounded-2xl border border-slate-200 bg-white/70 p-4 text-sm text-slate-700 shadow-sm">
+        <div class="font-semibold text-slate-900">Location comes next</div>
+        <div class="mt-1 text-slate-600">
+          Next we’ll add GPS/map selection and auto‑detect location. For now, your landmark and district are enough to schedule a pickup.
+        </div>
+      </div>
     </div>
-    <a href="safety.html" class="mt-5 block text-xs text-green-400 font-medium text-center">Read our data safety guide before recycling →</a>
-  </div>
+  </section>
 </main>
 
-<footer class="text-center text-xs text-white/25 pb-8">&copy;Smart Fix & Recycle Uganda · 2026 group G Class Project . Kampala</footer>
+<footer class="text-center text-xs text-slate-500 pb-8">&copy;Smart Fix & Recycle Uganda · 2026 group G Class Project . Kampala</footer>
 <script src="./js/auth.js"></script>
 <script>
-  SFRAuth.mountNavbar('authNavSlot');
+  SFRAuth.mountSiteNavbar({ targetId: "siteNav", active: "recycle" });
+  // Prefill user details when logged in
+  (function () {
+    try {
+      var s = SFRAuth.getSession();
+      var f = document.getElementById("recycleForm");
+      if (!f) return;
+      if (s) {
+        if (!f.name.value) f.name.value = (s.firstName || "").trim();
+        if (f.email_display && !f.email_display.value) f.email_display.value = (s.email || "").trim();
+      }
+    } catch (_) {}
+  })();
+
   document.getElementById('recycleForm').addEventListener('submit', function (e) {
     e.preventDefault();
     if (!SFRAuth.requireAuth()) return;
@@ -212,9 +342,23 @@
         await SFRAuth.apiCreatePickup(payload);
         okEl.classList.remove('hidden');
         form.reset();
+        setTimeout(function () {
+          window.location.href = "dashboard.html";
+        }, 650);
       } catch (err) {
         var msg = err && err.message ? err.message : 'Could not book pickup.';
-        if (err && err.status === 401) msg = 'Session expired. Please sign in again.';
+        if (err && err.status === 401) {
+          try {
+            localStorage.setItem("sfr_redirect_after_login", window.location.href);
+            localStorage.setItem("sfr_after_login_scroll", "#book");
+            if (typeof SFRAuth.openAuthModal === "function") SFRAuth.openAuthModal("login");
+            else window.location.href = "./pages/login.html";
+            return;
+          } catch (_) {
+            window.location.href = "./pages/login.html";
+            return;
+          }
+        }
         if (err && err.status === 403) msg = 'You do not have permission to book a pickup.';
         if (err && err.data && typeof err.data === 'object') {
           var d = err.data;
@@ -229,6 +373,18 @@
       }
     })();
   });
+
+  // If user came back after login, scroll to the form section.
+  (function () {
+    try {
+      var hash = localStorage.getItem("sfr_after_login_scroll");
+      if (!hash) return;
+      localStorage.removeItem("sfr_after_login_scroll");
+      setTimeout(function () {
+        document.querySelector(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    } catch (_) {}
+  })();
 </script>
 </body>
 </html>

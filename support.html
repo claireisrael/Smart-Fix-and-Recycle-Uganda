@@ -34,187 +34,494 @@
   input::placeholder,textarea::placeholder{color:rgba(15,23,42,0.40)}
   select option{background:#ffffff;color:rgb(15 23 42)}
   ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(74,222,128,0.3);border-radius:4px}
+
+  /* Support hero: full-width, tall, and readable */
+  .sfr-hero-wrap{border-radius:1.5rem; overflow:hidden}
+  .sfr-hero-img{transition:opacity .35s ease}
+  /* True full-bleed section inside centered pages */
+  .full-bleed{width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);}
+  /* This page remaps .text-white to dark (for light theme). Re-override inside hero so text stays white. */
+  .support-hero .text-white{color:#fff !important}
+  .support-hero .text-white\/90{color:rgba(255,255,255,.92) !important}
+  .support-hero .text-white\/85{color:rgba(255,255,255,.86) !important}
+  .support-hero .text-white\/80{color:rgba(255,255,255,.82) !important}
+  .support-hero .text-white\/75{color:rgba(255,255,255,.76) !important}
+  .support-hero .text-white\/70{color:rgba(255,255,255,.70) !important}
+  .support-hero .hero-shadow{text-shadow:0 14px 34px rgba(2,6,23,.55)}
+
+  /* Elementor-like step cards */
+  .sfr-step-card{
+    position:relative;
+    border-radius:1rem;
+    padding:1px; /* gradient border thickness */
+    background:linear-gradient(135deg, rgba(74,222,128,0.55), rgba(251,146,60,0.55));
+  }
+  .sfr-step-inner{
+    border-radius:calc(1rem - 1px);
+    background:rgba(255,255,255,0.78);
+    border:1px solid rgba(15,23,42,0.08);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+  }
+  .sfr-step-num{
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+  }
+
+  /* Modal form inputs (compact + consistent) */
+  .sfr-input{
+    width:100%;
+    border-radius:12px;
+    border:1px solid rgba(226,232,240,1);
+    background:rgba(248,250,252,1);
+    padding:10px 12px;
+    font-size:14px;
+    color:rgb(15 23 42);
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+  }
+  .sfr-input:focus{
+    border-color: rgba(251,146,60,0.75);
+    background:#fff;
+    box-shadow: 0 0 0 4px rgba(251,146,60,0.18);
+  }
+  select.sfr-input{padding-right:34px}
+  textarea.sfr-input{resize:vertical; min-height:140px}
 </style>
 </head>
 <body class="text-white">
 
-<nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
-  <div class="max-w-7xl mx-auto flex items-center gap-4">
-    <a href="index.html" class="flex items-center gap-2 flex-shrink-0"><img src="images/logo.png" alt="" class="brand-mark-nav" width="64" height="64" loading="lazy" /><span class="font-semibold text-sm">Smart Fix & Recycle</span><span class="text-white/40 text-xs hidden sm:block">Uganda</span></a>
-    <div class="hidden md:flex flex-1 min-w-0 items-center justify-end gap-6 text-xs text-white/60 font-medium">
-      <a href="index.html" class="hover:text-white transition">Home</a>
-      <a href="support.html" class="nav-active pb-0.5">Support</a>
-      <a href="recycle.html" class="hover:text-white transition">Recycle</a>
-      <a href="library.html" class="hover:text-white transition">Library</a>
-      <a href="safety.html" class="hover:text-white transition">Safety</a>
-      <a href="impact.html" class="hover:text-white transition">Impact</a>
-      <a href="about.html" class="hover:text-white transition">About</a>
-      <div class="flex flex-shrink-0 items-center" id="authNavSlot"></div>
+<div id="siteNav"></div>
+
+<!-- Hero (full width) -->
+<section class="pt-16">
+  <div class="full-bleed">
+    <div class="glass border border-white/10 support-hero rounded-none overflow-hidden">
+      <div class="relative h-[560px] md:h-[720px] bg-slate-100">
+        <img id="supportHeroImg" src="images/computer.png" alt="Support hero" class="sfr-hero-img h-full w-full object-cover" loading="eager" style="object-position:center top" />
+        <!-- Keep the image crisp; only add a local scrim behind text -->
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/35 via-transparent to-transparent"></div>
+
+        <div class="absolute inset-0 flex items-end">
+          <div class="w-full px-5 pb-7 md:px-10 md:pb-12">
+            <div class="mx-auto flex max-w-6xl justify-end">
+              <div class="w-full max-w-sm rounded-2xl bg-slate-950/40 p-3 ring-1 ring-white/10 backdrop-blur-md md:max-w-md md:p-4">
+                <p id="supportHeroKicker" class="hero-shadow text-xs font-semibold uppercase tracking-widest text-white/80">🔧 Remote triage</p>
+                <h1 id="supportHeroTitle" class="hero-shadow mt-2 text-3xl font-extrabold leading-tight text-white md:text-4xl">
+                  IT Help &amp; Device Repair
+                </h1>
+                <p id="supportHeroSubtitle" class="hero-shadow mt-2 max-w-2xl text-sm text-white/85 md:text-base">
+                  Tell us what’s wrong. Our engineers respond within 24 hours.
+                </p>
+
+                <div class="mt-4">
+                  <p class="hero-shadow text-xs text-white/75 md:text-sm">
+                    Sign in to submit — requests are tied to your account and appear in your dashboard.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="absolute inset-x-0 top-0 flex items-center justify-between gap-3 p-4 md:p-6">
+          <div class="mx-auto flex w-full max-w-5xl items-center justify-between">
+            <span id="supportHeroTag" class="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold text-white ring-1 ring-white/15 backdrop-blur hero-shadow">Repair</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</nav>
+</section>
 
-<main class="pt-28 pb-16 px-4 max-w-5xl mx-auto">
-  <div class="mb-8">
-    <p class="text-blue-400 text-xs font-medium uppercase tracking-widest mb-2">🔧 Remote Triage</p>
-    <h1 class="text-3xl font-bold mb-2">IT Help & Support</h1>
-    <p class="text-white/50 text-sm">Describe your issue and our engineers will respond within 24 hours.</p>
-    <p class="mt-2 text-xs text-white/40">Sign in to submit — requests are tied to your account and appear in your dashboard.</p>
-  </div>
+<main class="mt-10 pb-16 px-4 max-w-5xl mx-auto">
 
   <!-- How it works -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-    <div class="glass rounded-2xl p-5 border border-white/10 text-center">
-      <div class="text-3xl mb-3">📝</div>
-      <div class="font-semibold text-sm mb-1">1. Submit Form</div>
-      <p class="text-xs text-white/50">Fill in your device details and describe the problem.</p>
+  <section class="mb-10">
+    <div class="mb-5 text-center">
+      <div class="mx-auto inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-[11px] font-extrabold uppercase tracking-widest text-orange-800">
+        <span class="text-sm">🧭</span><span>How it works</span>
+      </div>
+      <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 md:text-4xl">Get help in 3 steps</h2>
+      <p class="mx-auto mt-2 max-w-xl text-sm text-slate-600 md:text-base">Submit your request, we review it, then you get guidance or an appointment.</p>
     </div>
-    <div class="glass rounded-2xl p-5 border border-white/10 text-center">
-      <div class="text-3xl mb-3">🔍</div>
-      <div class="font-semibold text-sm mb-1">2. Triage Review</div>
-      <p class="text-xs text-white/50">An engineer reviews and categorises your issue within 2 hours.</p>
-    </div>
-    <div class="glass rounded-2xl p-5 border border-white/10 text-center">
-      <div class="text-3xl mb-3">💬</div>
-      <div class="font-semibold text-sm mb-1">3. Get a Solution</div>
-      <p class="text-xs text-white/50">Receive step-by-step guidance or a repair appointment.</p>
-    </div>
-  </div>
 
-  <!-- Support Form -->
-  <div class="glass rounded-2xl p-8 border border-white/10 mb-10">
-    <h2 class="text-lg font-semibold mb-6">Submit a Support Request</h2>
-    <form id="supportForm" method="post" action="#" class="space-y-5">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div>
-          <label class="text-xs text-white/50 mb-1.5 block">Full Name *</label>
-          <input type="text" name="name" placeholder="e.g. Aisha Nakato" required/>
+    <div class="relative">
+      <!-- Connector line (desktop) -->
+      <div class="pointer-events-none absolute left-10 right-10 top-[3.25rem] hidden md:block">
+        <div class="h-px w-full bg-gradient-to-r from-transparent via-orange-400/25 to-transparent"></div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div class="sfr-step-card shadow-sm shadow-slate-900/5 transition hover:-translate-y-0.5 hover:shadow-md hover:shadow-slate-900/10">
+          <div class="sfr-step-inner p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-start gap-4">
+                <div class="sfr-step-num mt-0.5 flex h-11 w-11 items-center justify-center rounded-2xl bg-orange-500 text-white text-lg font-extrabold shadow-sm">1</div>
+                <div>
+                  <div class="text-base font-semibold text-slate-900">Submit your request</div>
+                  <div class="mt-1 text-sm text-slate-600">Share the issue, device brand, and what you’ve tried.</div>
+                </div>
+              </div>
+              <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-900/[0.04] ring-1 ring-slate-900/[0.06] text-xl">📝</div>
+            </div>
+            <div class="mt-5 space-y-2 text-sm text-slate-600">
+              <div class="flex gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-400"></span><span>Pick a category + add details</span></div>
+              <div class="flex gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-orange-400"></span><span>Location optional, but helps faster help</span></div>
+            </div>
+          </div>
         </div>
-        <div>
-          <label class="text-xs text-white/50 mb-1.5 block">Phone / Email *</label>
-          <input type="text" name="contact" placeholder="+256 7XX XXX XXX or email" required/>
+
+        <div class="sfr-step-card shadow-sm shadow-slate-900/5 transition hover:-translate-y-0.5 hover:shadow-md hover:shadow-slate-900/10">
+          <div class="sfr-step-inner p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-start gap-4">
+                <div class="sfr-step-num mt-0.5 flex h-11 w-11 items-center justify-center rounded-2xl bg-orange-500 text-white text-lg font-extrabold shadow-sm">2</div>
+                <div>
+                  <div class="text-base font-semibold text-slate-900">Triage review</div>
+                  <div class="mt-1 text-sm text-slate-600">An engineer checks your ticket within ~2 hours.</div>
+                </div>
+              </div>
+              <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-900/[0.04] ring-1 ring-slate-900/[0.06] text-xl">🔍</div>
+            </div>
+            <div class="mt-5 space-y-2 text-sm text-slate-600">
+              <div class="flex gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-400"></span><span>We confirm the category and priority</span></div>
+              <div class="flex gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-orange-400"></span><span>We may ask for a photo or extra details</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sfr-step-card shadow-sm shadow-slate-900/5 transition hover:-translate-y-0.5 hover:shadow-md hover:shadow-slate-900/10">
+          <div class="sfr-step-inner p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-start gap-4">
+                <div class="sfr-step-num mt-0.5 flex h-11 w-11 items-center justify-center rounded-2xl bg-orange-500 text-white text-lg font-extrabold shadow-sm">3</div>
+                <div>
+                  <div class="text-base font-semibold text-slate-900">Get a solution</div>
+                  <div class="mt-1 text-sm text-slate-600">We guide you step‑by‑step or book a repair.</div>
+                </div>
+              </div>
+              <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-900/[0.04] ring-1 ring-slate-900/[0.06] text-xl">💬</div>
+            </div>
+            <div class="mt-5 space-y-2 text-sm text-slate-600">
+              <div class="flex gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-400"></span><span>Clear troubleshooting instructions</span></div>
+              <div class="flex gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-orange-400"></span><span>Status updates in your dashboard</span></div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div>
-          <label class="text-xs text-white/50 mb-1.5 block">Device Brand *</label>
-          <select name="brand" required>
-            <option value="">Select brand…</option>
-            <option>Tecno</option><option>Infinix</option><option>Samsung</option>
-            <option>iPhone / Apple</option><option>HP Laptop</option><option>Dell Laptop</option>
-            <option>Lenovo</option><option>Huawei</option><option>Other</option>
-          </select>
-        </div>
-        <div>
-          <label class="text-xs text-white/50 mb-1.5 block">Issue Category *</label>
-          <select name="category" required>
-            <option value="">Select category…</option>
-            <option>Won't power on</option><option>Screen cracked / display issue</option>
-            <option>Battery draining fast</option><option>Software / OS problem</option>
-            <option>Virus / malware</option><option>Slow performance</option>
-            <option>Wi-Fi / network issue</option><option>Data recovery</option><option>Other</option>
-          </select>
-        </div>
+    </div>
+  </section>
+
+  <!-- Service selection -->
+  <section id="serviceSelect" class="mt-16 mb-12">
+    <div class="text-center">
+      <div class="mx-auto inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-widest text-orange-800">
+        <span>Next step</span>
       </div>
-      <div>
-        <label class="text-xs text-white/50 mb-1.5 block">Describe the Problem *</label>
-        <textarea name="description" rows="4" placeholder="When did it start? What happens when you turn it on? Any error messages?" required></textarea>
-      </div>
-      <div>
-        <label class="text-xs text-white/50 mb-1.5 block">District / Location</label>
-        <select name="district">
-          <option value="">Select district…</option>
-          <option>Kampala</option><option>Wakiso</option><option>Mukono</option>
-          <option>Entebbe</option><option>Jinja</option><option>Gulu</option><option>Mbarara</option><option>Other</option>
-        </select>
-      </div>
-      <p id="supportError" class="hidden rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200" role="alert"></p>
-      <button type="submit" id="supportSubmitBtn" class="w-full bg-orange-500 hover:bg-orange-400 text-black font-semibold py-3 rounded-xl text-sm transition disabled:cursor-not-allowed disabled:opacity-60">
-        Submit Support Request →
+      <h3 class="mt-3 text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl">What would you like to do today?</h3>
+      <p class="mx-auto mt-2 max-w-xl text-sm text-slate-600 md:text-base">Pick one option and we’ll take you to the right place.</p>
+    </div>
+
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-4">
+      <button type="button" id="serviceRepair" class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-orange-500 px-6 py-3 text-sm font-extrabold text-slate-900 shadow-sm transition hover:bg-orange-400 focus:outline-none focus-visible:ring-4 focus-visible:ring-orange-400/25 active:translate-y-[1px] sm:w-auto">
+        <span class="text-base">🛠</span><span>Fix my device</span>
       </button>
-      <p class="text-xs text-white/30 text-center">Your data is sent securely to our servers. We never sell your information.</p>
-    </form>
-    <div id="successMsg" class="hidden mt-4 glass rounded-xl p-4 border border-green-500/30 text-green-300 text-sm text-center">
-      Request submitted. An engineer will contact you within 24 hours. You can track status under <strong>My tickets</strong> on your dashboard.
+
+      <div class="flex items-center justify-center text-xs font-bold uppercase tracking-widest text-slate-400">
+        <span class="rounded-full border border-slate-200 bg-white px-3 py-1">or</span>
+      </div>
+
+      <button type="button" id="serviceDispose" class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-emerald-300/60 bg-white px-6 py-3 text-sm font-extrabold text-slate-900 shadow-sm transition hover:bg-emerald-50/50 focus:outline-none focus-visible:ring-4 focus-visible:ring-emerald-400/25 active:translate-y-[1px] sm:w-auto">
+        <span class="text-base">♻️</span><span>Recycle device</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Support Request Modal (opened from service cards) -->
+  <div id="supportModal" class="fixed inset-0 z-[9999] hidden items-center justify-center px-4 py-6">
+    <div id="supportModalBackdrop" class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"></div>
+    <div class="relative w-full max-w-xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/30">
+      <div class="flex items-center justify-between gap-4 border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white px-5 py-4">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-orange-50 ring-1 ring-orange-200/70 text-lg">🛠</div>
+          <div>
+            <div class="text-[11px] font-extrabold uppercase tracking-widest text-orange-700">Repair support</div>
+            <div class="mt-0.5 text-lg font-extrabold text-slate-900">Submit a support request</div>
+            <div class="mt-0.5 text-xs text-slate-500">We reply within 24 hours. You can track it in your dashboard.</div>
+          </div>
+        </div>
+        <button type="button" id="supportModalClose" class="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+          Close
+        </button>
+      </div>
+
+      <div class="max-h-[72vh] overflow-auto px-5 py-5">
+        <form id="supportModalForm" method="post" action="#" class="space-y-5">
+          <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+            <div>
+              <label class="text-xs text-slate-600 mb-1.5 block">Full Name *</label>
+              <input class="sfr-input" type="text" name="name" placeholder="e.g. Aisha Nakato" required/>
+            </div>
+            <div>
+              <label class="text-xs text-slate-600 mb-1.5 block">Phone / Email *</label>
+              <input class="sfr-input" type="text" name="contact" placeholder="+256 7XX XXX XXX or email" required/>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+            <div>
+              <label class="text-xs text-slate-600 mb-1.5 block">Device Brand *</label>
+              <select class="sfr-input" name="brand" required>
+                <option value="">Select brand…</option>
+                <option>Tecno</option><option>Infinix</option><option>Samsung</option>
+                <option>iPhone / Apple</option><option>HP Laptop</option><option>Dell Laptop</option>
+                <option>Lenovo</option><option>Huawei</option><option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs text-slate-600 mb-1.5 block">Issue Category *</label>
+              <select class="sfr-input" name="category" required>
+                <option value="">Select category…</option>
+                <option>Won't power on</option><option>Screen cracked / display issue</option>
+                <option>Battery draining fast</option><option>Software / OS problem</option>
+                <option>Virus / malware</option><option>Slow performance</option>
+                <option>Wi-Fi / network issue</option><option>Data recovery</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="md:col-span-2">
+            <label class="text-xs text-slate-600 mb-1.5 block">Describe the Problem *</label>
+            <textarea class="sfr-input" name="description" rows="5" placeholder="When did it start? What happens when you turn it on? Any error messages?" required></textarea>
+          </div>
+          <div class="md:col-span-2">
+            <label class="text-xs text-slate-600 mb-1.5 block">District / Location</label>
+            <select class="sfr-input" name="district">
+              <option value="">Select district…</option>
+              <option>Kampala</option><option>Wakiso</option><option>Mukono</option>
+              <option>Entebbe</option><option>Jinja</option><option>Gulu</option><option>Mbarara</option><option>Other</option>
+            </select>
+          </div>
+          <p id="supportModalError" class="hidden rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert"></p>
+          <button type="submit" id="supportModalSubmitBtn" class="w-full rounded-xl bg-orange-500 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-orange-400 disabled:cursor-not-allowed disabled:opacity-60">
+            Submit Support Request →
+          </button>
+          <p class="text-xs text-slate-500 text-center">Your data is sent securely to our servers. We never sell your information.</p>
+        </form>
+        <div id="supportModalSuccess" class="hidden mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900 text-center">
+          Request submitted. Track status under <strong>My tickets</strong> on your dashboard.
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Common Issues Quick Guide -->
+  <!-- Frequently asked questions -->
   <div class="glass rounded-2xl p-6 border border-white/10">
-    <h2 class="text-sm font-semibold text-white/70 uppercase tracking-widest mb-4">⚡ Common Quick Fixes</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <div class="flex gap-3 p-3 rounded-xl bg-white/5 border border-white/08">
-        <span class="text-xl">🔋</span>
-        <div><div class="text-sm font-medium">Battery draining fast</div><div class="text-xs text-white/50 mt-0.5">Go to Settings → Battery → disable Background App Refresh and reduce screen brightness.</div></div>
+    <div class="mb-4 text-center">
+      <div class="mx-auto inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-widest text-orange-800">
+        <span>FAQ</span>
       </div>
-      <div class="flex gap-3 p-3 rounded-xl bg-white/5 border border-white/08">
-        <span class="text-xl">🐌</span>
-        <div><div class="text-sm font-medium">Phone running slowly</div><div class="text-xs text-white/50 mt-0.5">Clear cache: Settings → Storage → Cached Data → Clear. Then restart device.</div></div>
-      </div>
-      <div class="flex gap-3 p-3 rounded-xl bg-white/5 border border-white/08">
-        <span class="text-xl">📶</span>
-        <div><div class="text-sm font-medium">Wi-Fi not connecting</div><div class="text-xs text-white/50 mt-0.5">Forget the network and reconnect. If that fails, reset network settings.</div></div>
-      </div>
-      <div class="flex gap-3 p-3 rounded-xl bg-white/5 border border-white/08">
-        <span class="text-xl">📱</span>
-        <div><div class="text-sm font-medium">App keeps crashing</div><div class="text-xs text-white/50 mt-0.5">Update the app in Play Store. If still crashing, uninstall and reinstall.</div></div>
-      </div>
+      <h2 class="mt-3 text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl">Frequently asked questions</h2>
+      <p class="mx-auto mt-2 max-w-2xl text-sm text-slate-600 md:text-base">Quick answers before you submit a request.</p>
     </div>
-    <a href="library.html" class="mt-4 block text-center text-xs text-green-400 font-medium">View full self-help library →</a>
+
+    <div class="space-y-3">
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-slate-900">
+          My battery drains fast. What can I try first?
+          <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600 group-open:hidden">+</span>
+          <span class="hidden rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600 group-open:inline">−</span>
+        </summary>
+        <div class="mt-3 text-sm text-slate-600">
+          Go to <strong>Settings → Battery</strong>, disable background activity for heavy apps, reduce brightness, and restart the device.
+        </div>
+      </details>
+
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-slate-900">
+          My phone is slow. How do I speed it up?
+          <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600 group-open:hidden">+</span>
+          <span class="hidden rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600 group-open:inline">−</span>
+        </summary>
+        <div class="mt-3 text-sm text-slate-600">
+          Clear storage/cache, uninstall unused apps, update the OS, and restart. If storage is almost full, performance will drop.
+        </div>
+      </details>
+
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-slate-900">
+          Wi‑Fi isn’t connecting. What should I check?
+          <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600 group-open:hidden">+</span>
+          <span class="hidden rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600 group-open:inline">−</span>
+        </summary>
+        <div class="mt-3 text-sm text-slate-600">
+          Forget the network and reconnect. If it still fails, restart your router and reset network settings on the device.
+        </div>
+      </details>
+
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-slate-900">
+          Apps keep crashing. What should I do?
+          <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600 group-open:hidden">+</span>
+          <span class="hidden rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600 group-open:inline">−</span>
+        </summary>
+        <div class="mt-3 text-sm text-slate-600">
+          Update the app. If it still crashes, clear its cache/data, then reinstall. If multiple apps crash, update the OS.
+        </div>
+      </details>
+    </div>
+
+    <a href="library.html" class="mt-5 block text-center text-sm font-semibold text-orange-600 hover:text-orange-500 hover:underline">View full self-help library →</a>
   </div>
 </main>
 
 <footer class="text-center text-xs text-white/25 pb-8">&copy;Smart Fix & Recycle Uganda · 2026 group G Class Project . Kampala</footer>
 <script src="./js/auth.js"></script>
 <script>
-  SFRAuth.mountNavbar('authNavSlot');
-  document.getElementById('supportForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    if (!SFRAuth.requireAuth()) return;
+  SFRAuth.mountSiteNavbar({ targetId: "siteNav", active: "support" });
 
-    var form = this;
-    var errEl = document.getElementById('supportError');
-    var okEl = document.getElementById('successMsg');
-    var btn = document.getElementById('supportSubmitBtn');
+  function bindSupportForm(form, errEl, okEl, btn, btnText) {
+    if (!form) return;
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!SFRAuth.requireAuth()) return;
 
-    errEl.classList.add('hidden');
-    errEl.textContent = '';
-    okEl.classList.add('hidden');
+      errEl?.classList.add("hidden");
+      if (errEl) errEl.textContent = "";
+      okEl?.classList.add("hidden");
 
-    var payload = {
-      name: form.name.value.trim(),
-      contact: form.contact.value.trim(),
-      brand: form.brand.value,
-      category: form.category.value,
-      description: form.description.value.trim(),
-      district: form.district.value || '',
-    };
+      var payload = {
+        name: form.name.value.trim(),
+        contact: form.contact.value.trim(),
+        brand: form.brand.value,
+        category: form.category.value,
+        description: form.description.value.trim(),
+        district: form.district.value || "",
+      };
 
-    btn.disabled = true;
-    btn.textContent = 'Submitting…';
+      btn.disabled = true;
+      btn.textContent = "Submitting…";
 
-    (async function () {
-      try {
-        await SFRAuth.apiCreateSupport(payload);
-        okEl.classList.remove('hidden');
-        form.reset();
-      } catch (err) {
-        var msg = err && err.message ? err.message : 'Could not submit.';
-        if (err && err.status === 401) msg = 'Session expired. Please sign in again.';
-        if (err && err.status === 403) msg = 'You do not have permission to submit.';
-        if (err && err.data && typeof err.data === 'object') {
-          var d = err.data;
-          if (d.detail) msg = typeof d.detail === 'string' ? d.detail : JSON.stringify(d.detail);
-          else if (d.non_field_errors) msg = Array.isArray(d.non_field_errors) ? d.non_field_errors.join(' ') : String(d.non_field_errors);
+      (async function () {
+        try {
+          await SFRAuth.apiCreateSupport(payload);
+          okEl?.classList.remove("hidden");
+          form.reset();
+          // Take the user to their support tracking interface
+          setTimeout(function () {
+            try {
+              document.getElementById("supportModal")?.classList.add("hidden");
+              document.getElementById("supportModal")?.classList.remove("flex");
+            } catch (_) {}
+            window.location.href = "dashboard.html";
+          }, 650);
+        } catch (err) {
+          var msg = err && err.message ? err.message : "Could not submit.";
+          if (err && err.status === 401) {
+            // Prompt a clean re-login instead of showing raw/technical auth errors.
+            try {
+              localStorage.setItem("sfr_redirect_after_login", window.location.href);
+              localStorage.setItem("sfr_open_support_modal", "1");
+              if (typeof SFRAuth.openAuthModal === "function") SFRAuth.openAuthModal("login");
+              else window.location.href = "./pages/login.html";
+              return;
+            } catch (_) {
+              window.location.href = "./pages/login.html";
+              return;
+            }
+          }
+          if (err && err.status === 403) msg = "You do not have permission to submit.";
+          // Prefer friendly auth messages over raw backend JWT details
+          if (err && (err.status === 401 || err.status === 403)) {
+            // keep msg as set above
+          } else if (err && err.data && typeof err.data === "object") {
+            var d = err.data;
+            if (d.detail) msg = typeof d.detail === "string" ? d.detail : JSON.stringify(d.detail);
+            else if (d.non_field_errors) msg = Array.isArray(d.non_field_errors) ? d.non_field_errors.join(" ") : String(d.non_field_errors);
+          }
+          if (errEl) {
+            errEl.textContent = msg;
+            errEl.classList.remove("hidden");
+          }
+        } finally {
+          btn.disabled = false;
+          btn.textContent = btnText;
         }
-        errEl.textContent = msg;
-        errEl.classList.remove('hidden');
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Submit Support Request →';
+      })();
+    });
+  }
+
+  // Wire service cards
+  (function () {
+    var modal = document.getElementById("supportModal");
+    var closeBtn = document.getElementById("supportModalClose");
+    var backdrop = document.getElementById("supportModalBackdrop");
+
+    function openModal() {
+      if (!modal) return;
+      // Require auth before showing the support form
+      try {
+        var s0 = SFRAuth.getSession();
+        if (!s0 || !s0.access) {
+          localStorage.setItem("sfr_redirect_after_login", window.location.href);
+          localStorage.setItem("sfr_open_support_modal", "1");
+          if (typeof SFRAuth.openAuthModal === "function") SFRAuth.openAuthModal("login");
+          return;
+        }
+      } catch (_) {}
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      // Pre-fill name/email from session if available
+      try {
+        var s = SFRAuth.getSession();
+        if (s) {
+          var f = document.getElementById("supportModalForm");
+          if (f && !f.name.value) f.name.value = (s.firstName || "").trim();
+          if (f && !f.contact.value) f.contact.value = (s.email || "").trim();
+        }
+      } catch (_) {}
+      setTimeout(function () {
+        document.querySelector("#supportModalForm input[name='name']")?.focus();
+      }, 50);
+    }
+
+    function closeModal() {
+      if (!modal) return;
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    document.getElementById("serviceRepair")?.addEventListener("click", function () {
+      openModal();
+    });
+    document.getElementById("serviceDispose")?.addEventListener("click", function () {
+      window.location.href = "recycle.html";
+    });
+
+    closeBtn?.addEventListener("click", closeModal);
+    backdrop?.addEventListener("click", closeModal);
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeModal();
+    });
+
+    // If user logged in after being prompted, reopen the modal automatically.
+    try {
+      var shouldOpen = localStorage.getItem("sfr_open_support_modal") === "1";
+      var s1 = SFRAuth.getSession();
+      if (shouldOpen && s1 && s1.access) {
+        localStorage.removeItem("sfr_open_support_modal");
+        openModal();
       }
-    })();
-  });
+    } catch (_) {}
+  })();
+
+  bindSupportForm(
+    document.getElementById("supportModalForm"),
+    document.getElementById("supportModalError"),
+    document.getElementById("supportModalSuccess"),
+    document.getElementById("supportModalSubmitBtn"),
+    "Submit Support Request →"
+  );
 </script>
 </body>
 </html>

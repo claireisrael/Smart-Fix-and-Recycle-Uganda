@@ -13,16 +13,7 @@
 </head>
 <body class="auth-shell text-slate-800" data-protect="admin">
 
-<nav class="auth-nav fixed left-0 right-0 top-0 z-50">
-  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
-    <a href="../index.html" class="flex items-center gap-2.5">
-      <img src="../images/logo.png" alt="" class="brand-mark-nav" width="64" height="64" loading="lazy" />
-      <span class="text-sm font-bold text-slate-900">Smart Fix & Recycle</span>
-      <span class="hidden text-xs text-slate-400 sm:block">Uganda · Admin</span>
-    </a>
-    <div id="authNavSlot"></div>
-  </div>
-</nav>
+<div id="siteNav"></div>
 
 <main class="mx-auto max-w-7xl px-4 pb-16 pt-24">
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -235,9 +226,13 @@
 
 <script src="../js/auth.js"></script>
 <script>
-  SFRAuth.mountNavbar('authNavSlot');
+  SFRAuth.mountSiteNavbar({ targetId: "siteNav", active: "" });
 
-  const API_BASE = localStorage.getItem("SFR_API_BASE") || "http://127.0.0.1:8000";
+  const API_BASE =
+    localStorage.getItem("SFR_API_BASE") ||
+    (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+      ? "http://127.0.0.1:8000"
+      : "https://smart-fix-and-recycle-uganda.onrender.com");
   const alertEl = document.getElementById("adminAlert");
 
   // Status theme (system-wide)

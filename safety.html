@@ -36,20 +36,7 @@
 </head>
 <body class="text-white">
 
-<nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
-  <div class="max-w-7xl mx-auto flex items-center justify-between">
-    <a href="index.html" class="flex items-center gap-2"><img src="images/logo.png" alt="" class="brand-mark-nav" width="64" height="64" loading="lazy" /><span class="font-semibold text-sm">Smart Fix & Recycle</span><span class="text-white/40 text-xs hidden sm:block">Uganda</span></a>
-    <div class="hidden md:flex items-center gap-6 text-xs text-white/60 font-medium">
-      <a href="index.html" class="hover:text-white transition">Home</a>
-      <a href="support.html" class="hover:text-white transition">Support</a>
-      <a href="recycle.html" class="hover:text-white transition">Recycle</a>
-      <a href="library.html" class="hover:text-white transition">Library</a>
-      <a href="safety.html" class="nav-active pb-0.5">Safety</a>
-      <a href="impact.html" class="hover:text-white transition">Impact</a>
-      <a href="about.html" class="hover:text-white transition">About</a>
-    </div>
-  </div>
-</nav>
+<div id="siteNav"></div>
 
 <main class="pt-28 pb-16 px-4 max-w-3xl mx-auto">
   <!-- Article header -->
@@ -158,5 +145,9 @@
 </main>
 
 <footer class="text-center text-xs text-white/25 pb-8">&copy;Smart Fix & Recycle Uganda · 2026 group G Class Project . Kampala</footer>
+<script src="./js/auth.js"></script>
+<script>
+  SFRAuth.mountSiteNavbar({ targetId: "siteNav", active: "safety" });
+</script>
 </body>
 </html>
