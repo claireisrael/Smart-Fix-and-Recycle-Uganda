@@ -160,10 +160,21 @@
         headers: { Authorization: `Bearer ${s.access}` },
       });
 
+      const nameFromMe = (() => {
+        const fn = (me?.user?.first_name || "").trim();
+        const ln = (me?.user?.last_name || "").trim();
+        const full = `${fn} ${ln}`.trim();
+        if (full) return full;
+        if (fn) return fn;
+        // Last resort: use email local-part if present
+        const email = String(me?.user?.email || s.email || "");
+        return email ? email.split("@")[0] : (s.firstName || "User");
+      })();
+
       const updates = {
         email: me?.user?.email || s.email || "",
         role: me?.user?.is_admin ? "admin" : "user",
-        firstName: (me?.user?.username || s.firstName || "User").split("@")[0],
+        firstName: nameFromMe,
         counts: {
           support_total: Number(me?.support?.total ?? 0),
           support_pending: Number(me?.support?.pending ?? 0),
@@ -412,10 +423,14 @@
           });
 
           const isAdmin = Boolean(me?.user?.is_admin);
+          const fn = String(me?.user?.first_name || "").trim();
+          const ln = String(me?.user?.last_name || "").trim();
+          const full = `${fn} ${ln}`.trim();
+          const displayName = full || fn || String(me?.user?.email || "").split("@")[0] || "User";
           setSession({
             isLoggedIn: true,
             userId: isAdmin ? "ADMIN" : "USER",
-            firstName: (me?.user?.username || "User").split("@")[0],
+            firstName: displayName,
             role: isAdmin ? "admin" : "user",
             email: me?.user?.email || "",
             access: tokens.access,
@@ -1039,10 +1054,14 @@
           });
 
           const isAdmin = Boolean(me?.user?.is_admin);
+          const fn = String(me?.user?.first_name || "").trim();
+          const ln = String(me?.user?.last_name || "").trim();
+          const full = `${fn} ${ln}`.trim();
+          const displayName = full || fn || String(me?.user?.email || "").split("@")[0] || "User";
           setSession({
             isLoggedIn: true,
             userId: isAdmin ? "ADMIN" : "USER",
-            firstName: (me?.user?.username || "User").split("@")[0],
+            firstName: displayName,
             role: isAdmin ? "admin" : "user",
             email: me?.user?.email || "",
             access: tokens.access,

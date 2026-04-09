@@ -159,7 +159,15 @@ if (!SFRAuth.requireAuth({ role: "user" })) {
 }
 
 function apiBase() {
-  return localStorage.getItem("SFR_API_BASE") || "http://127.0.0.1:8000";
+  try {
+    var override = localStorage.getItem("SFR_API_BASE");
+    if (override) return override;
+    var host = window.location.hostname || "";
+    if (host === "localhost" || host === "127.0.0.1") return "http://127.0.0.1:8000";
+    return "https://smart-fix-and-recycle-uganda.onrender.com";
+  } catch (e) {
+    return "http://127.0.0.1:8000";
+  }
 }
 
 function escapeHtml(s) {
