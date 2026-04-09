@@ -31,7 +31,6 @@ INSTALLED_APPS = [
     # third-party
     "corsheaders",
     "rest_framework",
-    "anymail",
     # local
     "portal.apps.PortalConfig",
 ]
@@ -108,6 +107,8 @@ DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER or "no
 # SendGrid (Email API over HTTPS). Use this in production to avoid SMTP port blocks.
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", "").strip()
 if SENDGRID_API_KEY:
+    # Only require Anymail when explicitly enabled (prevents local dev crash if dependency isn't installed).
+    INSTALLED_APPS.append("anymail")
     EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
     ANYMAIL = {"SENDGRID_API_KEY": SENDGRID_API_KEY}
 
@@ -144,3 +145,17 @@ REST_FRAMEWORK = {
     ),
 }
 
+# Logging: ensure exceptions (e.g., SMTP failures) show up in Render logs.
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {"class": "logging.StreamHandler"},
+    },
+    "root": {"handlers": ["console"], "level": "INFO"},
+    "loggers": {
+        "django": {"handlers": ["console"], "level": "INFO", "propagate": False},
+        "django.request": {"handlers": ["console"], "level": "INFO", "propagate": False},
+        "portal": {"handlers": ["console"], "level": "INFO", "propagate": False},
+    },
+}
