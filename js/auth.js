@@ -1188,8 +1188,82 @@
     if (protect === "user") requireAuth({ role: "user" });
   }
 
+  function mountSiteNavbar(opts) {
+    const o = opts || {};
+    const targetId = o.targetId || "siteNav";
+    const active = String(o.active || "").toLowerCase();
+    const slot = document.getElementById(targetId);
+    if (!slot) return;
+
+    const activeCls = "text-orange-800 border-b-2 border-orange-700/50 pb-2";
+    const linkCls =
+      "inline-flex items-center justify-center rounded-xl px-3.5 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-900/[0.04] hover:text-slate-900";
+    const mobileLinkBase = "px-4 py-3 rounded-xl";
+
+    function link(href, label, key) {
+      const isActive = active === key;
+      return `<a href="${href}" class="${linkCls} ${isActive ? activeCls : ""}">${label}</a>`;
+    }
+
+    function mobileLink(href, label, key) {
+      const isActive = active === key;
+      return `<a href="${href}" class="${mobileLinkBase} ${isActive ? "text-orange-800 font-semibold bg-slate-900/[0.03]" : "hover:bg-slate-900/[0.04]"}">${label}</a>`;
+    }
+
+    slot.innerHTML = `
+      <nav class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-3" style="background: linear-gradient(135deg, rgba(209, 250, 229, 0.52) 0%, rgba(204, 251, 241, 0.46) 45%, rgba(254, 243, 199, 0.5) 100%), rgba(255, 255, 255, 0.82); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(16, 185, 129, 0.14); box-shadow: 0 10px 28px rgba(6, 78, 59, 0.05);">
+        <div class="max-w-7xl mx-auto flex items-center gap-3">
+          <a href="${basePathToRoot()}index.html" class="flex items-center gap-2.5 min-w-0 flex-shrink-0">
+            <img src="${logoUrl()}" alt="Smart Fix & Recycle" class="brand-mark-nav" width="64" height="64" loading="lazy" />
+            <span class="font-semibold text-sm text-slate-900 whitespace-nowrap">Smart Fix &amp; Recycle</span>
+            <span class="hidden sm:block w-px h-4 bg-slate-900/10"></span>
+            <span class="hidden sm:block text-xs text-slate-500 whitespace-nowrap">Uganda</span>
+          </a>
+
+          <div class="hidden md:flex flex-1 min-w-0 items-center justify-end gap-4">
+            <div class="flex items-center gap-6 flex-wrap justify-end">
+              ${link(`${basePathToRoot()}index.html`, "Home", "home")}
+              ${link(`${basePathToRoot()}support.html`, "Support", "support")}
+              ${link(`${basePathToRoot()}recycle.html`, "Recycle", "recycle")}
+              ${link(`${basePathToRoot()}library.html`, "Library", "library")}
+              ${link(`${basePathToRoot()}safety.html`, "Safety", "safety")}
+              ${link(`${basePathToRoot()}impact.html`, "Impact", "impact")}
+              ${link(`${basePathToRoot()}about.html`, "About", "about")}
+            </div>
+            <div class="flex flex-shrink-0 items-center" id="authNavSlot"></div>
+          </div>
+
+          <button type="button" data-sfr-mobile-toggle class="md:hidden ml-auto text-slate-600 hover:text-slate-900 rounded-xl border border-slate-200 bg-white/70 px-3 py-2 shadow-sm transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+        <div id="sfrMobileMenu" class="hidden md:hidden mt-3 mx-3 sm:mx-4 rounded-2xl border border-slate-200 bg-white/80 px-3 py-3 shadow-sm" style="backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
+          <div class="flex flex-col gap-2 text-base text-slate-700">
+            ${mobileLink(`${basePathToRoot()}index.html`, "Home", "home")}
+            ${mobileLink(`${basePathToRoot()}support.html`, "Support", "support")}
+            ${mobileLink(`${basePathToRoot()}recycle.html`, "Recycle", "recycle")}
+            ${mobileLink(`${basePathToRoot()}library.html`, "Library", "library")}
+            ${mobileLink(`${basePathToRoot()}safety.html`, "Safety", "safety")}
+            ${mobileLink(`${basePathToRoot()}impact.html`, "Impact", "impact")}
+            ${mobileLink(`${basePathToRoot()}about.html`, "About", "about")}
+            <div class="pt-2 border-t border-slate-200/70" id="authNavSlotMobile"></div>
+          </div>
+        </div>
+      </nav>
+    `;
+
+    const toggle = slot.querySelector("[data-sfr-mobile-toggle]");
+    const menu = slot.querySelector("#sfrMobileMenu");
+    toggle?.addEventListener("click", () => menu?.classList.toggle("hidden"));
+
+    // Mount auth UI into both slots (desktop + mobile).
+    mountNavbar("authNavSlot");
+    mountNavbar("authNavSlotMobile");
+  }
+
   window.SFRAuth = {
     mountNavbar,
+    mountSiteNavbar,
     requireAuth,
     logout,
     handleRegister,
