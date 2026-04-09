@@ -82,7 +82,42 @@ class SupportRequestCreateView(generics.CreateAPIView):
     serializer_class = SupportRequestSerializer
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        sr = serializer.save(user=self.request.user)
+
+        # Send confirmation email (do not block request creation on email errors)
+        user = self.request.user
+        to_email = (getattr(user, "email", "") or "").strip()
+        if to_email:
+            try:
+                subject = "Support request received — Smart Fix & Recycle Uganda"
+                message = (
+                    f"Hello {sr.name},\n\n"
+                    "We’ve received your IT support request and our team will respond as soon as possible.\n\n"
+                    f"Ticket ID: #{sr.id}\n"
+                    f"Device brand: {sr.brand}\n"
+                    f"Category: {sr.category}\n"
+                    f"District: {sr.district or '—'}\n"
+                    f"Submitted: {sr.created_at.strftime('%Y-%m-%d %H:%M')}\n\n"
+                    "What happens next:\n"
+                    "- An engineer reviews your request.\n"
+                    "- We’ll respond with guidance or an appointment.\n\n"
+                    "Thank you,\n"
+                    "Smart Fix & Recycle Uganda"
+                )
+                print(f"[EMAIL] sending support confirmation to={to_email} ticket_id={sr.id}")
+                logger.info("Sending support confirmation email to=%s ticket_id=%s", to_email, sr.id)
+                send_mail(
+                    subject=subject,
+                    message=message,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[to_email],
+                    fail_silently=False,
+                )
+                print(f"[EMAIL] support confirmation sent to={to_email} ticket_id={sr.id}")
+                logger.info("Support confirmation email sent to=%s ticket_id=%s", to_email, sr.id)
+            except Exception:
+                print(f"[EMAIL] support confirmation FAILED to={to_email} ticket_id={sr.id}")
+                logger.exception("Support confirmation email failed to=%s ticket_id=%s", to_email, sr.id)
 
 
 class PickupRequestCreateView(generics.CreateAPIView):
@@ -90,7 +125,42 @@ class PickupRequestCreateView(generics.CreateAPIView):
     serializer_class = PickupRequestSerializer
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        pr = serializer.save(user=self.request.user)
+
+        # Send confirmation email (do not block request creation on email errors)
+        user = self.request.user
+        to_email = (getattr(user, "email", "") or "").strip()
+        if to_email:
+            try:
+                subject = "Pickup request received — Smart Fix & Recycle Uganda"
+                when = pr.preferred_date.isoformat() if pr.preferred_date else "Not specified"
+                message = (
+                    f"Hello {pr.name},\n\n"
+                    "We’ve received your recycling pickup request.\n"
+                    "We will confirm your pickup time via email as soon as possible.\n\n"
+                    f"Pickup ID: #{pr.id}\n"
+                    f"District: {pr.district}\n"
+                    f"Landmark: {pr.landmark}\n"
+                    f"Preferred date: {when}\n"
+                    f"Items: {pr.items}\n"
+                    f"Submitted: {pr.created_at.strftime('%Y-%m-%d %H:%M')}\n\n"
+                    "Thank you for recycling responsibly.\n\n"
+                    "Smart Fix & Recycle Uganda"
+                )
+                print(f"[EMAIL] sending pickup confirmation to={to_email} pickup_id={pr.id}")
+                logger.info("Sending pickup confirmation email to=%s pickup_id=%s", to_email, pr.id)
+                send_mail(
+                    subject=subject,
+                    message=message,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[to_email],
+                    fail_silently=False,
+                )
+                print(f"[EMAIL] pickup confirmation sent to={to_email} pickup_id={pr.id}")
+                logger.info("Pickup confirmation email sent to=%s pickup_id=%s", to_email, pr.id)
+            except Exception:
+                print(f"[EMAIL] pickup confirmation FAILED to={to_email} pickup_id={pr.id}")
+                logger.exception("Pickup confirmation email failed to=%s pickup_id=%s", to_email, pr.id)
 
 
 class MyDashboardView(APIView):

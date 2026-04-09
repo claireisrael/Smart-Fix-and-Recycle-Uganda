@@ -48,8 +48,20 @@
       data = { detail: text };
     }
     if (!res.ok) {
-      const msg = data?.detail || "Request failed.";
-      const err = new Error(msg);
+      const detail = data?.detail || "Request failed.";
+      const detailStr = typeof detail === "string" ? detail : JSON.stringify(detail);
+
+      // If the access token is expired/invalid, clear session so the UI can re-auth cleanly.
+      if (
+        res.status === 401 &&
+        /token not valid|not valid for any token type|authentication credentials were not provided/i.test(detailStr)
+      ) {
+        try {
+          clearSession();
+        } catch (_) {}
+      }
+
+      const err = new Error(detailStr || "Request failed.");
       err.status = res.status;
       err.data = data;
       throw err;
@@ -643,9 +655,13 @@
   function requireAuth(opts) {
     const { role } = opts || {};
     const s = getSession();
-    if (!s) {
+    if (!s || !s.access) {
+      try {
+        clearSession();
+      } catch (_) {}
       localStorage.setItem("sfr_redirect_after_login", window.location.href);
-      redirect(getLoginUrl());
+      if (typeof openAuthModal === "function") openAuthModal("login");
+      else redirect(getLoginUrl());
       return false;
     }
     if (role && s.role !== role) {
