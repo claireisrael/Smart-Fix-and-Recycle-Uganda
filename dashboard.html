@@ -373,18 +373,49 @@ function showSessionFallback(session) {
       showSessionFallback(session);
       return;
     }
-    var res = await fetch(apiBase().replace(/\/$/, "") + "/api/me/dashboard/", {
+    var base = apiBase().replace(/\/$/, "");
+    try {
+      if (localStorage.getItem("SFR_DEBUG") === "1") {
+        console.info("[SFR dashboard] using apiBase", {
+          base,
+          hostname: window.location.hostname,
+          override: localStorage.getItem("SFR_API_BASE"),
+          hasToken: Boolean(token),
+        });
+      }
+    } catch (_) {}
+
+    var url = base + "/api/me/dashboard/";
+    var res = await fetch(url, {
       headers: { Authorization: "Bearer " + token },
     });
     loading.classList.add("hidden");
     section.classList.remove("hidden");
     if (!res.ok) {
+      try {
+        if (localStorage.getItem("SFR_DEBUG") === "1") {
+          const t = await res.text();
+          console.error("[SFR dashboard] fetch failed", { url, status: res.status, body: t });
+        }
+      } catch (_) {}
       showSessionFallback(session);
       return;
     }
     var data = await res.json();
+    try {
+      if (localStorage.getItem("SFR_DEBUG") === "1") {
+        console.info("[SFR dashboard] loaded", {
+          user: data && data.user ? { email: data.user.email, first_name: data.user.first_name, last_name: data.user.last_name } : null,
+          support: data && data.support ? data.support : null,
+          pickups: data && data.pickups ? data.pickups : null,
+        });
+      }
+    } catch (_) {}
     applyDashboard(data, session);
   } catch (e) {
+    try {
+      if (localStorage.getItem("SFR_DEBUG") === "1") console.error("[SFR dashboard] exception", e);
+    } catch (_) {}
     loading.classList.add("hidden");
     section.classList.remove("hidden");
     showSessionFallback(session);
