@@ -29,9 +29,21 @@
     }
   }
 
+  function isLocalhostBase(base) {
+    const b = String(base || "").toLowerCase();
+    return b.includes("127.0.0.1") || b.includes("localhost");
+  }
+
+  function isRunningLocally() {
+    const host = String(window.location.hostname || "").toLowerCase();
+    return host === "localhost" || host === "127.0.0.1";
+  }
+
+  // In production, ignore any leftover localhost override from dev.
+  const savedBase = localStorage.getItem("SFR_API_BASE");
   const API_BASE =
     window.SFR_API_BASE ||
-    localStorage.getItem("SFR_API_BASE") ||
+    (savedBase && (isRunningLocally() || !isLocalhostBase(savedBase)) ? savedBase : null) ||
     computeDefaultApiBase();
 
   async function api(path, opts) {
@@ -766,8 +778,13 @@
       return;
     }
 
-    // If counts aren't loaded yet, fetch once and re-render.
-    if (!s.counts) {
+    // If profile info isn't normalized yet, fetch once and re-render.
+    // This fixes older sessions where firstName was stored as the full email.
+    const needsRefresh =
+      !s.counts ||
+      !s.firstName ||
+      (typeof s.firstName === "string" && s.firstName.includes("@"));
+    if (needsRefresh) {
       refreshMeIntoSession().then(() => mountNavbar(targetId));
     }
 
