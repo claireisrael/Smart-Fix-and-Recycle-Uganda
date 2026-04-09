@@ -143,7 +143,14 @@ if (!SFRAuth.requireAuth({ role: "user" })) {
 function apiBase() {
   try {
     var override = localStorage.getItem("SFR_API_BASE");
-    if (override) return override;
+    var host = (window.location.hostname || "").toLowerCase();
+    var runningLocal = host === "localhost" || host === "127.0.0.1";
+    if (override) {
+      var o = String(override).toLowerCase();
+      var isLocal = o.indexOf("127.0.0.1") !== -1 || o.indexOf("localhost") !== -1;
+      // In production, ignore leftover localhost override from dev.
+      if (runningLocal || !isLocal) return override;
+    }
     var host = window.location.hostname || "";
     if (host === "localhost" || host === "127.0.0.1") return "http://127.0.0.1:8000";
     return "https://smart-fix-and-recycle-uganda.onrender.com";
